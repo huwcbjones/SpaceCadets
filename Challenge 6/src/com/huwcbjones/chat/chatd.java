@@ -46,6 +46,7 @@ public class chatd {
     public static void run(int port)
     {
         Server server = new Server(port);
+        chatd.version();
         server.run();
     }
 
