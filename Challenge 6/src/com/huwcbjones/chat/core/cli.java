@@ -1,5 +1,6 @@
 package com.huwcbjones.chat.core;
 
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -24,7 +25,7 @@ public class cli {
         return port;
     }
 
-    public static URL getServer(ArrayList<String> argList) throws Exception {
-        return new URL("chat://" + argList.get(argList.size() - 1));
+    public static URI getServer(ArrayList<String> argList) throws Exception {
+        return new URI("chat://" + argList.get(argList.size() - 1));
     }
 }

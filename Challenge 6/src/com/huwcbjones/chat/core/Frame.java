@@ -13,7 +13,10 @@ public class Frame {
 
     public enum Type {
         MESSAGE,
-        DESTINATION
+        DESTINATION,
+        USER,
+        CLIENT,
+        HELLO
     }
 
     public Frame(Type type, Object object) {

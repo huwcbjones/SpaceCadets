@@ -2,7 +2,6 @@ package com.huwcbjones.chat.server;
 
 import com.huwcbjones.chat.core.Destination;
 import com.huwcbjones.chat.core.Message;
-import com.huwcbjones.chat.core.exceptions.TargetNotFoundException;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -83,7 +82,7 @@ public class Server {
     public void LogMessage(ErrorLevel level, String message){
         switch(level){
             case ERROR:
-                System.out.print("[  ERR ] ");
+                System.out.print("[ ERR  ] ");
                 break;
             case WARN:
                 System.out.print("[ WARN ] ");
@@ -96,8 +95,8 @@ public class Server {
     }
 
     public void addDestination(String name){
-        Destination destination = new Destination(name);
+        Destination destination = new Destination(this, name);
         this._targets.put(destination.hashCode(), destination);
-        this.LogMessage(ErrorLevel.INFO, "Added Destination \"" + name + "\", #" + destination.getDstinationID());
+        this.LogMessage(ErrorLevel.INFO, "Added Destination \"" + name + "\", #" + destination.getDestinationID());
     }
 }

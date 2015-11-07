@@ -4,6 +4,7 @@ import com.huwcbjones.chat.client.Client;
 import com.huwcbjones.chat.core.cli;
 import com.huwcbjones.chat.server.Server;
 
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +25,7 @@ public class chat {
             chat.version();
         } else {
             try {
-                URL url = cli.getServer(argList);
+                URI url = cli.getServer(argList);
                 chat.run(cli.getPortNumber(argList), url);
             }catch (Exception ex){
                 System.out.println(ex.getMessage());
@@ -43,13 +44,13 @@ public class chat {
     }
 
     private static void version() {
-        System.out.println("chat 0.");
+        System.out.println("chat 0.1");
         System.out.println("Written by Huw Jones");
     }
 
-    private static void run(int port, URL url)
+    private static void run(int port, URI uri)
     {
-        Client client = new Client(port, url);
+        Client client = new Client(port, uri);
         chat.version();
         client.run();
     }
