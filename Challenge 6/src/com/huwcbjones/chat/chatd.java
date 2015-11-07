@@ -1,10 +1,10 @@
 package com.huwcbjones.chat;
 
+import com.huwcbjones.chat.core.cli;
 import com.huwcbjones.chat.server.Server;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Chat Server
@@ -22,14 +22,14 @@ public class chatd {
             chatd.version();
         } else {
             try {
-                chatd.run(_getPortNumber(argList));
+                chatd.run(cli.getPortNumber(argList));
             }catch (Exception ex){
                 System.out.println(ex.getMessage());
             }
         }
     }
 
-    public static void help(){
+    private static void help(){
         System.out.println("Usage: chatd [OPTION]...");
         System.out.println("Java chat server.\n");
         System.out.println("Arguments:");
@@ -38,29 +38,17 @@ public class chatd {
         System.out.println("  -v, --version\t\tPrints version.");
     }
 
-    public static void version() {
-        System.out.println("chatd 0.1");
+    private static void version() {
+        System.out.println("chatd 0.2");
         System.out.println("Written by Huw Jones");
     }
 
-    public static void run(int port)
+    private static void run(int port)
     {
         Server server = new Server(port);
         chatd.version();
         server.run();
     }
 
-    private static int _getPortNumber(ArrayList<String> argList) throws Exception {
-        int port = 60666;
-        if (argList.contains("-p") || argList.contains("--port")) {
-            int index = (argList.contains("-p")) ? argList.indexOf("-p") : argList.indexOf("--port");
-            String intStr = argList.get(index + 1);
-            if (!intStr.matches("\\d")) {
-                throw new Exception("Invalid port number!");
-            }
-            port = Integer.parseInt(intStr);
-        }
-        return port;
-    }
 
 }
