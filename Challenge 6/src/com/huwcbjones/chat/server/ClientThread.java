@@ -52,12 +52,12 @@ public class ClientThread extends Thread {
             this._isConnected = true;
 
         } catch (IOException ex) {
-            this._server.LogMessage("Connection to client ID# " + _clientID + " failed.");
+            this._server.LogMessage(Server.ErrorLevel.ERROR, "Connection to client ID# " + _clientID + " failed.");
         } finally {
             try {
                 this._socket.close();
             } catch (IOException ex) {
-                this._server.LogMessage("Connection to client ID# " + _clientID + " closed.");
+                this._server.LogMessage(Server.ErrorLevel.INFO, "Connection to client ID# " + _clientID + " closed.");
             }
         }
     }
@@ -75,7 +75,7 @@ public class ClientThread extends Thread {
         try {
             this._output.writeObject(message);
         } catch (Exception ex){
-
+            this._server.LogMessage(Server.ErrorLevel.WARN, "Failed to send message to client ID#" + _clientID);
         }
     }
 }

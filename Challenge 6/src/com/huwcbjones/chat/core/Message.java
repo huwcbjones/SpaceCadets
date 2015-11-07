@@ -13,7 +13,6 @@ public class Message {
     private User _user;
     private String _message;
     private Date _timestamp;
-    private Target _target;
 
     public Message(User user, String message) {
         this._user = user;
@@ -45,13 +44,5 @@ public class Message {
      */
     public Date getTimestamp() {
         return this._timestamp;
-    }
-
-    /**
-     * Gets message target
-     * @return Target
-     */
-    public Target getTarget() {
-        return this._target;
     }
 }

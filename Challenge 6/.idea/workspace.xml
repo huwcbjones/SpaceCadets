@@ -8,7 +8,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="119dbf38-5478-48c5-9ec0-77142e1e5c07" name="Default" comment="Added code for connecting clients">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/huwcbjones/chat/core/cli.java" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/huwcbjones/chat/core/Target.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/huwcbjones/chat/chatd.java" afterPath="$PROJECT_DIR$/src/com/huwcbjones/chat/chatd.java" />
@@ -845,7 +844,7 @@
       <updated>1446762685197</updated>
       <workItem from="1446762687535" duration="2780000" />
       <workItem from="1446850458007" duration="21000" />
-      <workItem from="1446850494671" duration="5127000" />
+      <workItem from="1446850494671" duration="5164000" />
     </task>
     <task id="LOCAL-00001" summary="Initial classes commit">
       <created>1446762777657</created>
@@ -961,11 +960,23 @@
       <option name="project" value="LOCAL" />
       <updated>1446855623184</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Common CLI stuff">
+      <created>1446855639376</created>
+      <option name="number" value="00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1446855639376</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Added support for common CLI stuff">
+      <created>1446855661798</created>
+      <option name="number" value="00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1446855661798</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7928000" />
+    <option name="totallyTimeSpent" value="7965000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="0" />
@@ -1030,7 +1041,9 @@
     <MESSAGE value="Yeah too lazy to implement CLI Launcher" />
     <MESSAGE value="Project files again..." />
     <MESSAGE value="Started work on client" />
-    <option name="LAST_COMMIT_MESSAGE" value="Started work on client" />
+    <MESSAGE value="Common CLI stuff" />
+    <MESSAGE value="Added support for common CLI stuff" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added support for common CLI stuff" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
