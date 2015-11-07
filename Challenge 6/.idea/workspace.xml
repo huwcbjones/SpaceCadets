@@ -8,15 +8,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="119dbf38-5478-48c5-9ec0-77142e1e5c07" name="Default" comment="Added code for connecting clients">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/huwcbjones/chat/client/Client.java" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/huwcbjones/chat/core/cli.java" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/huwcbjones/chat/core/Target.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/huwcbjones/cliLauncher/Command.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/huwcbjones/cliLauncher/Launcher.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/huwcbjones/chat/chat.java" afterPath="$PROJECT_DIR$/src/com/huwcbjones/chat/chat.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/huwcbjones/chat/chatd.java" afterPath="$PROJECT_DIR$/src/com/huwcbjones/chat/chatd.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/huwcbjones/chat/core/Message.java" afterPath="$PROJECT_DIR$/src/com/huwcbjones/chat/core/Message.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/huwcbjones/chat/server/ClientThread.java" afterPath="$PROJECT_DIR$/src/com/huwcbjones/chat/server/ClientThread.java" />
@@ -851,7 +845,7 @@
       <updated>1446762685197</updated>
       <workItem from="1446762687535" duration="2780000" />
       <workItem from="1446850458007" duration="21000" />
-      <workItem from="1446850494671" duration="5095000" />
+      <workItem from="1446850494671" duration="5127000" />
     </task>
     <task id="LOCAL-00001" summary="Initial classes commit">
       <created>1446762777657</created>
@@ -955,11 +949,23 @@
       <option name="project" value="LOCAL" />
       <updated>1446855592187</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Project files again...">
+      <created>1446855606554</created>
+      <option name="number" value="00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1446855606554</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Started work on client">
+      <created>1446855623184</created>
+      <option name="number" value="00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1446855623184</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7896000" />
+    <option name="totallyTimeSpent" value="7928000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="0" />
@@ -1022,7 +1028,9 @@
     <MESSAGE value="Added send message methodology for ClientThread" />
     <MESSAGE value="Command Line Launcher (should save some work as I seem to keep having to write these)" />
     <MESSAGE value="Yeah too lazy to implement CLI Launcher" />
-    <option name="LAST_COMMIT_MESSAGE" value="Yeah too lazy to implement CLI Launcher" />
+    <MESSAGE value="Project files again..." />
+    <MESSAGE value="Started work on client" />
+    <option name="LAST_COMMIT_MESSAGE" value="Started work on client" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
