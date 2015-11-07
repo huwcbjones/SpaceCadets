@@ -12,11 +12,11 @@ public class Frame {
     private Object _object;
 
     public enum Type {
+        HELLO,
         MESSAGE,
-        DESTINATION,
+        LOBBY,
         USER,
-        CLIENT,
-        HELLO
+        CLIENT
     }
 
     public Frame(Type type, Object object) {
