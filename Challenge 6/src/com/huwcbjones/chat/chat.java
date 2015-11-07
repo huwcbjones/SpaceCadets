@@ -49,7 +49,6 @@ public class chat {
 
     private static void run(int port, URL url)
     {
-
         Client client = new Client(port, url);
         chat.version();
         client.run();

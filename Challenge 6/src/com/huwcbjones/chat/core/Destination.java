@@ -12,11 +12,16 @@ import java.util.HashMap;
  */
 public class Destination {
 
+    private int _destinationID = this.hashCode();
     private String _name;
     private HashMap<Integer, ClientThread> _clients= new HashMap<>();
 
     public Destination(String name){
         this._name = name;
+    }
+
+    public int getDstinationID(){
+        return this._destinationID;
     }
 
     public void addClient(ClientThread client){

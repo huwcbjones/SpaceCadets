@@ -51,8 +51,7 @@ public class Server {
             this.LogMessage(ErrorLevel.INFO, "Listening on " + this._port);
             ClientThread client;
 
-            Destination defaultDestination = new Destination("Lobby");
-            this._targets.put(0, defaultDestination);
+            this.addDestination("Lobby");
 
             this.LogMessage(ErrorLevel.INFO, "Server successfully started!");
             // Run server
@@ -71,7 +70,7 @@ public class Server {
 
             this.LogMessage(ErrorLevel.INFO, "Server safely shut down!");
         } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+            this.LogMessage(ErrorLevel.ERROR, ex.getMessage());
         }
     }
 
@@ -94,5 +93,11 @@ public class Server {
                 break;
         }
         System.out.println(message);
+    }
+
+    public void addDestination(String name){
+        Destination destination = new Destination(name);
+        this._targets.put(destination.hashCode(), destination);
+        this.LogMessage(ErrorLevel.INFO, "Added Destination \"" + name + "\", #" + destination.getDstinationID());
     }
 }

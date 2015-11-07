@@ -2,8 +2,6 @@ package com.huwcbjones.chat.server;
 
 import com.huwcbjones.chat.core.Message;
 import com.huwcbjones.chat.core.exceptions.ClientNotConnectedException;
-import com.sun.deploy.util.SessionState;
-import com.sun.security.ntlm.Client;
 
 import java.io.*;
 import java.net.Socket;
@@ -17,7 +15,7 @@ import java.net.Socket;
 public class ClientThread extends Thread {
 
     private Socket _socket;
-    private BufferedReader _input;
+    private ObjectInputStream _in;
     private ObjectOutputStream _output;
     private Server _server;
     private int _clientID = this.hashCode();
@@ -44,7 +42,7 @@ public class ClientThread extends Thread {
     public void run() {
         try {
             // Get client input
-            this._input = new BufferedReader(new InputStreamReader(this._socket.getInputStream()));
+            this._in = new BufferedReader(new InputStreamReader(this._socket.getInputStream()));
 
             // Get client output
             this._output = new ObjectOutputStream(this._socket.getOutputStream());

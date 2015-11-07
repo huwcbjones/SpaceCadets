@@ -3,7 +3,7 @@ package com.huwcbjones.chat.core;
 import java.util.Date;
 
 /**
- * Message that is sent via the Protocol
+ * Message that is sent via the Frame
  *
  * @author Huw Jones
  * @since 05/11/2015
