@@ -1,8 +1,6 @@
 package com.huwcbjones.chat.server;
 
-import com.huwcbjones.chat.core.Frame;
-import com.huwcbjones.chat.core.Message;
-import com.huwcbjones.chat.core.Protocol;
+import com.huwcbjones.chat.core.*;
 import com.huwcbjones.chat.core.exceptions.ClientNotConnectedException;
 
 import java.io.*;
@@ -22,7 +20,7 @@ public class ClientThread extends Thread {
     private ObjectOutputStream _out;
     private Server _server;
 
-    private ClientWriteThread _write;
+    private WriteThread _write;
     private ClientReadThread _read;
 
     private boolean _isConnected = false;
@@ -35,6 +33,7 @@ public class ClientThread extends Thread {
 
     /**
      * Gets ClientID
+     *
      * @return ClientID
      */
     public int getClientID() {
@@ -52,32 +51,57 @@ public class ClientThread extends Thread {
             // Output stream needs to be first as inputStream is blocking
             // Get output stream
             this._out = new ObjectOutputStream(this._socket.getOutputStream());
+            this._out.flush();
 
             // Get input stream
             this._in = new ObjectInputStream(this._socket.getInputStream());
 
             Protocol protocol = new Protocol(this._server, this._socket, true);
             protocol.connect();
+
+
             this._isConnected = true;
-            this._server.LogMessage(Server.ErrorLevel.INFO, "Client connected! Client ID #" + _clientID);
+            this._server.LogMessage(Server.ErrorLevel.INFO, "Client ID #" + _clientID + " connected!");
 
-            this._write = new ClientWriteThread(this._server, _out);
-            this._read = new ClientReadThread(this._server, _in);
+            this._write = new WriteThread(this._server, _out);
+            this._read = new ClientReadThread(this, this._server, _in);
 
-            this._write.run();
-            this._read.run();
+            this._read.start();
+            this._write.start();
 
-        } catch (IOException ex) {
-            this._server.LogMessage(Server.ErrorLevel.ERROR, "Connection to client ID #" + _clientID + " failed.");
-        } catch (Exception ex){
+        } catch (Exception ex) {
+            this._server.LogMessage(Server.ErrorLevel.ERROR, "Connection to client ID #" + _clientID + " failed: " + ex.getMessage());
+        }
+    }
 
-        } finally {
-            try {
-                this._socket.close();
-            } catch (IOException ex) {
-                this._server.LogMessage(Server.ErrorLevel.INFO, "Connection to client ID #" + _clientID + " closed.");
+    public void close(boolean serverTriggered) {
+        this._server.LogMessage(Server.ErrorLevel.INFO, "Connection to client ID #" + _clientID + " closing...");
+        if(serverTriggered) {
+            this.disconnect();
+            while(this._write.getQueueSize() != 0){
+                try {
+                    Thread.sleep(50);
+                } catch (Exception ex){
+
+                }
             }
         }
+        try {
+            this._in.close();
+            this._out.close();
+        } catch (Exception ex) {
+
+        }
+
+        try {
+            this._read.quit();
+            this._write.quit();
+            this._socket.close();
+        } catch (IOException ex) {
+
+        }
+        this._server.LogMessage(Server.ErrorLevel.INFO, "Connection to client ID #" + _clientID + " closed.");
+
     }
 
     /**
@@ -87,13 +111,17 @@ public class ClientThread extends Thread {
      * @throws ClientNotConnectedException Thrown if client is not connected
      */
     public void message(Message message) throws ClientNotConnectedException {
-        if(!this._isConnected){
+        if (!this._isConnected) {
             throw new ClientNotConnectedException();
         }
         try {
             this._write.write(new Frame(Frame.Type.MESSAGE, message));
-        } catch (Exception ex){
+        } catch (Exception ex) {
             this._server.LogMessage(Server.ErrorLevel.WARN, "Failed to send message to client ID #" + _clientID);
         }
+    }
+
+    public void disconnect() {
+        this._write.write(new Frame(Frame.Type.DISCONNECT, 0));
     }
 }

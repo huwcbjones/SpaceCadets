@@ -31,6 +31,7 @@ public class Server extends com.huwcbjones.chat.core.base {
             @Override
             public void run(){
                 _shouldQuit = true;
+                shutdownServer();
             }
         });
     }
@@ -44,7 +45,7 @@ public class Server extends com.huwcbjones.chat.core.base {
             // Open server socket for listening
             _serverSocket = new ServerSocket(this._port);
             this.LogMessage(ErrorLevel.INFO, "Listening on " + this._port);
-            ClientThread client;
+
 
             this.addDestination("Lobby");
 
@@ -53,7 +54,7 @@ public class Server extends com.huwcbjones.chat.core.base {
             while(!this._shouldQuit) {
 
                 // On accept, create a new client thread
-                client = new ClientThread(this, _serverSocket.accept(), this._clientID);
+                ClientThread client = new ClientThread(this, _serverSocket.accept(), this._clientID);
                 this._clientID++;
 
                 // Put it targets HashMap
@@ -62,12 +63,21 @@ public class Server extends com.huwcbjones.chat.core.base {
                 // Run client thread
                 client.run();
             }
-            this.LogMessage(ErrorLevel.WARN, "Server shutting down...");
-
-            this.LogMessage(ErrorLevel.INFO, "Server safely shut down!");
         } catch (IOException ex) {
             this.LogMessage(ErrorLevel.ERROR, ex.getMessage());
         }
+    }
+
+    public void shutdownServer(){
+        this.LogMessage(ErrorLevel.WARN, "Server shutting down...");
+
+        this.LogMessage(ErrorLevel.INFO, "Sending disconnect to clients...");
+
+        for(ClientThread client : this._clients.values()){
+            client.close(true);
+        }
+
+        this.LogMessage(ErrorLevel.INFO, "Server safely shut down!");
     }
 
     public void processMessage(Message message) throws Exception {
@@ -75,8 +85,6 @@ public class Server extends com.huwcbjones.chat.core.base {
             throw new TargetNotFoundException();
         }*/
     }
-
-
 
     public void addDestination(String name){
         Destination destination = new Destination(this, name);

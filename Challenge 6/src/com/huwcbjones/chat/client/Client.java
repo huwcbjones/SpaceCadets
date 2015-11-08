@@ -3,6 +3,7 @@ package com.huwcbjones.chat.client;
 import com.huwcbjones.chat.core.Frame;
 import com.huwcbjones.chat.core.Message;
 import com.huwcbjones.chat.core.Protocol;
+import com.huwcbjones.chat.core.WriteThread;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -30,6 +31,9 @@ public class Client extends com.huwcbjones.chat.core.base {
     private ObjectOutputStream _out;
     private ObjectInputStream _in;
 
+    private WriteThread _write;
+    private ServerReadThread _read;
+
     private boolean _shouldQuit = false;
 
     public Client(int port, URI server) {
@@ -38,7 +42,7 @@ public class Client extends com.huwcbjones.chat.core.base {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
-                _shouldQuit = true;
+                close();
             }
         });
     }
@@ -47,61 +51,58 @@ public class Client extends com.huwcbjones.chat.core.base {
      * Runs Client
      */
     public void run() {
-        try {
-            this.connectToServer();
-            this.LogMessage(ErrorLevel.INFO, "Connected to server \"" + this._server.getHost() + "\"");
-        } catch (Exception ex) {
-            this.LogMessage(ErrorLevel.ERROR, ex.getMessage());
-        }
-        if(_isConnected){
-            this.LogMessage(ErrorLevel.INFO, "Closing connection to server...");
-            try {
-                this._out.writeObject(new Frame(Frame.Type.DISCONNECT, true));
-            } catch (Exception ex){
+        this.connectToServer();
 
-            } finally {
-                try {
-                    this._socket.close();
-                } catch (Exception ex) {
-
-                }
-                this.LogMessage(ErrorLevel.INFO, "Connection to server closed.");
-            }
+        if (!this._isConnected) {
+            return;
         }
+
+        this._write = new WriteThread(this, _out);
+        this._read = new ServerReadThread(this, _in);
+
+        this._read.start();
+        this._write.start();
     }
 
-    private void connectToServer() throws IOException {
-        this._socket = new Socket(this._server.getHost(), this._port);
-
-        // Output stream needs to be first as inputStream is blocking
-        // Get output stream
-        this._out = new ObjectOutputStream(this._socket.getOutputStream());
-
-        // Get input stream
-        this._in = new ObjectInputStream(this._socket.getInputStream());
-
-
-
+    private void connectToServer() {
         try {
+            this._socket = new Socket(this._server.getHost(), this._port);
+
+            // Output stream needs to be first as inputStream is blocking
+            // Get output stream
+            this._out = new ObjectOutputStream(this._socket.getOutputStream());
+
+            this._out.flush();
+
+            // Get input stream
+            this._in = new ObjectInputStream(this._socket.getInputStream());
+
+
             Protocol protocol = new Protocol(this, this._socket, false);
             protocol.connect();
             this._isConnected = true;
-            this.LogMessage(ErrorLevel.INFO, "Connected to server!");
 
+            this.LogMessage(ErrorLevel.INFO, "Connected to server \"" + this._server.getHost() + "\"");
 
         } catch (Exception ex) {
-
-        } finally {
-            try {
-                this._socket.close();
-            } catch (Exception ex) {
-                this.LogMessage(ErrorLevel.INFO, "Connection to server closed.");
-            }
-
+            this.LogMessage(ErrorLevel.ERROR, "Connection to server failed: " + ex.getMessage());
         }
     }
 
-    public void sendMessage(Message message) throws Exception {
-        this._out.writeObject(new Frame(Frame.Type.MESSAGE, message));
+    public void close(){
+        try{
+            this._in.close();
+            this._out.close();
+        } catch (Exception ex){
+
+        }
+        try {
+            this._write.quit();
+            this._read.quit();
+            this._socket.close();
+        } catch (Exception ex) {
+
+        }
+        this.LogMessage(ErrorLevel.INFO, "Connection to server closed.");
     }
 }

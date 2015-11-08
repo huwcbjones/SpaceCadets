@@ -1,9 +1,5 @@
-package com.huwcbjones.chat.server;
+package com.huwcbjones.chat.core;
 
-import com.huwcbjones.chat.core.Frame;
-import com.huwcbjones.chat.core.base;
-
-import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -14,37 +10,42 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * @author Huw Jones
  * @since 08/11/2015
  */
-public class ClientWriteThread extends Thread {
+public class WriteThread extends Thread {
 
     private boolean _shouldQuit = false;
     private Queue<Frame> _frameQueue = new ConcurrentLinkedQueue<>();
     private ObjectOutputStream _output;
     private base _parent;
 
-    public ClientWriteThread(base parent, ObjectOutputStream output){
+    public WriteThread(base parent, ObjectOutputStream output) {
         this._parent = parent;
         this._output = output;
     }
 
 
     @Override
-    public void run(){
-        while(!_shouldQuit){
-            for(Frame frame : _frameQueue){
+    public void run() {
+        while (!_shouldQuit) {
+            for (Frame frame : _frameQueue) {
                 try {
                     _output.writeObject(frame);
+                    _frameQueue.remove(frame);
                 } catch (Exception ex) {
-                    this._parent.LogMessage(base.ErrorLevel.WARN, ex.getMessage());
+                    this._parent.LogMessage(base.ErrorLevel.WARN, "Failed to send Frame: " + ex.getMessage());
                 }
             }
         }
     }
 
-    public void quit(){
+    public int getQueueSize(){
+        return this._frameQueue.size();
+    }
+
+    public void quit() {
         this._shouldQuit = true;
     }
 
-    public void write(Frame frame){
+    public void write(Frame frame) {
         this._frameQueue.add(frame);
     }
 }
