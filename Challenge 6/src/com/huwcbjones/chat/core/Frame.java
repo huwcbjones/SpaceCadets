@@ -1,25 +1,22 @@
 package com.huwcbjones.chat.core;
 
-import java.io.Serializable;
-
 /**
  * Chat Frame
  *
  * @author Huw Jones
  * @since 05/11/2015
  */
-public class Frame implements Serializable {
+public class Frame {
 
     private Type _type;
     private Object _object;
 
     public enum Type {
-        MESSAGE,
-        DESTINATION,
-        USER,
-        CLIENT,
         HELLO,
-        DISCONNECT
+        MESSAGE,
+        LOBBY,
+        USER,
+        CLIENT
     }
 
     public Frame(Type type, Object object) {
@@ -32,10 +29,6 @@ public class Frame implements Serializable {
     }
 
     public Type getType() {
-        return this._type;
-    }
-
-    public boolean isType(Type type){
-        return type.equals(_type);
+        return this.getType();
     }
 }
