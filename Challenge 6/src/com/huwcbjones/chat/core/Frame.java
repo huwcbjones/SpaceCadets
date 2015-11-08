@@ -18,7 +18,8 @@ public class Frame implements Serializable {
         DESTINATION,
         USER,
         CLIENT,
-        HELLO
+        HELLO,
+        DISCONNECT
     }
 
     public Frame(Type type, Object object) {
