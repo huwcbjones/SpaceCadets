@@ -16,10 +16,11 @@ public class Frame {
         MESSAGE,
         LOBBY,
         USER,
-        CLIENT
+        CLIENT,
+        DISCONNECT
     }
 
-    public Frame(Type type, Object object) {
+    public Frame(Frame.Type type, Object object) {
         this._type = type;
         this._object = object;
     }
@@ -30,5 +31,9 @@ public class Frame {
 
     public Type getType() {
         return this.getType();
+    }
+
+    public boolean isType(Type type) {
+        return this._type.equals(type);
     }
 }
