@@ -1,20 +1,21 @@
 package com.huwcbjones.chat.core;
 
 /**
- * Base Class for Server/Client
+ * {DESCRIPTION}
  *
  * @author Huw Jones
- * @since 07/11/2015
+ * @since 08/11/2015
  */
-public abstract class base {
+public class Log {
 
-    public enum ErrorLevel {
+    public enum Level {
         INFO,
         WARN,
-        ERROR
+        ERROR,
+        NONE
     }
 
-    public void LogMessage(ErrorLevel level, String message){
+    public static void Console(Level level, String message){
         switch(level){
             case ERROR:
                 System.out.print("[ ERR  ] ");
@@ -24,6 +25,8 @@ public abstract class base {
                 break;
             case INFO:
                 System.out.print("[ INFO ] ");
+                break;
+            case NONE:
                 break;
         }
         System.out.println(message);

@@ -2,6 +2,7 @@ package com.huwcbjones.chat.core;
 
 import com.huwcbjones.chat.core.exceptions.InvalidFrameException;
 import com.huwcbjones.chat.core.exceptions.InvalidProtocolException;
+import com.huwcbjones.chat.server.ChatServer;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -9,7 +10,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 /**
- * Server/Client handshake protocol
+ * ChatServer/ChatClient handshake protocol
  *
  * @author Huw Jones
  * @since 07/11/2015
@@ -18,15 +19,13 @@ public class Protocol {
 
     private boolean _isServer;
     private Socket _socket;
-    private base _parent;
 
     private ObjectInputStream _input;
     private ObjectOutputStream _output;
 
-    public Protocol(base parent, Socket socket, boolean isServer) {
+    public Protocol(Socket socket, boolean isServer) {
         this._socket = socket;
         this._isServer = isServer;
-        this._parent = parent;
     }
 
     public void connect() throws Exception {
@@ -44,26 +43,26 @@ public class Protocol {
         try {
             Frame hello = this.readFrame();
             if (hello.getType() != Frame.Type.HELLO) {
-                throw new InvalidProtocolException("Server protocol not understood.");
+                throw new InvalidProtocolException("ChatServer protocol not understood.");
             }
 
         } catch (Exception ex) {
-            throw new InvalidProtocolException("Server protocol not understood.");
+            throw new InvalidProtocolException("ChatServer protocol not understood.");
         }
 
-        this._output.writeObject(new Frame(Frame.Type.HELLO, "Hello Server."));
+        this._output.writeObject(new Frame(Frame.Type.HELLO, "Hello ChatServer."));
     }
 
     private void serverConnect() throws Exception {
-        this._output.writeObject(new Frame(Frame.Type.HELLO, "Hello Client."));
+        this._output.writeObject(new Frame(Frame.Type.HELLO, "Hello ChatClient."));
 
         try {
             Frame hello = this.readFrame();
             if (!hello.isType(Frame.Type.HELLO)) {
-                throw new InvalidProtocolException("Client protocol not understood.");
+                throw new InvalidProtocolException("ChatClient protocol not understood.");
             }
         } catch (Exception ex) {
-            throw new InvalidProtocolException("Client protocol not understood.");
+            throw new InvalidProtocolException("ChatClient protocol not understood.");
         }
     }
 

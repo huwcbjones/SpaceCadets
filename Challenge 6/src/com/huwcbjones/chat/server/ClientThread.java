@@ -7,7 +7,7 @@ import java.io.*;
 import java.net.Socket;
 
 /**
- * Handles Clients on the Server
+ * Handles Clients on the ChatServer
  *
  * @author Huw Jones
  * @since 06/11/2015
@@ -18,15 +18,17 @@ public class ClientThread extends Thread {
     private Socket _socket;
     private ObjectInputStream _in;
     private ObjectOutputStream _out;
-    private Server _server;
+    private ChatServer _server;
+
+    private Client _client = null;
 
     private WriteThread _write;
     private ClientReadThread _read;
 
     private boolean _isConnected = false;
 
-    public ClientThread(Server server, Socket socket, int clientID) {
-        this._server = server;
+    public ClientThread(ChatServer chatServer, Socket socket, int clientID) {
+        this._server = chatServer;
         this._socket = socket;
         this._clientID = clientID;
     }
@@ -37,7 +39,21 @@ public class ClientThread extends Thread {
      * @return ClientID
      */
     public int getClientID() {
-        return this._clientID;
+        if(this._client != null) {
+            return this._client.getClientID();
+        }else{
+            return this._clientID;
+        }
+    }
+
+    public void setClient(Client client){
+        if(this._client.getClientID() == client.getClientID()){
+            this._client = client;
+            Log.Console(Log.Level.INFO, "ChatClient ID #" + _clientID + " is known as " + client.getName() + " (" + client.getUsername() + ").");
+        }
+    }
+    public Client getClient(){
+        return this._client;
     }
 
     /**
@@ -46,7 +62,7 @@ public class ClientThread extends Thread {
     @Override
     public void run() {
         try {
-            this._server.LogMessage(Server.ErrorLevel.INFO, "New connection from " + this._socket.getInetAddress() + ":" + this._socket.getPort());
+            Log.Console(Log.Level.INFO, "New connection from " + this._socket.getInetAddress() + ":" + this._socket.getPort());
 
             // Output stream needs to be first as inputStream is blocking
             // Get output stream
@@ -56,26 +72,34 @@ public class ClientThread extends Thread {
             // Get input stream
             this._in = new ObjectInputStream(this._socket.getInputStream());
 
-            Protocol protocol = new Protocol(this._server, this._socket, true);
+            Protocol protocol = new Protocol(this._socket, true);
             protocol.connect();
 
-
             this._isConnected = true;
-            this._server.LogMessage(Server.ErrorLevel.INFO, "Client ID #" + _clientID + " connected!");
+            Log.Console(Log.Level.INFO, "ChatClient ID #" + _clientID + " connected!");
 
-            this._write = new WriteThread(this._server, _out);
+            this._write = new WriteThread(_out);
             this._read = new ClientReadThread(this, this._server, _in);
 
             this._read.start();
             this._write.start();
 
+            this._write.write(new Frame(Frame.Type.MOTD, this._server.getMOTD()));
+
+            // Send Client object to client
+            this._write.write(new Frame(Frame.Type.CLIENT_SEND, this._client));
+
         } catch (Exception ex) {
-            this._server.LogMessage(Server.ErrorLevel.ERROR, "Connection to client ID #" + _clientID + " failed: " + ex.getMessage());
+            Log.Console(Log.Level.ERROR, "Connection to client ID #" + _clientID + " failed: " + ex.getMessage());
         }
     }
 
+    /**
+     * Closes connection to client
+     * @param serverTriggered If server triggered this, then send a disconnect frame to client
+     */
     public void close(boolean serverTriggered) {
-        this._server.LogMessage(Server.ErrorLevel.INFO, "Connection to client ID #" + _clientID + " closing...");
+        Log.Console(Log.Level.INFO, "Connection to client ID #" + _clientID + " closing...");
         if(serverTriggered) {
             this.disconnect();
             while(this._write.getQueueSize() != 0){
@@ -100,7 +124,7 @@ public class ClientThread extends Thread {
         } catch (IOException ex) {
 
         }
-        this._server.LogMessage(Server.ErrorLevel.INFO, "Connection to client ID #" + _clientID + " closed.");
+        Log.Console(Log.Level.INFO, "Connection to client ID #" + _clientID + " closed.");
 
     }
 
@@ -117,8 +141,12 @@ public class ClientThread extends Thread {
         try {
             this._write.write(new Frame(Frame.Type.MESSAGE, message));
         } catch (Exception ex) {
-            this._server.LogMessage(Server.ErrorLevel.WARN, "Failed to send message to client ID #" + _clientID);
+            Log.Console(Log.Level.WARN, "Failed to send message to client ID #" + _clientID);
         }
+    }
+
+    public void sendLobbies(){
+        this._write.write(new Frame(Frame.Type.LOBBY_GET, this._server.getDestinations()));
     }
 
     public void disconnect() {

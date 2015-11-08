@@ -1,16 +1,14 @@
 package com.huwcbjones.chat;
 
-import com.huwcbjones.chat.client.Client;
+import com.huwcbjones.chat.client.ChatClient;
 import com.huwcbjones.chat.core.cli;
-import com.huwcbjones.chat.server.Server;
 
 import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Chat Client
+ * Chat ChatClient
  *
  * @author Huw Jones
  * @since 05/11/2015
@@ -50,8 +48,8 @@ public class chat {
 
     private static void run(int port, URI uri)
     {
-        Client client = new Client(port, uri);
+        ChatClient chatClient = new ChatClient(port, uri);
         chat.version();
-        client.run();
+        chatClient.run();
     }
 }

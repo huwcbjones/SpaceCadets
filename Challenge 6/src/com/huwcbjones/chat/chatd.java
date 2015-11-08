@@ -1,13 +1,13 @@
 package com.huwcbjones.chat;
 
 import com.huwcbjones.chat.core.cli;
-import com.huwcbjones.chat.server.Server;
+import com.huwcbjones.chat.server.ChatServer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Chat Server
+ * Chat ChatServer
  *
  * @author Huw Jones
  * @since 05/11/2015
@@ -45,9 +45,9 @@ public class chatd {
 
     private static void run(int port)
     {
-        Server server = new Server(port);
+        ChatServer chatServer = new ChatServer(port);
         chatd.version();
-        server.run();
+        chatServer.run();
     }
 
 

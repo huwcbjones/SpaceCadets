@@ -15,10 +15,8 @@ public class WriteThread extends Thread {
     private boolean _shouldQuit = false;
     private Queue<Frame> _frameQueue = new ConcurrentLinkedQueue<>();
     private ObjectOutputStream _output;
-    private base _parent;
 
-    public WriteThread(base parent, ObjectOutputStream output) {
-        this._parent = parent;
+    public WriteThread(ObjectOutputStream output) {
         this._output = output;
     }
 
@@ -31,7 +29,7 @@ public class WriteThread extends Thread {
                     _output.writeObject(frame);
                     _frameQueue.remove(frame);
                 } catch (Exception ex) {
-                    this._parent.LogMessage(base.ErrorLevel.WARN, "Failed to send Frame: " + ex.getMessage());
+                    Log.Console(Log.Level.WARN, "Failed to send Frame: " + ex.getMessage());
                 }
             }
         }

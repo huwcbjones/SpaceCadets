@@ -45,7 +45,19 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="53" column="5" selection-start-line="53" selection-start-column="5" selection-end-line="53" selection-end-column="5" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#658#659#0" expanded="false" />
+                <element signature="e#685#686#0" expanded="false" />
+                <element signature="e#732#733#0" expanded="false" />
+                <element signature="e#762#763#0" expanded="false" />
+                <element signature="e#2105#2106#0" expanded="false" />
+                <element signature="e#2133#2134#0" expanded="false" />
+                <element signature="e#3091#3092#0" expanded="false" />
+                <element signature="e#3140#3141#0" expanded="false" />
+                <element signature="e#3190#3191#0" expanded="false" />
+                <element signature="e#3226#3227#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -53,8 +65,8 @@
       <file leaf-file-name="BareBones.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/BareBones.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="2.0154696">
-              <caret line="109" column="4" selection-start-line="109" selection-start-column="4" selection-end-line="112" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.84972376">
+              <caret line="128" column="9" selection-start-line="115" selection-start-column="8" selection-end-line="128" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -101,6 +113,8 @@
               <caret line="22" column="5" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="false" />
+                <element signature="e#492#493#0" expanded="false" />
+                <element signature="e#526#527#0" expanded="false" />
                 <element signature="e#1095#1096#0" expanded="false" />
                 <element signature="e#1136#1137#0" expanded="false" />
                 <element signature="e#1170#1171#0" expanded="false" />
@@ -307,9 +321,9 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -856,11 +870,12 @@
       <workItem from="1446735189620" duration="2058000" />
       <workItem from="1446737331615" duration="2120000" />
       <workItem from="1446763580587" duration="1600000" />
+      <workItem from="1447005675535" duration="610000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="56951000" />
+    <option name="totallyTimeSpent" value="57561000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
@@ -1318,9 +1333,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.48397976">
           <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-          <folding>
-            <element signature="e#510#511#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1338,6 +1350,8 @@
           <caret line="22" column="5" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="false" />
+            <element signature="e#492#493#0" expanded="false" />
+            <element signature="e#526#527#0" expanded="false" />
             <element signature="e#1095#1096#0" expanded="false" />
             <element signature="e#1136#1137#0" expanded="false" />
             <element signature="e#1170#1171#0" expanded="false" />
@@ -1388,14 +1402,26 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="53" column="5" selection-start-line="53" selection-start-column="5" selection-end-line="53" selection-end-column="5" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#658#659#0" expanded="false" />
+            <element signature="e#685#686#0" expanded="false" />
+            <element signature="e#732#733#0" expanded="false" />
+            <element signature="e#762#763#0" expanded="false" />
+            <element signature="e#2105#2106#0" expanded="false" />
+            <element signature="e#2133#2134#0" expanded="false" />
+            <element signature="e#3091#3092#0" expanded="false" />
+            <element signature="e#3140#3141#0" expanded="false" />
+            <element signature="e#3190#3191#0" expanded="false" />
+            <element signature="e#3226#3227#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/BareBones.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.0154696">
-          <caret line="109" column="4" selection-start-line="109" selection-start-column="4" selection-end-line="112" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.84972376">
+          <caret line="128" column="9" selection-start-line="115" selection-start-column="8" selection-end-line="128" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

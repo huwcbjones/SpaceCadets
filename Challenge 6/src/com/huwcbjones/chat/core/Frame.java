@@ -17,10 +17,16 @@ public class Frame implements Serializable {
 
     public enum Type {
         HELLO,
+        MOTD,
+        COMMAND,
         MESSAGE,
-        LOBBY,
+        LOBBY_GET,
+        LOBBY_CHANGE,
+        LOBBY_ADD,
+        LOBBY_REMOVE,
         USER,
-        CLIENT,
+        CLIENT_GET,
+        CLIENT_SEND,
         DISCONNECT
     }
 

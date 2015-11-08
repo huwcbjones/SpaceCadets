@@ -1,20 +1,27 @@
 package com.huwcbjones.chat.core;
 
 /**
- * Class that represents the user
+ * User class
  *
  * @author Huw Jones
- * @since 05/11/2015
+ * @since 08/11/2015
  */
 public class User {
 
+    private String _username;
     private String _name;
 
-    public User(String name){
+    public User(String username, String name) {
+        this._username = username;
         this._name = name;
     }
 
-    public String getName(){
+    public String getUsername() {
+        return this._username;
+    }
+
+    public String getName() {
         return this._name;
     }
+
 }

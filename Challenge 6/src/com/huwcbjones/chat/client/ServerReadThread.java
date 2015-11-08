@@ -1,12 +1,10 @@
 package com.huwcbjones.chat.client;
 
-import com.huwcbjones.chat.core.Frame;
-import com.huwcbjones.chat.core.Message;
-import com.huwcbjones.chat.core.Protocol;
-import com.huwcbjones.chat.core.base;
+import com.huwcbjones.chat.core.*;
 
 import java.io.EOFException;
 import java.io.ObjectInputStream;
+import java.util.Map;
 
 /**
  * Reads Frames from the server
@@ -18,9 +16,9 @@ public class ServerReadThread extends Thread {
 
     private boolean _shouldQuit = false;
     private ObjectInputStream _input;
-    private Client _parent;
+    private ChatClient _parent;
 
-    public ServerReadThread(Client parent, ObjectInputStream input){
+    public ServerReadThread(ChatClient parent, ObjectInputStream input) {
         this._parent = parent;
         this._input = input;
     }
@@ -32,20 +30,37 @@ public class ServerReadThread extends Thread {
             try {
                 frame = Protocol.readFrame(_input);
                 switch (frame.getType()) {
+                    case CLIENT_SEND:
+                        this._parent.setClient((Client)frame.getObject());
+                        break;
                     case MESSAGE:
                         //this._parent.processMessage((Message) frame.getObject());
                         break;
+                    case MOTD:
+                        if(frame.getObject() instanceof  String){
+                            System.out.print(frame.getObject());
+                        }
+                        break;
+                    case LOBBY_CHANGE:
+
+                        break;
+                    case LOBBY_GET:
+                        if (frame.getObject() instanceof Map) {
+                            this._parent.displayLobbies((Map<Integer, Destination>) frame.getObject());
+                        } else {
+                            Log.Console(Log.Level.WARN, "Invalid response received for LOBBY_GET.");
+                        }
                     case DISCONNECT:
                         this._parent.close();
                         return;
                     default:
 
                 }
-            } catch (EOFException ex){
+            } catch (EOFException ex) {
                 this.quit();
                 this._parent.close();
             } catch (Exception ex) {
-                this._parent.LogMessage(base.ErrorLevel.WARN, "Server exception: " + ex.getMessage());
+                Log.Console(Log.Level.WARN, "ChatServer exception: " + ex.getMessage());
                 if (ex.getMessage() != null && ex.getMessage().contains("Connection reset")) {
                     this.quit();
                     this._parent.close();

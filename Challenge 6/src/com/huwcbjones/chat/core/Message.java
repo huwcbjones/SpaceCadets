@@ -10,12 +10,12 @@ import java.util.Date;
  */
 public class Message {
 
-    private User _user;
+    private Client _client;
     private String _message;
     private Date _timestamp;
 
-    public Message(User user, String message) {
-        this._user = user;
+    public Message(Client client, String message) {
+        this._client = client;
         this._message = message;
         this._timestamp = new Date();
     }
@@ -32,10 +32,10 @@ public class Message {
     /**
      * Gets user that sent the message
      *
-     * @return User
+     * @return ChatClient
      */
-    public User getUser() {
-        return this._user;
+    public Client getUser() {
+        return this._client;
     }
 
     /**

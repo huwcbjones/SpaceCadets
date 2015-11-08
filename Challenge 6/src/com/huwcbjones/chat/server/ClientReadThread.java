@@ -1,9 +1,6 @@
 package com.huwcbjones.chat.server;
 
-import com.huwcbjones.chat.core.Frame;
-import com.huwcbjones.chat.core.Message;
-import com.huwcbjones.chat.core.Protocol;
-import com.huwcbjones.chat.core.base;
+import com.huwcbjones.chat.core.*;
 
 import java.io.EOFException;
 import java.io.ObjectInputStream;
@@ -18,12 +15,12 @@ public class ClientReadThread extends Thread {
 
     private boolean _shouldQuit = false;
     private ObjectInputStream _input;
-    private Server _server;
+    private ChatServer _server;
     private ClientThread _parent;
 
-    public ClientReadThread(ClientThread parent, Server server, ObjectInputStream input) {
+    public ClientReadThread(ClientThread parent, ChatServer chatServer, ObjectInputStream input) {
         this._parent = parent;
-        this._server = server;
+        this._server = chatServer;
         this._input = input;
     }
 
@@ -34,8 +31,20 @@ public class ClientReadThread extends Thread {
             try {
                 frame = Protocol.readFrame(_input);
                 switch (frame.getType()) {
+                    case CLIENT_SEND:
+                        this._parent.setClient((Client)frame.getObject());
+                    case COMMAND:
+                        this._server.processClientInput(this._parent.getClientID(), (String)frame.getObject());
+                        break;
                     case MESSAGE:
                         this._server.processMessage((Message) frame.getObject());
+                        break;
+                    case LOBBY_CHANGE:
+
+                        break;
+                    case LOBBY_GET:
+                        Log.Console(Log.Level.INFO, "ChatClient #" + this._parent.getClientID() + " requested lobbies. Sending lobbies...");
+                        this._parent.sendLobbies();
                         break;
                     case DISCONNECT:
                         this.quit();
@@ -48,7 +57,7 @@ public class ClientReadThread extends Thread {
                 this.quit();
                 this._parent.close(false);
             } catch (Exception ex) {
-                this._server.LogMessage(base.ErrorLevel.WARN, "Exception on client #" + this._parent.getClientID() + ": " + ex.getMessage());
+                Log.Console(Log.Level.WARN, "Exception on client #" + this._parent.getClientID() + ": " + ex.getMessage());
                 if (ex.getMessage() != null && ex.getMessage().contains("Connection reset")) {
                     this.quit();
                     this._parent.close(false);
