@@ -34,7 +34,7 @@ public class Frame implements Serializable {
     }
 
     public Type getType() {
-        return this._type
+        return this._type;
     }
 
     public boolean isType(Type type) {
