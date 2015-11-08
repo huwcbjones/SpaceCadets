@@ -2,6 +2,7 @@ package com.huwcbjones.chat.client;
 
 import com.huwcbjones.chat.core.Frame;
 import com.huwcbjones.chat.core.Message;
+import com.huwcbjones.chat.core.Protocol;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -18,22 +19,18 @@ import java.rmi.server.ExportException;
  * @author Huw Jones
  * @since 06/11/2015
  */
-public class Client {
+public class Client extends com.huwcbjones.chat.core.base {
 
     private URI _server;
     private int _port;
     private Socket _socket;
 
+    private boolean _isConnected = false;
+
     private ObjectOutputStream _out;
     private ObjectInputStream _in;
 
     private boolean _shouldQuit = false;
-
-    public enum ErrorLevel {
-        INFO,
-        WARN,
-        ERROR
-    }
 
     public Client(int port, URI server) {
         this._port = port;
@@ -50,51 +47,61 @@ public class Client {
      * Runs Client
      */
     public void run() {
-        try{
+        try {
             this.connectToServer();
             this.LogMessage(ErrorLevel.INFO, "Connected to server \"" + this._server.getHost() + "\"");
-        } catch(Exception ex){
+        } catch (Exception ex) {
             this.LogMessage(ErrorLevel.ERROR, ex.getMessage());
+        }
+        if(_isConnected){
+            this.LogMessage(ErrorLevel.INFO, "Closing connection to server...");
+            try {
+                this._out.writeObject(new Frame(Frame.Type.DISCONNECT, true));
+            } catch (Exception ex){
+
+            } finally {
+                try {
+                    this._socket.close();
+                } catch (Exception ex) {
+
+                }
+                this.LogMessage(ErrorLevel.INFO, "Connection to server closed.");
+            }
         }
     }
 
     private void connectToServer() throws IOException {
         this._socket = new Socket(this._server.getHost(), this._port);
-        this._in = new ObjectInputStream(this._socket.getInputStream());
+
+        // Output stream needs to be first as inputStream is blocking
+        // Get output stream
         this._out = new ObjectOutputStream(this._socket.getOutputStream());
 
-        this._out.writeObject(new Frame(Frame.Type.HELLO, "Hello Server!"));
-        this._out.flush();
+        // Get input stream
+        this._in = new ObjectInputStream(this._socket.getInputStream());
+
+
+
         try {
-            Object hello = this._in.readObject();
-            if(!(hello instanceof Frame)){
-                this.LogMessage(ErrorLevel.ERROR, "Invalid Frame received.");
+            Protocol protocol = new Protocol(this, this._socket, false);
+            protocol.connect();
+            this._isConnected = true;
+            this.LogMessage(ErrorLevel.INFO, "Connected to server!");
+
+
+        } catch (Exception ex) {
+
+        } finally {
+            try {
+                this._socket.close();
+            } catch (Exception ex) {
+                this.LogMessage(ErrorLevel.INFO, "Connection to server closed.");
             }
-            Frame frame = (Frame)hello;
-            if(frame.getType() == Frame.Type.HELLO){
-                System.out.println(frame.getObject());
-            }
-        } catch (Exception ex){
-            this.LogMessage(ErrorLevel.ERROR, "Failed to read object.");
+
         }
     }
 
     public void sendMessage(Message message) throws Exception {
         this._out.writeObject(new Frame(Frame.Type.MESSAGE, message));
-    }
-
-    public void LogMessage(ErrorLevel level, String message){
-        switch(level){
-            case ERROR:
-                System.out.print("[ ERR  ] ");
-                break;
-            case WARN:
-                System.out.print("[ WARN ] ");
-                break;
-            case INFO:
-                System.out.print("[ INFO ] ");
-                break;
-        }
-        System.out.println(message);
     }
 }

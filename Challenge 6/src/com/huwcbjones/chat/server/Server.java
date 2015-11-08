@@ -13,20 +13,16 @@ import java.util.HashMap;
  * @author Huw Jones
  * @since 05/11/2015
  */
-public class Server {
+public class Server extends com.huwcbjones.chat.core.base {
 
     private boolean _shouldQuit = false;
     private ServerSocket _serverSocket;
     private int _port = 60666;
 
+    private int _clientID = 1;
+
     private HashMap<Integer, Destination> _targets = new HashMap<>();
     private HashMap<Integer, ClientThread> _clients = new HashMap<>();
-
-    public enum ErrorLevel {
-        INFO,
-        WARN,
-        ERROR
-    }
 
     public Server(int port) {
         this._port = port;
@@ -57,7 +53,8 @@ public class Server {
             while(!this._shouldQuit) {
 
                 // On accept, create a new client thread
-                client = new ClientThread(this, _serverSocket.accept());
+                client = new ClientThread(this, _serverSocket.accept(), this._clientID);
+                this._clientID++;
 
                 // Put it targets HashMap
                 _clients.put(client.getClientID(), client);
@@ -79,20 +76,7 @@ public class Server {
         }*/
     }
 
-    public void LogMessage(ErrorLevel level, String message){
-        switch(level){
-            case ERROR:
-                System.out.print("[ ERR  ] ");
-                break;
-            case WARN:
-                System.out.print("[ WARN ] ");
-                break;
-            case INFO:
-                System.out.print("[ INFO ] ");
-                break;
-        }
-        System.out.println(message);
-    }
+
 
     public void addDestination(String name){
         Destination destination = new Destination(this, name);

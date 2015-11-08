@@ -3,6 +3,7 @@ package com.huwcbjones.chat.core;
 import com.huwcbjones.chat.core.exceptions.InvalidFrameException;
 import com.huwcbjones.chat.core.exceptions.InvalidProtocolException;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -37,7 +38,6 @@ public class Protocol {
         } else {
             clientConnect();
         }
-        this._parent.LogMessage(base.ErrorLevel.INFO, "Server/Client successfully connected!");
     }
 
     private void clientConnect() throws Exception {
@@ -48,7 +48,7 @@ public class Protocol {
             }
 
         } catch (Exception ex) {
-            this._parent.LogMessage(base.ErrorLevel.ERROR, "Server protocol not understood.");
+            throw new InvalidProtocolException("Server protocol not understood.");
         }
 
         this._output.writeObject(new Frame(Frame.Type.HELLO, "Hello Server."));
@@ -63,12 +63,24 @@ public class Protocol {
                 throw new InvalidProtocolException("Client protocol not understood.");
             }
         } catch (Exception ex) {
-            this._parent.LogMessage(base.ErrorLevel.ERROR, "Client protocol not understood.");
+            throw new InvalidProtocolException("Client protocol not understood.");
         }
     }
 
     public Frame readFrame() throws Exception {
-        Object frame = this._input.readObject();
+        return Protocol.readFrame(this._input);
+    }
+
+    /**
+     * Reads a frame from the socket
+     * @param inputStream Stream to read from
+     * @return Frame received from socket
+     * @throws IOException Thrown if there was a connection error.
+     * @throws ClassNotFoundException Thrown if the class was not found.
+     * @throws InvalidFrameException Thrown if Frame was invalid.
+     */
+    public static Frame readFrame(ObjectInputStream inputStream) throws IOException, ClassNotFoundException, InvalidFrameException {
+        Object frame = inputStream.readObject();
         if (!(frame instanceof Frame)) {
             throw new InvalidFrameException();
         }
