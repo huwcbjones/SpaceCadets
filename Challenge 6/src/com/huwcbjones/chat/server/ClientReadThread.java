@@ -33,6 +33,7 @@ public class ClientReadThread extends Thread {
                 switch (frame.getType()) {
                     case CLIENT_SEND:
                         this._parent.setClient((Client)frame.getObject());
+                        break;
                     case COMMAND:
                         this._server.processClientInput(this._parent.getClientID(), (String)frame.getObject());
                         break;
