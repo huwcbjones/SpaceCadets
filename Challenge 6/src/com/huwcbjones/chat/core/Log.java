@@ -9,15 +9,16 @@ package com.huwcbjones.chat.core;
 public class Log {
 
     public enum Level {
+        MSG,
         INFO,
         WARN,
-        ERROR,
+        FATAL,
         NONE
     }
 
     public static void Console(Level level, String message){
         switch(level){
-            case ERROR:
+            case FATAL:
                 System.out.print("[ ERR  ] ");
                 break;
             case WARN:
@@ -25,6 +26,9 @@ public class Log {
                 break;
             case INFO:
                 System.out.print("[ INFO ] ");
+                break;
+            case MSG:
+                System.out.print("[ MSG  ] ");
                 break;
             case NONE:
                 break;
