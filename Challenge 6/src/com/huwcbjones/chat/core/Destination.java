@@ -16,14 +16,11 @@ public class Destination extends Lobby {
     private static final long serialVersionUID = 1;
 
     private ChatServer _server;
-    private int _destinationID;
-    private String _name;
     private HashMap<Integer, ClientThread> _clients= new HashMap<>();
 
     public Destination(ChatServer chatServer, String name, int destinationID){
+        super(destinationID, name);
         this._server = chatServer;
-        this._name = name;
-        this._destinationID = destinationID;
     }
 
     public void message(Message message){
