@@ -66,6 +66,11 @@ public class ChatClient {
      * Runs ChatClient
      */
     public void run() {
+        if (System.console() == null) {
+            Log.Console(Log.Level.ERROR, "Console not found. Console is required to run in CLI mode.");
+            System.exit(0);
+            return;
+        }
         if(this._username == null || this._name == null) {
             this.getClientDetails();
         }
@@ -75,7 +80,7 @@ public class ChatClient {
             return;
         }
 
-        this.write = new WriteThread(_out);
+        this.write = new WriteThread(_out, this.client.getClientID() + "_ServerWrite");
         this.read = new ServerReadThread(this, _in);
 
         this.read.start();
@@ -113,7 +118,7 @@ public class ChatClient {
         Console c = System.console();
         if (c == null) {
             Log.Console(Log.Level.ERROR, "Console not found. Console is required to run in CLI mode.");
-            this.close();
+            System.exit(0);
             return;
         }
         boolean isValid = false;
@@ -186,14 +191,15 @@ public class ChatClient {
 
     public void quit() {
         try {
-            this._in.close();
-            this._out.close();
-        } catch (Exception ex) {
-
-        }
-        try {
             this.write.quit();
             this.read.quit();
+            while(this.write.isAlive() || this.read.isAlive()){
+                try{
+                    Thread.sleep(50);
+                } catch (Exception ex){
+
+                }
+            }
             this._socket.close();
         } catch (Exception ex) {
 

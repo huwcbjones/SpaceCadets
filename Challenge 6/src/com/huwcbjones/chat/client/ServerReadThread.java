@@ -21,6 +21,7 @@ public class ServerReadThread extends Thread {
     public ServerReadThread(ChatClient parent, ObjectInputStream input) {
         this._parent = parent;
         this._input = input;
+        this.setName("Client_#" + parent.client.getClientID() + "_ServerRead");
     }
 
     @Override
@@ -50,9 +51,12 @@ public class ServerReadThread extends Thread {
                         } else {
                             Log.Console(Log.Level.WARN, "Invalid response received for LOBBY_GET.");
                         }
+
+                        break;
                     case DISCONNECT:
                         this._parent.close();
                         return;
+
                     default:
 
                 }

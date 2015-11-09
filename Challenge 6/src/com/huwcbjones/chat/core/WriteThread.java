@@ -16,8 +16,9 @@ public class WriteThread extends Thread {
     private Queue<Frame> _frameQueue = new ConcurrentLinkedQueue<>();
     private ObjectOutputStream _output;
 
-    public WriteThread(ObjectOutputStream output) {
+    public WriteThread(ObjectOutputStream output, String threadID) {
         this._output = output;
+        this.setName("Client_#" + threadID);
     }
 
 
@@ -25,10 +26,17 @@ public class WriteThread extends Thread {
     public void run() {
         while (!_shouldQuit) {
             for (Frame frame : _frameQueue) {
+                if(_shouldQuit){
+                    break;
+                }
                 try {
                     _output.writeObject(frame);
                     _frameQueue.remove(frame);
                 } catch (Exception ex) {
+                    if (ex.getMessage() != null && (ex.getMessage().contains("connection abort")|| ex.getMessage().contains("connection closed"))) {
+                        this.quit();
+                        return;
+                    }
                     Log.Console(Log.Level.WARN, "Failed to send Frame: " + ex.getMessage());
                 }
             }

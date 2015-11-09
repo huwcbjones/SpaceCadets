@@ -22,6 +22,7 @@ public class ClientReadThread extends Thread {
         this._parent = parent;
         this._server = chatServer;
         this._input = input;
+        this.setName("Client_#" + parent.getClientID() + "_ClientRead");
     }
 
     @Override

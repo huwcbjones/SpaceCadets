@@ -80,7 +80,7 @@ public class ClientThread extends Thread {
             this._isConnected = true;
             Log.Console(Log.Level.INFO, "ChatClient ID #" + _clientID + " connected!");
 
-            this._write = new WriteThread(_out);
+            this._write = new WriteThread(_out, this._clientID + "_ClientWrite");
             this._read = new ClientReadThread(this, this._server, _in);
 
             this._read.start();
