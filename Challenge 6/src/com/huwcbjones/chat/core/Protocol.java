@@ -84,7 +84,7 @@ public class Protocol {
             throw new InvalidProtocolException("ChatClient protocol not understood.");
         }
 
-        this._output.writeObject(new Frame(Frame.Type.LOBBY_CHANGE, 0));
+        this._output.writeObject(new Frame(Frame.Type.LOBBY_CHANGE, 1));
     }
 
     public Frame readFrame() throws Exception {
