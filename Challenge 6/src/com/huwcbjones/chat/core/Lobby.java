@@ -17,6 +17,11 @@ public abstract class Lobby implements Serializable {
     private String _name;
     private HashMap<Integer, Client> _clients = new HashMap<Integer, Client>();
 
+    public Lobby(int lobbyID, String name){
+        this._lobbyID = lobbyID;
+        this._name = name;
+    }
+
     public String getName() {
         return this._name;
     }
