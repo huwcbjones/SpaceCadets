@@ -101,6 +101,9 @@ public class ChatServer {
         if(!this._lobbies.containsKey(client.getClient().getLobby())){
             client.write(new Frame(Frame.Type.P_MESSAGE, new Message(0, 0, "Lobby not found.")));
         }
+        Log.Console(Log.Level.INFO, "Message({" + client.getClient().getUsername() + "}, {"
+                + _lobbies.get(client.getClient().getLobby()).getName() + ", {"
+                + message.getMessage() + "})");
         /*if (!_lobbies.containsKey(message.getTarget().getTarget())) {
             throw new TargetNotFoundException();
         }*/
