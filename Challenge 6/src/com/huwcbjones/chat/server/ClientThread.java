@@ -69,7 +69,6 @@ public class ClientThread extends Thread {
             // Output stream needs to be first as inputStream is blocking
             // Get output stream
             this._out = new ObjectOutputStream(this._socket.getOutputStream());
-            this._out.flush();
 
             // Get input stream
             this._in = new ObjectInputStream(this._socket.getInputStream());
@@ -104,13 +103,7 @@ public class ClientThread extends Thread {
         if (this._isConnected) {
             if (serverTriggered) {
                 this.disconnect();
-                while (this._write.getQueueSize() != 0) {
-                    try {
-                        Thread.sleep(50);
-                    } catch (Exception ex) {
-
-                    }
-                }
+                this._write.quit();
             }
             try {
                 this._in.close();
