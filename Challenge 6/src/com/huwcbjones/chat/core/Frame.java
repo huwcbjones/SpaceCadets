@@ -18,8 +18,11 @@ public class Frame implements Serializable {
     public enum Type {
         HELLO,
         MOTD,
+        OK,
+        NOTOK,
         COMMAND,
         MESSAGE,
+        P_MESSAGE,
         LOBBY_GET,
         LOBBY_CHANGE,
         LOBBY_ADD,

@@ -1,5 +1,6 @@
 package com.huwcbjones.chat.core;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -8,14 +9,18 @@ import java.util.Date;
  * @author Huw Jones
  * @since 05/11/2015
  */
-public class Message {
+public class Message implements Serializable {
 
-    private Client _client;
+    private static final long serialVersionUID = 1;
+
+    private int _clientID;
+    private int _lobbyID;
     private String _message;
     private Date _timestamp;
 
-    public Message(Client client, String message) {
-        this._client = client;
+    public Message(int clientID, int lobbyID, String message) {
+        this._clientID = clientID;
+        this._lobbyID = lobbyID;
         this._message = message;
         this._timestamp = new Date();
     }
@@ -30,12 +35,21 @@ public class Message {
     }
 
     /**
+     * Gets lobby that the message has been sent to
+     *
+     * @return LobbyID
+     */
+    public int getLobbyID() {
+        return this._lobbyID;
+    }
+
+    /**
      * Gets user that sent the message
      *
-     * @return ChatClient
+     * @return Client
      */
-    public Client getUser() {
-        return this._client;
+    public int getClientID() {
+        return this._clientID;
     }
 
     /**

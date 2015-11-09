@@ -17,26 +17,20 @@ import java.net.Socket;
  */
 public class Protocol {
 
-    private boolean _isServer;
-    private Socket _socket;
-
     private ObjectInputStream _input;
     private ObjectOutputStream _output;
 
-    public Protocol(Socket socket, boolean isServer) {
-        this._socket = socket;
-        this._isServer = isServer;
+    public Protocol(ObjectInputStream input, ObjectOutputStream output) {
+        this._input = input;
+        this._output = output;
     }
 
     public void connect() throws Exception {
-        this._output = new ObjectOutputStream(this._socket.getOutputStream());
-        this._input = new ObjectInputStream(this._socket.getInputStream());
+        clientConnect();
+    }
 
-        if (this._isServer) {
-            serverConnect();
-        } else {
-            clientConnect();
-        }
+    public void connect(ChatServer server) throws Exception {
+        serverConnect(server);
     }
 
     private void clientConnect() throws Exception {
@@ -51,9 +45,23 @@ public class Protocol {
         }
 
         this._output.writeObject(new Frame(Frame.Type.HELLO, "Hello ChatServer."));
+
+        try {
+            Frame motd = this.readFrame();
+            if (motd.getType() != Frame.Type.MOTD) {
+                throw new InvalidProtocolException("ChatServer protocol not understood.");
+            }else{
+                System.out.println(motd.getObject().toString());
+            }
+
+        } catch (Exception ex) {
+            throw new InvalidProtocolException("ChatServer protocol not understood.");
+        }
+
+        this._output.writeObject(new Frame(Frame.Type.OK, 1));
     }
 
-    private void serverConnect() throws Exception {
+    private void serverConnect(ChatServer server) throws Exception {
         this._output.writeObject(new Frame(Frame.Type.HELLO, "Hello ChatClient."));
 
         try {
@@ -64,6 +72,19 @@ public class Protocol {
         } catch (Exception ex) {
             throw new InvalidProtocolException("ChatClient protocol not understood.");
         }
+
+        this._output.writeObject(new Frame(Frame.Type.MOTD, server.getMOTD()));
+
+        try {
+            Frame motdOK = this.readFrame();
+            if (!motdOK.isType(Frame.Type.OK)) {
+                throw new InvalidProtocolException("ChatClient protocol not understood.");
+            }
+        } catch (Exception ex) {
+            throw new InvalidProtocolException("ChatClient protocol not understood.");
+        }
+
+        this._output.writeObject(new Frame(Frame.Type.LOBBY_CHANGE, 0));
     }
 
     public Frame readFrame() throws Exception {

@@ -1,8 +1,6 @@
 package com.huwcbjones.chat.server;
 
-import com.huwcbjones.chat.core.Destination;
-import com.huwcbjones.chat.core.Log;
-import com.huwcbjones.chat.core.Message;
+import com.huwcbjones.chat.core.*;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -22,14 +20,18 @@ public class ChatServer {
 
     private String _name = "Java Chat ChatServer";
 
+    private Client _client;
     private int _clientID = 1;
     private int _lobbyID = 1;
 
-    private HashMap<Integer, Destination> _targets = new HashMap<>();
+    private HashMap<Integer, Destination> _lobbies = new HashMap<>();
     private HashMap<Integer, ClientThread> _clients = new HashMap<>();
 
     public ChatServer(int port) {
         this._port = port;
+        this._client = new Client(0);
+        this._client.setName("Server");
+        this._client.setUsername("server");
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
@@ -40,6 +42,14 @@ public class ChatServer {
         });
     }
 
+    public Client getClient(int clientID) throws IndexOutOfBoundsException {
+        if(clientID == 0){
+            return this._client;
+        }else{
+            ClientThread client = this._clients.get(clientID);
+            return client.getClient();
+        }
+    }
     /**
      * Runs the server
      */
@@ -49,7 +59,6 @@ public class ChatServer {
             // Open server socket for listening
             _serverSocket = new ServerSocket(this._port);
             Log.Console(Log.Level.INFO, "Listening on " + this._port);
-
 
             this.addDestination("Lobby");
 
@@ -87,21 +96,31 @@ public class ChatServer {
         Log.Console(Log.Level.INFO, "ChatServer safely shut down!");
     }
 
-    public void processMessage(Message message) throws Exception {
-        /*if (!_targets.containsKey(message.getTarget().getTarget())) {
+    public void processMessage(int clientID, Message message) {
+        ClientThread client = this._clients.get(clientID);
+        if(!this._lobbies.containsKey(client.getClient().getLobby())){
+            client.write(new Frame(Frame.Type.P_MESSAGE, new Message(0, 0, "Lobby not found.")));
+        }
+        /*if (!_lobbies.containsKey(message.getTarget().getTarget())) {
             throw new TargetNotFoundException();
         }*/
     }
 
+    public void processClientCommand(int clientID, String command) {
+        if (command.charAt(0) != '!') {
+            this.processMessage(clientID, new Message(clientID, 0, command));
+        }
+    }
+
     public void addDestination(String name) {
         Destination destination = new Destination(this, name, _lobbyID);
-        this._targets.put(_lobbyID, destination);
+        this._lobbies.put(_lobbyID, destination);
         Log.Console(Log.Level.INFO, "Added Destination \"" + name + "\", #" + destination.getLobbyID());
         _lobbyID++;
     }
 
     public HashMap<Integer, Destination> getDestinations() {
-        return this._targets;
+        return this._lobbies;
     }
 
     public String getMOTD() {
@@ -131,15 +150,4 @@ public class ChatServer {
         return motd.toString();
     }
 
-    public void processClientInput(int clientID, String command) {
-        if (command.charAt(0) == '!') {
-            this.processClientCommand(clientID, command);
-        } else {
-
-        }
-    }
-
-    private void processClientCommand(int clientID, String command) {
-
-    }
 }

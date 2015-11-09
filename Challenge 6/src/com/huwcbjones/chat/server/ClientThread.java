@@ -74,19 +74,17 @@ public class ClientThread extends Thread {
             // Get input stream
             this._in = new ObjectInputStream(this._socket.getInputStream());
 
-            Protocol protocol = new Protocol(this._socket, true);
-            protocol.connect();
+            Protocol protocol = new Protocol(this._in, this._out);
+            protocol.connect(this._server);
 
             this._isConnected = true;
             Log.Console(Log.Level.INFO, "ChatClient ID #" + _clientID + " connected!");
 
-            this._write = new WriteThread(_out, this._clientID + "_ClientWrite");
+            this._write = new WriteThread(_out, "Client_#" + this._clientID + "_ClientWrite");
             this._read = new ClientReadThread(this, this._server, _in);
 
             this._read.start();
             this._write.start();
-
-            this._write.write(new Frame(Frame.Type.MOTD, this._server.getMOTD()));
 
             // Send Client object to client
             this._write.write(new Frame(Frame.Type.CLIENT_SEND, this._client));
@@ -131,6 +129,10 @@ public class ClientThread extends Thread {
         }
         Log.Console(Log.Level.INFO, "Connection to client ID #" + _clientID + " closed.");
 
+    }
+
+    public void write(Frame frame){
+        this._write.write(frame);
     }
 
     /**

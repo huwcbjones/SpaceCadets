@@ -26,10 +26,12 @@ public class ChatClient {
     private ObjectOutputStream _out;
     private ObjectInputStream _in;
 
-    protected  WriteThread write;
+    protected WriteThread write;
     protected ServerReadThread read;
 
     private boolean _shouldQuit = false;
+
+    private int _currentLobby = 0;
 
     private String _username = null;
     private String _name = null;
@@ -56,7 +58,14 @@ public class ChatClient {
             this.client.setName(this._name);
             this.client.setUsername(this._username);
 
-            if(this._isConnected) {
+            if (this._isConnected) {
+                this.write.write(new Frame(Frame.Type.CLIENT_SEND, this.client));
+            }
+        } else {
+            this.client.setName(this._name);
+            this.client.setUsername(this._username);
+
+            if (this._isConnected) {
                 this.write.write(new Frame(Frame.Type.CLIENT_SEND, this.client));
             }
         }
@@ -71,7 +80,7 @@ public class ChatClient {
             System.exit(0);
             return;
         }
-        if(this._username == null || this._name == null) {
+        if (this._username == null || this._name == null) {
             this.getClientDetails();
         }
         this.connectToServer();
@@ -79,35 +88,41 @@ public class ChatClient {
         if (!this._isConnected) {
             return;
         }
+        try {
+            this.write = new WriteThread(_out, "Client_ServerWrite");
+            this.read = new ServerReadThread(this, _in);
+        } catch (Exception ex) {
+            Log.Console(Log.Level.ERROR, ex.toString());
+        }
 
-        this.write = new WriteThread(_out, this.client.getClientID() + "_ServerWrite");
-        this.read = new ServerReadThread(this, _in);
-
-        this.read.start();
-        this.write.start();
-
+        try {
+            this.read.start();
+            this.write.start();
+        } catch (Exception ex) {
+            Log.Console(Log.Level.ERROR, ex.toString());
+        }
         interact();
     }
 
-    public boolean setUsername(String username){
-        if(!username.matches("^[a-zA-Z_\\d]*$")){
+    public boolean setUsername(String username) {
+        if (!username.matches("^[a-zA-Z_\\d]*$")) {
             return false;
         }
 
         this._username = username;
-        if(this._isConnected) {
+        if (this._isConnected) {
             this.write.write(new Frame(Frame.Type.CLIENT_SEND, this.client));
         }
         return true;
     }
 
-    public boolean setName(String name){
-        if(!name.matches("^([A-Za-z ])*$")){
+    public boolean setName(String name) {
+        if (!name.matches("^([A-Za-z ])*$")) {
             return false;
         }
 
         this._name = name;
-        if(this._isConnected) {
+        if (this._isConnected) {
             this.write.write(new Frame(Frame.Type.CLIENT_SEND, this.client));
         }
         return true;
@@ -124,18 +139,18 @@ public class ChatClient {
         boolean isValid = false;
         while (!isValid) {
             String username = c.readLine("Username> ");
-            if(!this.setUsername(username)){
+            if (!this.setUsername(username)) {
                 Log.Console(Log.Level.WARN, "Usernames can only contain alphanumeric characters and underscores.");
-            }else{
+            } else {
                 isValid = true;
             }
         }
         isValid = false;
         while (!isValid) {
             String name = c.readLine("Name    > ");
-            if(!this.setName(name)){
+            if (!this.setName(name)) {
                 Log.Console(Log.Level.WARN, "Names can only contain alphanumeric characters and spaces.");
-            }else{
+            } else {
                 isValid = true;
             }
         }
@@ -155,7 +170,7 @@ public class ChatClient {
             this._in = new ObjectInputStream(this._socket.getInputStream());
 
 
-            Protocol protocol = new Protocol(this._socket, false);
+            Protocol protocol = new Protocol(this._in, this._out);
             protocol.connect();
             this._isConnected = true;
 
@@ -185,18 +200,28 @@ public class ChatClient {
         System.out.println("========================================");
     }
 
+    public void setLobby(int lobby) {
+        this._currentLobby = lobby;
+        this.client.setLobby(lobby);
+    }
+
+    public void displayMessage(Message message) {
+
+    }
+
     public void close() {
         this.write.write(new Frame(Frame.Type.DISCONNECT, 0));
     }
 
     public void quit() {
+        this._shouldQuit = true;
         try {
             this.write.quit();
             this.read.quit();
-            while(this.write.isAlive() || this.read.isAlive()){
-                try{
+            while (this.write.isAlive() || this.read.isAlive()) {
+                try {
                     Thread.sleep(50);
-                } catch (Exception ex){
+                } catch (Exception ex) {
 
                 }
             }
@@ -216,10 +241,13 @@ public class ChatClient {
         }
         while (!this._shouldQuit) {
             String input = c.readLine("> ");
+            if (this._shouldQuit) {
+                return;
+            }
             if (input.charAt(0) == '!') {
                 this.write.write(new Frame(Frame.Type.COMMAND, input));
             } else {
-                Message message = new Message(this.client, input);
+                Message message = new Message(this.client.getClientID(), _currentLobby, input);
                 this.write.write(new Frame(Frame.Type.MESSAGE, message));
             }
         }

@@ -42,6 +42,9 @@ public class cli {
     }
 
     public static URI getServer(ArrayList<String> argList) throws Exception {
+        if(argList.size() == 0){
+            throw new Exception("No server specified.");
+        }
         return new URI("chat://" + argList.get(argList.size() - 1));
     }
 }

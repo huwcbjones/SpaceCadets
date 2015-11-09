@@ -1,0 +1,1 @@
+java -Xdebug -agentlib:jdwp=transport=dt_socket,address=9999,server=y,suspend=n -classpath "out\production\Challenge 6;" com.huwcbjones.chat.chat %1

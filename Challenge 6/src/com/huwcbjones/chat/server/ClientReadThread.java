@@ -36,10 +36,10 @@ public class ClientReadThread extends Thread {
                         this._parent.setClient((Client)frame.getObject());
                         break;
                     case COMMAND:
-                        this._server.processClientInput(this._parent.getClientID(), (String)frame.getObject());
+                        this._server.processClientCommand(this._parent.getClientID(), (String)frame.getObject());
                         break;
                     case MESSAGE:
-                        this._server.processMessage((Message) frame.getObject());
+                        this._server.processMessage(this._parent.getClientID(), (Message) frame.getObject());
                         break;
                     case LOBBY_CHANGE:
 
@@ -60,7 +60,7 @@ public class ClientReadThread extends Thread {
                 this._parent.close(false);
             } catch (Exception ex) {
                 Log.Console(Log.Level.WARN, "Exception on client #" + this._parent.getClientID() + ": " + ex.getMessage());
-                if (ex.getMessage() != null && ex.getMessage().contains("Connection reset")) {
+                if (ex.getMessage() != null && (ex.getMessage().contains("Connection reset") || ex.getMessage().contains("closed"))) {
                     this.quit();
                     this._parent.close(false);
                 }

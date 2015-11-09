@@ -21,7 +21,7 @@ public class ServerReadThread extends Thread {
     public ServerReadThread(ChatClient parent, ObjectInputStream input) {
         this._parent = parent;
         this._input = input;
-        this.setName("Client_#" + parent.client.getClientID() + "_ServerRead");
+        this.setName("Client_ServerRead");
     }
 
     @Override
@@ -34,6 +34,11 @@ public class ServerReadThread extends Thread {
                     case CLIENT_SEND:
                         this._parent.setClient((Client)frame.getObject());
                         break;
+                    case P_MESSAGE:
+                        if(frame.getObject() instanceof Message){
+
+                        }
+                        break;
                     case MESSAGE:
                         //this._parent.processMessage((Message) frame.getObject());
                         break;
@@ -43,7 +48,9 @@ public class ServerReadThread extends Thread {
                         }
                         break;
                     case LOBBY_CHANGE:
-
+                        if(frame.getObject() instanceof  Integer){
+                            this._parent.setLobby((int)frame.getObject());
+                        }
                         break;
                     case LOBBY_GET:
                         if (frame.getObject() instanceof Map) {
@@ -65,9 +72,9 @@ public class ServerReadThread extends Thread {
                 this._parent.close();
             } catch (Exception ex) {
                 Log.Console(Log.Level.WARN, "ChatServer exception: " + ex.getMessage());
-                if (ex.getMessage() != null && ex.getMessage().contains("Connection reset")) {
+                if (ex.getMessage() != null && (ex.getMessage().contains("Connection reset") || ex.getMessage().contains("closed"))) {
                     this.quit();
-                    this._parent.close();
+                    System.exit(0);
                 }
             }
         }

@@ -18,7 +18,7 @@ public class WriteThread extends Thread {
 
     public WriteThread(ObjectOutputStream output, String threadID) {
         this._output = output;
-        this.setName("Client_#" + threadID);
+        this.setName(threadID);
     }
 
 
@@ -33,11 +33,12 @@ public class WriteThread extends Thread {
                     _output.writeObject(frame);
                     _frameQueue.remove(frame);
                 } catch (Exception ex) {
-                    if (ex.getMessage() != null && (ex.getMessage().contains("connection abort")|| ex.getMessage().contains("connection closed"))) {
+                    if (ex.getMessage() != null && (ex.getMessage().contains("connection abort")|| ex.getMessage().contains("closed"))) {
                         this.quit();
                         return;
                     }
                     Log.Console(Log.Level.WARN, "Failed to send Frame: " + ex.getMessage());
+                    _frameQueue.remove(frame);
                 }
             }
         }
