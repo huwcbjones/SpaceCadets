@@ -31,6 +31,7 @@ public class ClientThread extends Thread {
         this._server = chatServer;
         this._socket = socket;
         this._clientID = clientID;
+        this._client = new Client(clientID);
     }
 
     /**
@@ -39,20 +40,21 @@ public class ClientThread extends Thread {
      * @return ClientID
      */
     public int getClientID() {
-        if(this._client != null) {
+        if (this._client != null) {
             return this._client.getClientID();
-        }else{
+        } else {
             return this._clientID;
         }
     }
 
-    public void setClient(Client client){
-        if(this._client.getClientID() == client.getClientID()){
+    public void setClient(Client client) {
+        if (this._client.getClientID() == client.getClientID()) {
             this._client = client;
             Log.Console(Log.Level.INFO, "ChatClient ID #" + _clientID + " is known as " + client.getName() + " (" + client.getUsername() + ").");
         }
     }
-    public Client getClient(){
+
+    public Client getClient() {
         return this._client;
     }
 
@@ -96,25 +98,28 @@ public class ClientThread extends Thread {
 
     /**
      * Closes connection to client
+     *
      * @param serverTriggered If server triggered this, then send a disconnect frame to client
      */
     public void close(boolean serverTriggered) {
         Log.Console(Log.Level.INFO, "Connection to client ID #" + _clientID + " closing...");
-        if(serverTriggered) {
-            this.disconnect();
-            while(this._write.getQueueSize() != 0){
-                try {
-                    Thread.sleep(50);
-                } catch (Exception ex){
+        if (this._isConnected) {
+            if (serverTriggered) {
+                this.disconnect();
+                while (this._write.getQueueSize() != 0) {
+                    try {
+                        Thread.sleep(50);
+                    } catch (Exception ex) {
 
+                    }
                 }
             }
-        }
-        try {
-            this._in.close();
-            this._out.close();
-        } catch (Exception ex) {
+            try {
+                this._in.close();
+                this._out.close();
+            } catch (Exception ex) {
 
+            }
         }
 
         try {
@@ -145,7 +150,7 @@ public class ClientThread extends Thread {
         }
     }
 
-    public void sendLobbies(){
+    public void sendLobbies() {
         this._write.write(new Frame(Frame.Type.LOBBY_GET, this._server.getDestinations()));
     }
 

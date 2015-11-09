@@ -15,7 +15,7 @@ import java.util.Arrays;
  */
 public class chat {
 
-    public static void main(String args[]){
+    public static void main(String args[]) {
         ArrayList<String> argList = new ArrayList<>(Arrays.asList(args));
         if (argList.contains("-h") || argList.contains("--help")) {
             chat.help();
@@ -24,20 +24,32 @@ public class chat {
         } else {
             try {
                 URI url = cli.getServer(argList);
-                chat.run(cli.getPortNumber(argList), url);
-            }catch (Exception ex){
+                String username = cli.getUsername(argList);
+                String name = cli.getName(argList);
+                if (username != null) {
+                    if (name != null) {
+                        chat.run(cli.getPortNumber(argList), url, username, name);
+                    } else {
+                        chat.run(cli.getPortNumber(argList), url, username, username);
+                    }
+                } else {
+                    chat.run(cli.getPortNumber(argList), url);
+                }
+            } catch (Exception ex) {
                 System.out.println(ex.getMessage());
             }
         }
     }
 
 
-    private static void help(){
+    private static void help() {
         System.out.println("Usage: chat [OPTION]... SERVER");
         System.out.println("Java chat client.\n");
         System.out.println("Arguments:");
         System.out.println("  -h, --help\t\tPrints this help message.");
-        System.out.println("  -p, --port\t\tSpecifies port to connect to, otherwise defaults to 60666.");
+        System.out.println("  -n, --name\t\tName of user connecting.");
+        System.out.println("  -p, --port\t\tSpecifies port to connect to, otherwise connects to 60666.");
+        System.out.println("  -u, --username\tUsername of user connecting.");
         System.out.println("  -v, --version\t\tPrints version.");
     }
 
@@ -46,8 +58,15 @@ public class chat {
         System.out.println("Written by Huw Jones");
     }
 
-    private static void run(int port, URI uri)
-    {
+    private static void run(int port, URI uri, String username, String name) {
+        ChatClient chatClient = new ChatClient(port, uri);
+        chat.version();
+        chatClient.setUsername(username);
+        chatClient.setName(name);
+        chatClient.run();
+    }
+
+    private static void run(int port, URI uri) {
         ChatClient chatClient = new ChatClient(port, uri);
         chat.version();
         chatClient.run();

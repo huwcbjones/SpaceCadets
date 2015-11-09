@@ -31,8 +31,8 @@ public class ChatClient {
 
     private boolean _shouldQuit = false;
 
-    private String _username;
-    private String _name;
+    private String _username = null;
+    private String _name = null;
     protected Client client = null;
 
     public ChatClient(int port, URI server) {
@@ -56,7 +56,9 @@ public class ChatClient {
             this.client.setName(this._name);
             this.client.setUsername(this._username);
 
-            this.write.write(new Frame(Frame.Type.CLIENT_SEND, this.client));
+            if(this._isConnected) {
+                this.write.write(new Frame(Frame.Type.CLIENT_SEND, this.client));
+            }
         }
     }
 
@@ -64,7 +66,9 @@ public class ChatClient {
      * Runs ChatClient
      */
     public void run() {
-        this.getClientDetails();
+        if(this._username == null || this._name == null) {
+            this.getClientDetails();
+        }
         this.connectToServer();
 
         if (!this._isConnected) {
@@ -80,6 +84,31 @@ public class ChatClient {
         interact();
     }
 
+    public boolean setUsername(String username){
+        if(!username.matches("^[a-zA-Z_\\d]*$")){
+            return false;
+        }
+
+        this._username = username;
+        if(this._isConnected) {
+            this.write.write(new Frame(Frame.Type.CLIENT_SEND, this.client));
+        }
+        return true;
+    }
+
+    public boolean setName(String name){
+        if(!name.matches("^([A-Za-z ])*$")){
+            return false;
+        }
+
+        this._name = name;
+        if(this._isConnected) {
+            this.write.write(new Frame(Frame.Type.CLIENT_SEND, this.client));
+        }
+        return true;
+    }
+
+
     private void getClientDetails() {
         Console c = System.console();
         if (c == null) {
@@ -89,21 +118,19 @@ public class ChatClient {
         }
         boolean isValid = false;
         while (!isValid) {
-            String input = c.readLine("Username> ");
-            if(!input.matches("^[a-zA-Z_\\d]*$")){
+            String username = c.readLine("Username> ");
+            if(!this.setUsername(username)){
                 Log.Console(Log.Level.WARN, "Usernames can only contain alphanumeric characters and underscores.");
             }else{
-                this._username = input;
                 isValid = true;
             }
         }
         isValid = false;
         while (!isValid) {
-            String input = c.readLine("Name    > ");
-            if(!input.matches("^([A-Za-z ])*$")){
+            String name = c.readLine("Name    > ");
+            if(!this.setName(name)){
                 Log.Console(Log.Level.WARN, "Names can only contain alphanumeric characters and spaces.");
             }else{
-                this._name = input;
                 isValid = true;
             }
         }
