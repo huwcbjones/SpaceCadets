@@ -32,24 +32,24 @@ public class ServerReadThread extends Thread {
                 frame = Protocol.readFrame(_input);
                 switch (frame.getType()) {
                     case CLIENT_SEND:
-                        this._parent.setClient((Client)frame.getObject());
+                        this._parent.setClient((Client) frame.getObject());
                         break;
                     case P_MESSAGE:
-                        if(frame.getObject() instanceof Message){
-
+                        if (frame.getObject() instanceof Message) {
+                            this._parent.displayMessage((Message) frame.getObject());
                         }
                         break;
                     case MESSAGE:
                         //this._parent.processMessage((Message) frame.getObject());
                         break;
                     case MOTD:
-                        if(frame.getObject() instanceof  String){
+                        if (frame.getObject() instanceof String) {
                             System.out.print(frame.getObject());
                         }
                         break;
                     case LOBBY_CHANGE:
-                        if(frame.getObject() instanceof  Integer){
-                            this._parent.setLobby((int)frame.getObject());
+                        if (frame.getObject() instanceof Integer) {
+                            this._parent.setLobby((int) frame.getObject());
                         }
                         break;
                     case LOBBY_GET:
