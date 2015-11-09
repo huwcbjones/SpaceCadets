@@ -164,8 +164,6 @@ public class ChatClient {
             // Get output stream
             this._out = new ObjectOutputStream(this._socket.getOutputStream());
 
-            this._out.flush();
-
             // Get input stream
             this._in = new ObjectInputStream(this._socket.getInputStream());
 
