@@ -1,8 +1,11 @@
 package com.huwcbjones.chat.core;
 
+import com.huwcbjones.util.AutoResetEvent;
+
 import java.io.ObjectOutputStream;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.Exchanger;
 
 /**
  * Writes Frames to the client
@@ -12,6 +15,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class WriteThread extends Thread {
 
+    private AutoResetEvent _runQueue = new AutoResetEvent(false);
     private boolean _shouldQuit = false;
     private Queue<Frame> _frameQueue = new ConcurrentLinkedQueue<>();
     private ObjectOutputStream _output;
@@ -41,6 +45,11 @@ public class WriteThread extends Thread {
                     _frameQueue.remove(frame);
                 }
             }
+            try {
+                this._runQueue.waitOne();
+            } catch (Exception ex){
+                Log.Console(Log.Level.WARN, ex.toString());
+            }
         }
     }
 
@@ -54,5 +63,10 @@ public class WriteThread extends Thread {
 
     public void write(Frame frame) {
         this._frameQueue.add(frame);
+        try {
+            this._runQueue.waitOne();
+        } catch (Exception ex){
+            Log.Console(Log.Level.WARN, ex.toString());
+        }
     }
 }
