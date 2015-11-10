@@ -75,9 +75,11 @@ public class ChatServer {
 
                 // Run client thread
                 client.run();
+
+
             }
         } catch (IOException ex) {
-            Log.Console(Log.Level.ERROR, ex.getMessage());
+            Log.Console(Log.Level.FATAL, ex.getMessage());
         }
     }
 
@@ -99,14 +101,18 @@ public class ChatServer {
     public void processMessage(int clientID, Message message) {
         ClientThread client = this._clients.get(clientID);
         if(!this._lobbies.containsKey(client.getClient().getLobby())){
-            client.write(new Frame(Frame.Type.P_MESSAGE, new Message(0, 0, "Lobby not found.")));
+            Log.Console(Log.Level.WARN, "Client #" + client.getClientID() + " (" + client.getClient().getUsername() + ") tried to send a message to an unknown lobby.");
+            message = new Message(0, 0, "Lobby not found.");
+            message.setUser(this.getClient(0).getUsername());
+            client.write(new Frame(Frame.Type.P_MESSAGE, message));
+            return;
         }
+        message.setUser(this._clients.get(message.getClientID()).getClient().getName());
         Log.Console(Log.Level.INFO, "Message({" + client.getClient().getUsername() + "}, {"
                 + _lobbies.get(client.getClient().getLobby()).getName() + ", {"
                 + message.getMessage() + "})");
-        /*if (!_lobbies.containsKey(message.getTarget().getTarget())) {
-            throw new TargetNotFoundException();
-        }*/
+        Destination lobby = this._lobbies.get(message.getLobbyID());
+        lobby.message(message);
     }
 
     public void processClientCommand(int clientID, String command) {

@@ -17,6 +17,7 @@ public class Message implements Serializable {
     private int _lobbyID;
     private String _message;
     private Date _timestamp;
+    private String _user = null;
 
     public Message(int clientID, int lobbyID, String message) {
         this._clientID = clientID;
@@ -54,9 +55,18 @@ public class Message implements Serializable {
 
     /**
      * Gets the time the message was processed by the server
+     *
      * @return Timestamp
      */
     public Date getTimestamp() {
         return this._timestamp;
+    }
+
+    public void setUser(String user) {
+        this._user = user;
+    }
+
+    public String getUser() {
+        return this._user;
     }
 }

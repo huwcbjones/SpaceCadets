@@ -89,7 +89,7 @@ public class ClientThread extends Thread {
             this._write.write(new Frame(Frame.Type.CLIENT_SEND, this._client));
 
         } catch (Exception ex) {
-            Log.Console(Log.Level.ERROR, "Connection to client ID #" + _clientID + " failed: " + ex.getMessage());
+            Log.Console(Log.Level.FATAL, "Connection to client ID #" + _clientID + " failed: " + ex.getMessage());
         }
     }
 

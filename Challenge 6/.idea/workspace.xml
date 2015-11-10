@@ -5,9 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="119dbf38-5478-48c5-9ec0-77142e1e5c07" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Challenge 3/.idea/vcs.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/huwcbjones/chat/client/GUI.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/huwcbjones/chat/client/JTextAreaOutputStream.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Challenge 6/com/huwcbjones/chat/chat.class" afterPath="$PROJECT_DIR$/out/production/Challenge 6/com/huwcbjones/chat/chat.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Challenge 6/com/huwcbjones/chat/core/Message.class" afterPath="$PROJECT_DIR$/out/production/Challenge 6/com/huwcbjones/chat/core/Message.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Challenge 6/com/huwcbjones/chat/core/Protocol.class" afterPath="$PROJECT_DIR$/out/production/Challenge 6/com/huwcbjones/chat/core/Protocol.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Challenge 3/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../Challenge 3/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/huwcbjones/chat/chat.java" afterPath="$PROJECT_DIR$/src/com/huwcbjones/chat/chat.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/huwcbjones/chat/client/ChatClient.java" afterPath="$PROJECT_DIR$/src/com/huwcbjones/chat/client/ChatClient.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/huwcbjones/chat/core/Destination.java" afterPath="$PROJECT_DIR$/src/com/huwcbjones/chat/core/Destination.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/huwcbjones/chat/core/Log.java" afterPath="$PROJECT_DIR$/src/com/huwcbjones/chat/core/Log.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/huwcbjones/chat/core/Message.java" afterPath="$PROJECT_DIR$/src/com/huwcbjones/chat/core/Message.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/huwcbjones/chat/server/ChatServer.java" afterPath="$PROJECT_DIR$/src/com/huwcbjones/chat/server/ChatServer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/huwcbjones/chat/server/ClientThread.java" afterPath="$PROJECT_DIR$/src/com/huwcbjones/chat/server/ClientThread.java" />
     </list>
     <ignored path="Challenge 6.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,6 +42,92 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="ChatServer.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/server/ChatServer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.9365609">
+              <caret line="48" column="50" selection-start-line="48" selection-start-column="50" selection-end-line="48" selection-end-column="50" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Message.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/core/Message.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Destination.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/core/Destination.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Log.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/core/Log.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="28" column="22" selection-start-line="28" selection-start-column="22" selection-end-line="28" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GUI.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/client/GUI.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="81" column="67" selection-start-line="81" selection-start-column="67" selection-end-line="81" selection-end-column="67" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="chat.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/chat.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="31" column="27" selection-start-line="31" selection-start-column="27" selection-end-line="31" selection-end-column="27" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="WriteThread.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/core/WriteThread.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ServerReadThread.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/client/ServerReadThread.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="34" column="75" selection-start-line="34" selection-start-column="75" selection-end-line="34" selection-end-column="75" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="Frame.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/core/Frame.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -42,88 +140,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ClientReadThread.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/server/ClientReadThread.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ChatServer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/server/ChatServer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="106" column="0" selection-start-line="106" selection-start-column="0" selection-end-line="106" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WriteThread.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/core/WriteThread.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ServerReadThread.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/client/ServerReadThread.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.07">
-              <caret line="30" column="17" selection-start-line="30" selection-start-column="17" selection-end-line="30" selection-end-column="17" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Protocol.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/core/Protocol.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-              <folding>
-                <element signature="method#readFrame#0;class#Protocol#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="chat.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/chat.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="cli.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/core/cli.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="45" column="56" selection-start-line="45" selection-start-column="56" selection-end-line="45" selection-end-column="56" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="ChatClient.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/client/ChatClient.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="204" column="0" selection-start-line="204" selection-start-column="0" selection-end-line="204" selection-end-column="0" />
+              <caret line="238" column="125" selection-start-line="238" selection-start-column="125" selection-end-line="238" selection-end-column="125" />
               <folding>
-                <element signature="e#6317#6318#0" expanded="true" />
-                <element signature="e#6386#6387#0" expanded="true" />
+                <element signature="method#run#0;class#ChatClient#0" expanded="false" />
+                <element signature="method#runGUI#0;class#ChatClient#0" expanded="false" />
+                <element signature="method#setUsername#0;class#ChatClient#0" expanded="false" />
+                <element signature="method#setName#0;class#ChatClient#0" expanded="false" />
+                <element signature="method#getClientDetails#0;class#ChatClient#0" expanded="false" />
+                <element signature="method#connectToServer#0;class#ChatClient#0" expanded="false" />
+                <element signature="method#displayLobbies#0;class#ChatClient#0" expanded="false" />
+                <element signature="method#quit#0;class#ChatClient#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -164,30 +194,33 @@
         <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/client/ServerWriteThread.java" />
         <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/server/ClientWriteThread.java" />
         <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/server/WriteThread.java" />
-        <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/core/Destination.java" />
         <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/core/Lobby.java" />
-        <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/core/Log.java" />
         <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/core/base.java" />
         <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/server/Server.java" />
         <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/client/Client.java" />
         <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/core/User.java" />
         <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/chatd.java" />
-        <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/chat.java" />
         <option value="$PROJECT_DIR$/chatd.cmd" />
         <option value="$PROJECT_DIR$/chat.cmd" />
         <option value="$PROJECT_DIR$/chat_debug.cmd" />
         <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/core/Client.java" />
-        <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/core/Message.java" />
-        <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/server/ChatServer.java" />
         <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/core/Frame.java" />
         <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/core/WriteThread.java" />
         <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/server/ClientReadThread.java" />
         <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/core/Protocol.java" />
         <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/server/ClientThread.java" />
-        <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/client/ServerReadThread.java" />
-        <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/client/ChatClient.java" />
         <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/core/cli.java" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/client/ServerReadThread.java" />
+        <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/core/Destination.java" />
+        <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/core/Message.java" />
+        <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/client/Main.form" />
+        <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/client/JTextAreaOutputStream.java" />
+        <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/core/Log.java" />
+        <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/chat.java" />
+        <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/client/GUI.java" />
+        <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/client/ChatClient.java" />
+        <option value="$PROJECT_DIR$/src/com/huwcbjones/chat/server/ChatServer.java" />
       </list>
     </option>
   </component>
@@ -251,7 +284,6 @@
     <panes>
       <pane id="Scratches" />
       <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -270,8 +302,71 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Challenge 6" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Challenge 6" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="chat" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Challenge 6" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Challenge 6" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="chat" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Challenge 6" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Challenge 6" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="chat" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -287,7 +382,7 @@
       <recent name="com.huwcbjones.chat.core" />
     </key>
   </component>
-  <component name="RunManager" selected="Remote.Remote chat debug">
+  <component name="RunManager" selected="Application.Chat Client GUI">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
@@ -783,6 +878,21 @@
       <envs />
       <method />
     </configuration>
+    <configuration default="false" name="Chat Client GUI" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="com.huwcbjones.chat.chat" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="-g -u huw -n Huw localhost" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="Challenge 6" />
+      <envs />
+      <method />
+    </configuration>
     <configuration default="false" name="Remote chat debug" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
       <option name="SERVER_MODE" value="false" />
@@ -795,10 +905,11 @@
       </RunnerSettings>
       <method />
     </configuration>
-    <list size="3">
+    <list size="4">
       <item index="0" class="java.lang.String" itemvalue="Application.Chat Server" />
       <item index="1" class="java.lang.String" itemvalue="Application.Chat Client" />
-      <item index="2" class="java.lang.String" itemvalue="Remote.Remote chat debug" />
+      <item index="2" class="java.lang.String" itemvalue="Application.Chat Client GUI" />
+      <item index="3" class="java.lang.String" itemvalue="Remote.Remote chat debug" />
     </list>
   </component>
   <component name="SbtLocalSettings">
@@ -825,7 +936,9 @@
       <workItem from="1447062846888" duration="772000" />
       <workItem from="1447067245270" duration="1808000" />
       <workItem from="1447070226916" duration="967000" />
-      <workItem from="1447071505290" duration="7460000" />
+      <workItem from="1447071505290" duration="7482000" />
+      <workItem from="1447091733080" duration="2365000" />
+      <workItem from="1447106598710" duration="4983000" />
     </task>
     <task id="LOCAL-00001" summary="Initial classes commit">
       <created>1446762777657</created>
@@ -1067,11 +1180,17 @@
       <option name="project" value="LOCAL" />
       <updated>1447079204653</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="Added Level.MSG">
+      <created>1447091855527</created>
+      <option name="number" value="00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1447091855527</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="47134000" />
+    <option name="totallyTimeSpent" value="54504000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
@@ -1083,13 +1202,12 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3279743" sideWeight="0.50832075" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32583067" sideWeight="0.49167928" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3279743" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32690248" sideWeight="0.49092284" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32475883" sideWeight="0.49167928" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3279743" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32583067" sideWeight="0.49092284" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17270789" sideWeight="0.49041533" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290461" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1101,6 +1219,7 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39978564" sideWeight="0.5895522" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Duplicates" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290461" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -1116,7 +1235,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="false" />
-    <MESSAGE value="Added send message methodology for ClientThread" />
     <MESSAGE value="Command Line Launcher (should save some work as I seem to keep having to write these)" />
     <MESSAGE value="Yeah too lazy to implement CLI Launcher" />
     <MESSAGE value="Project files again..." />
@@ -1141,7 +1259,8 @@
     <MESSAGE value="Forgot break in switch statement" />
     <MESSAGE value="Added ability to set username/name from CLI" />
     <MESSAGE value="Fixed some stuff" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed some stuff" />
+    <MESSAGE value="Added Level.MSG" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Level.MSG" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1152,20 +1271,8 @@
           <properties />
           <option name="timeStamp" value="36" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/huwcbjones/chat/client/ServerReadThread.java</url>
-          <line>73</line>
-          <properties />
-          <option name="timeStamp" value="46" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/huwcbjones/chat/client/ChatClient.java</url>
-          <line>203</line>
-          <properties />
-          <option name="timeStamp" value="48" />
-        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="49" />
+      <option name="time" value="54" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1174,14 +1281,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/chatd.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="33" column="50" selection-start-line="33" selection-start-column="50" selection-end-line="33" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/chat.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1217,8 +1316,6 @@
           <caret line="51" column="107" selection-start-line="51" selection-start-column="107" selection-end-line="51" selection-end-column="107" />
           <folding>
             <element signature="method#close#0;class#ClientThread#0" expanded="false" />
-            <element signature="e#3867#3868#0" expanded="true" />
-            <element signature="e#3907#3908#0" expanded="true" />
             <element signature="method#message#0;class#ClientThread#0" expanded="false" />
           </folding>
         </state>
@@ -1246,7 +1343,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="22" column="38" selection-start-line="22" selection-start-column="38" selection-end-line="22" selection-end-column="38" />
           <folding>
-            <element signature="e#465#466#0" expanded="true" />
+            <element signature="e#465#466#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1256,7 +1353,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="31" column="51" selection-start-line="31" selection-start-column="51" selection-end-line="31" selection-end-column="51" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#2482#2483#0" expanded="false" />
+            <element signature="e#2521#2522#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1274,8 +1372,14 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#6317#6318#0" expanded="true" />
-            <element signature="e#6386#6387#0" expanded="true" />
+            <element signature="method#run#0;class#ChatClient#0" expanded="false" />
+            <element signature="method#runGUI#0;class#ChatClient#0" expanded="false" />
+            <element signature="method#setUsername#0;class#ChatClient#0" expanded="false" />
+            <element signature="method#setName#0;class#ChatClient#0" expanded="false" />
+            <element signature="method#getClientDetails#0;class#ChatClient#0" expanded="false" />
+            <element signature="method#connectToServer#0;class#ChatClient#0" expanded="false" />
+            <element signature="method#displayLobbies#0;class#ChatClient#0" expanded="false" />
+            <element signature="method#quit#0;class#ChatClient#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1409,28 +1513,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/core/Destination.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="28" column="4" selection-start-line="28" selection-start-column="4" selection-end-line="28" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/core/Log.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="17" column="17" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/core/Lobby.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="37" column="44" selection-start-line="37" selection-start-column="44" selection-end-line="37" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/core/User.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1464,7 +1546,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="1" column="16" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="45" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1472,17 +1553,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="88" selection-start-line="0" selection-start-column="88" selection-end-line="0" selection-end-column="88" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/core/Message.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="40" column="7" selection-start-line="40" selection-start-column="7" selection-end-line="40" selection-end-column="7" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1491,39 +1561,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
           <folding>
-            <element signature="e#465#466#0" expanded="true" />
+            <element signature="e#465#466#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/server/ClientThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
-          <folding>
-            <element signature="method#close#0;class#ClientThread#0" expanded="false" />
-            <element signature="e#3867#3868#0" expanded="true" />
-            <element signature="e#3907#3908#0" expanded="true" />
-            <element signature="method#message#0;class#ClientThread#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/core/Frame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
-          <folding>
-            <element signature="e#760#761#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/server/ChatServer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="106" column="0" selection-start-line="106" selection-start-column="0" selection-end-line="106" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1532,7 +1571,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#2482#2483#0" expanded="false" />
+            <element signature="e#2521#2522#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1547,14 +1587,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/chat.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/core/cli.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1563,37 +1595,136 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/client/ChatClient.java">
+    <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/core/Lobby.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="204" column="0" selection-start-line="204" selection-start-column="0" selection-end-line="204" selection-end-column="0" />
+          <caret line="37" column="44" selection-start-line="37" selection-start-column="44" selection-end-line="37" selection-end-column="44" />
           <folding>
-            <element signature="e#6317#6318#0" expanded="true" />
-            <element signature="e#6386#6387#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#544#545#0" expanded="false" />
+            <element signature="e#577#578#0" expanded="false" />
+            <element signature="e#616#617#0" expanded="false" />
+            <element signature="e#654#655#0" expanded="false" />
+            <element signature="e#685#686#0" expanded="false" />
+            <element signature="e#721#722#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/server/ClientThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.4320442">
+          <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
+          <folding>
+            <element signature="method#close#0;class#ClientThread#0" expanded="false" />
+            <element signature="method#message#0;class#ClientThread#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/core/Destination.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/client/JTextAreaOutputStream.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6567329">
+          <caret line="37" column="72" selection-start-line="37" selection-start-column="72" selection-end-line="37" selection-end-column="72" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/chat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="31" column="27" selection-start-line="31" selection-start-column="27" selection-end-line="31" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/core/Log.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="28" column="22" selection-start-line="28" selection-start-column="22" selection-end-line="28" selection-end-column="22" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/core/WriteThread.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
+    <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/core/Frame.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="6" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="6" />
-          <folding />
+          <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+          <folding>
+            <element signature="e#760#761#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/client/GUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="81" column="67" selection-start-line="81" selection-start-column="67" selection-end-line="81" selection-end-column="67" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/client/ServerReadThread.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.07">
-          <caret line="30" column="17" selection-start-line="30" selection-start-column="17" selection-end-line="30" selection-end-column="17" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="34" column="75" selection-start-line="34" selection-start-column="75" selection-end-line="34" selection-end-column="75" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/client/ChatClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="238" column="125" selection-start-line="238" selection-start-column="125" selection-end-line="238" selection-end-column="125" />
+          <folding>
+            <element signature="method#run#0;class#ChatClient#0" expanded="false" />
+            <element signature="method#runGUI#0;class#ChatClient#0" expanded="false" />
+            <element signature="method#setUsername#0;class#ChatClient#0" expanded="false" />
+            <element signature="method#setName#0;class#ChatClient#0" expanded="false" />
+            <element signature="method#getClientDetails#0;class#ChatClient#0" expanded="false" />
+            <element signature="method#connectToServer#0;class#ChatClient#0" expanded="false" />
+            <element signature="method#displayLobbies#0;class#ChatClient#0" expanded="false" />
+            <element signature="method#quit#0;class#ChatClient#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/core/Message.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/huwcbjones/chat/server/ChatServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.9365609">
+          <caret line="48" column="50" selection-start-line="48" selection-start-column="50" selection-end-line="48" selection-end-column="50" />
           <folding />
         </state>
       </provider>

@@ -19,20 +19,22 @@ public class Log {
     public static void Console(Level level, String message){
         switch(level){
             case FATAL:
-                System.out.print("[ ERR  ] ");
+                System.err.print("[ ERR  ] ");
+                System.err.println(message);
                 break;
             case WARN:
-                System.out.print("[ WARN ] ");
+                System.err.print("[ WARN ] ");
+                System.err.println(message);
                 break;
             case INFO:
-                System.out.print("[ INFO ] ");
+                System.err.print("[ INFO ] ");
+                System.err.println(message);
                 break;
             case MSG:
-                System.out.print("[ MSG  ] ");
+                System.out.println(message);
                 break;
             case NONE:
                 break;
         }
-        System.out.println(message);
     }
 }

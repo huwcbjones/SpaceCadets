@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.URI;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 /**
@@ -76,15 +77,18 @@ public class ChatClient {
      */
     public void run() {
         if (System.console() == null) {
-            Log.Console(Log.Level.ERROR, "Console not found. Console is required to run in CLI mode.");
+            Log.Console(Log.Level.FATAL, "Console not found. Console is required to run in CLI mode.");
             System.exit(0);
             return;
         }
         if (this._username == null || this._name == null) {
             this.getClientDetails();
         }
-        this.connectToServer();
-
+        try {
+            this.connectToServer();
+        } catch (Exception ex) {
+            Log.Console(Log.Level.FATAL, ex.toString());
+        }
         if (!this._isConnected) {
             return;
         }
@@ -92,16 +96,40 @@ public class ChatClient {
             this.write = new WriteThread(_out, "Client_ServerWrite");
             this.read = new ServerReadThread(this, _in);
         } catch (Exception ex) {
-            Log.Console(Log.Level.ERROR, ex.toString());
+            Log.Console(Log.Level.FATAL, ex.toString());
         }
 
         try {
             this.read.start();
             this.write.start();
         } catch (Exception ex) {
-            Log.Console(Log.Level.ERROR, ex.toString());
+            Log.Console(Log.Level.FATAL, ex.toString());
         }
         interact();
+    }
+
+    public boolean runGUI() throws Exception {
+        this.connectToServer();
+
+        if (!this._isConnected) {
+            return false;
+        }
+        try {
+            this.write = new WriteThread(_out, "Client_ServerWrite");
+            this.read = new ServerReadThread(this, _in);
+        } catch (Exception ex) {
+            Log.Console(Log.Level.FATAL, ex.toString());
+            throw ex;
+        }
+
+        try {
+            this.read.start();
+            this.write.start();
+        } catch (Exception ex) {
+            Log.Console(Log.Level.FATAL, ex.toString());
+            throw ex;
+        }
+        return true;
     }
 
     public boolean setUsername(String username) {
@@ -132,7 +160,7 @@ public class ChatClient {
     private void getClientDetails() {
         Console c = System.console();
         if (c == null) {
-            Log.Console(Log.Level.ERROR, "Console not found. Console is required to run in CLI mode.");
+            Log.Console(Log.Level.FATAL, "Console not found. Console is required to run in CLI mode.");
             System.exit(0);
             return;
         }
@@ -156,7 +184,7 @@ public class ChatClient {
         }
     }
 
-    private void connectToServer() {
+    private void connectToServer() throws Exception {
         try {
             this._socket = new Socket(this._server.getHost(), this._port);
 
@@ -175,7 +203,8 @@ public class ChatClient {
             Log.Console(Log.Level.INFO, "Connected to server \"" + this._server.getHost() + "\"");
 
         } catch (Exception ex) {
-            Log.Console(Log.Level.ERROR, "Connection to server failed: " + ex.getMessage());
+            Log.Console(Log.Level.FATAL, "Connection to server failed: " + ex.getMessage());
+            throw ex;
         }
     }
 
@@ -200,11 +229,14 @@ public class ChatClient {
 
     public void setLobby(int lobby) {
         this._currentLobby = lobby;
-        this.client.setLobby(lobby);
+        if (this.client != null) {
+            this.client.setLobby(lobby);
+        }
     }
 
     public void displayMessage(Message message) {
-
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy hh:mm:ss");
+        Log.Console(Log.Level.MSG, "<" + format.format(message.getTimestamp()) + "> [" + message.getUser() + "]: " + message.getMessage());
     }
 
     public void close() {
@@ -233,7 +265,7 @@ public class ChatClient {
     public void interact() {
         Console c = System.console();
         if (c == null) {
-            Log.Console(Log.Level.ERROR, "Console not found. Console is required to run in CLI mode.");
+            Log.Console(Log.Level.FATAL, "Console not found. Console is required to run in CLI mode.");
             this.close();
             return;
         }
@@ -242,12 +274,16 @@ public class ChatClient {
             if (this._shouldQuit) {
                 return;
             }
-            if (input.charAt(0) == '!') {
-                this.write.write(new Frame(Frame.Type.COMMAND, input));
-            } else {
-                Message message = new Message(this.client.getClientID(), _currentLobby, input);
-                this.write.write(new Frame(Frame.Type.MESSAGE, message));
-            }
+            this.message(input);
+        }
+    }
+
+    public void message(String input) {
+        if (input.charAt(0) == '!') {
+            this.write.write(new Frame(Frame.Type.COMMAND, input));
+        } else {
+            Message message = new Message(this.client.getClientID(), _currentLobby, input);
+            this.write.write(new Frame(Frame.Type.MESSAGE, message));
         }
     }
 }

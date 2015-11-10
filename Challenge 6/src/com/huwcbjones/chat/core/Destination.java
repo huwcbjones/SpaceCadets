@@ -32,4 +32,9 @@ public class Destination extends Lobby {
             }
         }
     }
+
+    public void addClient(ClientThread client){
+        super.addClient(client.getClient());
+        this._clients.put(client.getClientID(), client);
+    }
 }
