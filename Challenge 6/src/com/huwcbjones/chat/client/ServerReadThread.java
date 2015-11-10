@@ -35,13 +35,11 @@ public class ServerReadThread extends Thread {
                         this._parent.setClient((Client) frame.getObject());
                         break;
                     case P_MESSAGE:
+                    case MESSAGE:
                         if (frame.getObject() instanceof Message) {
                             this._parent.displayMessage((Message) frame.getObject());
                         }
-                        break;
-                    case MESSAGE:
-                        //this._parent.processMessage((Message) frame.getObject());
-                        break;
+                         break;
                     case MOTD:
                         if (frame.getObject() instanceof String) {
                             System.out.print(frame.getObject());
