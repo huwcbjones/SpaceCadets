@@ -41,13 +41,13 @@ public class GUI extends JFrame {
         _redirectPrintStreams();
     }
 
-    private void _buildGUI(){
+    private void _buildGUI() {
 
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         this.window = new JPanel(new BorderLayout());
 
-        GridBagConstraints textConstraints =new GridBagConstraints();
+        GridBagConstraints textConstraints = new GridBagConstraints();
         textConstraints.weightx = 1.0;
         textConstraints.weighty = 1.0;
 
@@ -74,6 +74,7 @@ public class GUI extends JFrame {
         this.pane_messagebar = new JPanel(new BorderLayout());
 
         this.text_msg = new JTextField();
+        this.text_msg.addActionListener(new text_msg_event());
         this.pane_messagebar.add(this.text_msg, BorderLayout.CENTER);
 
         this.btn_send = new JButton();
@@ -83,12 +84,13 @@ public class GUI extends JFrame {
 
         this.window.add(this.pane_messagebar, BorderLayout.PAGE_END);
 
+        this.setTitle("Chat Client");
         this.add(this.window);
         this.setSize(800, 600);
         this.setVisible(true);
     }
 
-    private void _redirectPrintStreams(){
+    private void _redirectPrintStreams() {
         PrintStream log = new PrintStream(new JTextAreaOutputStream(this.text_log));
         System.setErr(log);
         PrintStream out = new PrintStream(new JTextAreaOutputStream(this.text_chat));
@@ -102,26 +104,27 @@ public class GUI extends JFrame {
             if (!this.client.runGUI()) {
 
             }
-        } catch (Exception ex){
+            this.setTitle("Chat Client: " + this.client.getName());
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Exception occurred whilst connecting to server.\n" + ex.toString(),
                     "Exception on Connection", JOptionPane.OK_OPTION);
         }
     }
 
-    public void getClientDetails(){
+    public void getClientDetails() {
         String username = null;
-        while(username == null){
-            String inputUsername = (String)JOptionPane.showInputDialog(this, "Please enter a username:", "Username", JOptionPane.OK_OPTION);
-            if((inputUsername != null) && (inputUsername.length() > 0 && (inputUsername.matches("^[a-zA-Z_]*$")))){
+        while (username == null) {
+            String inputUsername = (String) JOptionPane.showInputDialog(this, "Please enter a username:", "Username", JOptionPane.OK_OPTION);
+            if ((inputUsername != null) && (inputUsername.length() > 0 && (inputUsername.matches("^[a-zA-Z_]*$")))) {
                 username = inputUsername;
                 this.client.setUsername(username);
             }
         }
 
         String name = null;
-        while(name == null){
-            String inputName = (String)JOptionPane.showInputDialog(this, "Please enter your name:", "Name", JOptionPane.OK_OPTION);
-            if((inputName != null) && (inputName.length() > 0 && (inputName.matches("^[a-zA-Z_]*$")))){
+        while (name == null) {
+            String inputName = (String) JOptionPane.showInputDialog(this, "Please enter your name:", "Name", JOptionPane.OK_OPTION);
+            if ((inputName != null) && (inputName.length() > 0 && (inputName.matches("^[a-zA-Z_]*$")))) {
                 name = inputName;
                 this.client.setName(name);
             }
@@ -131,10 +134,17 @@ public class GUI extends JFrame {
     private class btn_send_Event implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(text_msg.getText().length() > 0){
+            if (text_msg.getText().length() > 0) {
                 client.message(text_msg.getText());
                 text_msg.setText("");
             }
+        }
+    }
+
+    private class text_msg_event implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            btn_send.doClick();
         }
     }
 

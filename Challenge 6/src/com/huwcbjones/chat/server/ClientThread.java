@@ -49,9 +49,18 @@ public class ClientThread extends Thread {
 
     public void setClient(Client client) {
         if (this._client.getClientID() == client.getClientID()) {
+            Message message;
+            if (this._client.getName() == null) {
+                message = new Message(0, 0, client.getName() + " has joined the server!");
+            } else {
+                message = new Message(0, 0, this._client.getName() + " is now known as " + client.getName());
+            }
+            message.setUser(this._server.getClient(message.getClientID()).getUsername());
+            this._server.broadcastMessage(new Frame(Frame.Type.P_MESSAGE, message));
             this._client = client;
             Log.Console(Log.Level.INFO, "ChatClient ID #" + _clientID + " is known as " + client.getName() + " (" + client.getUsername() + ").");
         }
+
     }
 
     public Client getClient() {
@@ -124,7 +133,7 @@ public class ClientThread extends Thread {
 
     }
 
-    public void write(Frame frame){
+    public void write(Frame frame) {
         this._write.write(frame);
     }
 

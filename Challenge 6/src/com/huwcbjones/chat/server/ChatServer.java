@@ -98,6 +98,11 @@ public class ChatServer {
         Log.Console(Log.Level.INFO, "ChatServer safely shut down!");
     }
 
+    public void broadcastMessage(Frame message){
+        for(ClientThread client: this._clients.values()){
+            client.write(message);
+        }
+    }
     public void processMessage(int clientID, Message message) {
         ClientThread client = this._clients.get(clientID);
         if(!this._lobbies.containsKey(client.getClient().getLobby())){

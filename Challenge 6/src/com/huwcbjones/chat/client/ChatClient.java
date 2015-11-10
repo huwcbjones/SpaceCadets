@@ -184,6 +184,22 @@ public class ChatClient {
         }
     }
 
+    public String getName(){
+        if(this.client != null) {
+            return this.client.getName();
+        }else{
+            return this._name;
+        }
+    }
+
+    public String getUsername(){
+        if(this.client != null) {
+            return this.client.getUsername();
+        }else{
+            return this._username;
+        }
+    }
+
     private void connectToServer() throws Exception {
         try {
             this._socket = new Socket(this._server.getHost(), this._port);
