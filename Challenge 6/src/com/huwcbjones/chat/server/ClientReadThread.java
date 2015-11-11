@@ -11,7 +11,7 @@ import java.io.ObjectInputStream;
  * @author Huw Jones
  * @since 08/11/2015
  */
-public class ClientReadThread extends Thread {
+class ClientReadThread extends Thread {
 
     private boolean _shouldQuit = false;
     private ObjectInputStream _input;
