@@ -1,6 +1,8 @@
 package com.huwcbjones.chat.server.commands;
 
 import com.huwcbjones.chat.core.Message;
+import com.huwcbjones.chat.server.ChatServer;
+import com.huwcbjones.chat.server.ClientThread;
 
 import java.util.ArrayList;
 
@@ -11,13 +13,10 @@ import java.util.ArrayList;
  * @since 10/11/2015
  */
 public interface Command {
-    void getCommand();
 
     String getHelp();
 
-    void addArguments(ArrayList<String> arguments);
+    void addArguments(ArrayList<String> arguments) throws Exception;
 
-    void execute();
-
-    Message getResult();
+    void execute(ClientThread client, ChatServer server) throws Exception;
 }
