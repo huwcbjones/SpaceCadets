@@ -18,14 +18,15 @@ public class GUI extends JFrame {
     private ChatClient client;
 
     private JPanel window;
-    private JPanel pane_messagebar;
-    private JPanel pane_output;
-    private JPanel pane_chat;
-    private JPanel pane_log;
-    private JTextArea text_chat;
-    private JTextArea text_log;
+    private JPanel pane_input;
     private JTextField text_msg;
     private JButton btn_send;
+    private JPanel pane_output;
+    private JScrollPane pane_chat;
+    private JTextArea text_chat;
+    private JScrollPane pane_log;
+    private JTextArea text_log;
+
 
     public GUI() {
         try {
@@ -47,42 +48,35 @@ public class GUI extends JFrame {
 
         this.window = new JPanel(new BorderLayout());
 
-        GridBagConstraints textConstraints = new GridBagConstraints();
-        textConstraints.weightx = 1.0;
-        textConstraints.weighty = 1.0;
-
-        this.pane_output = new JPanel(new GridBagLayout());
-
-        this.text_chat = new JTextArea("MESSAGES\n");
-        this.text_chat.setEnabled(false);
-        this.text_chat.setRows(20);
-        this.text_chat.setColumns(20);
-        this.pane_chat = new JPanel(new BorderLayout());
-        this.pane_chat.add(this.text_chat, BorderLayout.CENTER);
-        this.pane_output.add(this.pane_chat, textConstraints);
-
-        this.text_log = new JTextArea("CHAT LOG\n");
-        this.text_log.setEnabled(false);
-        this.text_log.setRows(20);
-        this.text_log.setColumns(20);
-        this.pane_log = new JPanel(new BorderLayout());
-        this.pane_log.add(this.text_log, BorderLayout.CENTER);
-        this.pane_output.add(this.pane_log, textConstraints);
-
-        this.window.add(this.pane_output, BorderLayout.CENTER);
-
-        this.pane_messagebar = new JPanel(new BorderLayout());
+        // Input Panel
+        this.pane_input = new JPanel(new BorderLayout());
 
         this.text_msg = new JTextField();
         this.text_msg.addActionListener(new text_msg_event());
-        this.pane_messagebar.add(this.text_msg, BorderLayout.CENTER);
+        this.pane_input.add(this.text_msg, BorderLayout.CENTER);
 
         this.btn_send = new JButton();
         this.btn_send.setText("Send");
         this.btn_send.addActionListener(new btn_send_Event());
-        this.pane_messagebar.add(this.btn_send, BorderLayout.EAST);
+        this.pane_input.add(this.btn_send, BorderLayout.EAST);
 
-        this.window.add(this.pane_messagebar, BorderLayout.PAGE_END);
+        this.window.add(this.pane_input, BorderLayout.PAGE_END);
+
+        // Output Panel
+        this.pane_output = new JPanel(new BorderLayout());
+
+        this.text_chat = new JTextArea("MESSAGES\n");
+        this.text_chat.setEnabled(false);
+        this.pane_chat = new JScrollPane(this.text_chat);
+        this.pane_output.add(this.pane_chat, BorderLayout.CENTER);
+
+        this.text_log = new JTextArea("CHAT LOG\n");
+        this.text_log.setEnabled(false);
+        this.text_log.setRows(5);
+        this.pane_log = new JScrollPane(this.text_log);
+        this.pane_output.add(this.pane_log, BorderLayout.SOUTH);
+
+        this.window.add(this.pane_output, BorderLayout.CENTER);
 
         this.setTitle("Chat Client");
         this.add(this.window);
