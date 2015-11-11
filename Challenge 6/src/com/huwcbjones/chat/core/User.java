@@ -6,7 +6,7 @@ package com.huwcbjones.chat.core;
  * @author Huw Jones
  * @since 08/11/2015
  */
-public class User {
+class User {
 
     private String _username;
     private String _name;

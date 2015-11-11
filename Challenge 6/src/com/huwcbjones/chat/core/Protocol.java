@@ -87,7 +87,7 @@ public class Protocol {
         this._output.writeObject(new Frame(Frame.Type.LOBBY_CHANGE, 1));
     }
 
-    public Frame readFrame() throws Exception {
+    private Frame readFrame() throws Exception {
         return Protocol.readFrame(this._input);
     }
 

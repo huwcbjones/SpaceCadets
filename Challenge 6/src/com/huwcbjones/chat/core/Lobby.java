@@ -15,9 +15,9 @@ public abstract class Lobby implements Serializable {
 
     private int _lobbyID;
     private String _name;
-    private HashMap<Integer, Client> _clients = new HashMap<Integer, Client>();
+    private HashMap<Integer, Client> _clients = new HashMap<>();
 
-    public Lobby(int lobbyID, String name){
+    Lobby(int lobbyID, String name){
         this._lobbyID = lobbyID;
         this._name = name;
     }
@@ -34,14 +34,14 @@ public abstract class Lobby implements Serializable {
         return this._lobbyID;
     }
 
-    public void addClient(Client client) {
+    void addClient(Client client) {
         if (!_clients.containsKey(client.getClientID())) {
             client.setLobby(this._lobbyID);
             _clients.put(client.getClientID(), client);
         }
     }
 
-    public void removeClient(int clientID) {
+    void removeClient(int clientID) {
         if (_clients.containsKey(clientID)) {
             _clients.remove(clientID);
         }

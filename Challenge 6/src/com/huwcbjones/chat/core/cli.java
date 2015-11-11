@@ -12,17 +12,9 @@ import java.util.ArrayList;
  */
 public class cli {
 
-    public static String getName(ArrayList<String> argList) throws Exception {
+    public static String getNickname(ArrayList<String> argList) throws Exception {
         if (argList.contains("-n") || argList.contains("--name")) {
             int index = (argList.contains("-n")) ? argList.indexOf("-n") : argList.indexOf("--name");
-            return argList.get(index + 1);
-        }
-        return null;
-    }
-
-    public static String getUsername(ArrayList<String> argList) throws Exception {
-        if (argList.contains("-u") || argList.contains("--username")) {
-            int index = (argList.contains("-u")) ? argList.indexOf("-u") : argList.indexOf("--username");
             return argList.get(index + 1);
         }
         return null;

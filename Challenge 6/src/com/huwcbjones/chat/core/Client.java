@@ -10,8 +10,7 @@ import java.io.Serializable;
  */
 public class Client implements Serializable {
 
-    private String _name = null;
-    private String _username = null;
+    private String _nickname = null;
     private int _clientID;
     private int _lobbyID;
 
@@ -23,24 +22,14 @@ public class Client implements Serializable {
         return this._clientID;
     }
 
-    public void setUsername(String username) {
-        if (this._username == null) {
-            this._username = username;
+    public void setNickname(String nickname) {
+        if (this._nickname == null) {
+            this._nickname = nickname;
         }
     }
 
-    public String getUsername() {
-        return this._username;
-    }
-
-    public void setName(String name) {
-        if (this._name == null) {
-            this._name = name;
-        }
-    }
-
-    public String getName() {
-        return this._name;
+    public String getNickname() {
+        return this._nickname;
     }
 
     public void setLobby(int lobbyID) {

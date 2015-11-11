@@ -19,7 +19,7 @@ public class Frame implements Serializable {
         HELLO,
         MOTD,
         OK,
-        NOTOK,
+        HELP,
         COMMAND,
         MESSAGE,
         P_MESSAGE,
