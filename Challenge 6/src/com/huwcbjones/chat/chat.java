@@ -14,7 +14,7 @@ import java.util.Arrays;
  * @author Huw Jones
  * @since 05/11/2015
  */
-public class chat {
+class chat {
 
     public static void main(String args[]) {
         ArrayList<String> argList = new ArrayList<>(Arrays.asList(args));
@@ -25,18 +25,17 @@ public class chat {
         } else {
             try {
                 URI url = cli.getServer(argList);
-                String username = cli.getUsername(argList);
-                String name = cli.getName(argList);
+                String nickname = cli.getNickname(argList);
                 if (argList.contains("-g")) {
-                    chat.GUI(cli.getPortNumber(argList), url);
+                    if (nickname != null) {
+                        chat.GUI(cli.getPortNumber(argList), url, nickname);
+                    } else {
+                        chat.GUI(cli.getPortNumber(argList), url);
+                    }
                     return;
                 }
-                if (username != null) {
-                    if (name != null) {
-                        chat.run(cli.getPortNumber(argList), url, username, name);
-                    } else {
-                        chat.run(cli.getPortNumber(argList), url, username, username);
-                    }
+                if (nickname != null) {
+                    chat.run(cli.getPortNumber(argList), url, nickname);
                 } else {
                     chat.run(cli.getPortNumber(argList), url);
                 }
@@ -53,22 +52,26 @@ public class chat {
         System.out.println("Arguments:");
         System.out.println("  -h, --help\t\tPrints this help message.");
         System.out.println("  -g\t\t\tRun GUI.");
-        System.out.println("  -n, --name\t\tName of user connecting.");
+        System.out.println("  -n, --name\t\tNickname to use.");
         System.out.println("  -p, --port\t\tSpecifies port to connect to, otherwise connects to 60666.");
-        System.out.println("  -u, --username\tUsername of user connecting.");
         System.out.println("  -v, --version\t\tPrints version.");
     }
 
     private static void version() {
-        System.out.println("chat 0.1");
+        System.out.println("chat 0.9");
         System.out.println("Written by Huw Jones");
     }
 
-    private static void run(int port, URI uri, String username, String name) {
+    private static void run(int port, URI uri) {
         ChatClient chatClient = new ChatClient(port, uri);
         chat.version();
-        chatClient.setUsername(username);
-        chatClient.setName(name);
+        chatClient.run();
+    }
+
+    private static void run(int port, URI uri, String nickname) {
+        ChatClient chatClient = new ChatClient(port, uri);
+        chat.version();
+        chatClient.setNickname(nickname);
         chatClient.run();
     }
 
@@ -78,9 +81,10 @@ public class chat {
         chatClient.run(port, uri);
     }
 
-    private static void run(int port, URI uri) {
-        ChatClient chatClient = new ChatClient(port, uri);
+    private static void GUI(int port, URI uri, String nickname) {
+        GUI chatClient = new GUI();
         chat.version();
-        chatClient.run();
+        chatClient.run(port, uri, nickname);
     }
+
 }

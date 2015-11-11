@@ -12,7 +12,7 @@ import java.util.Arrays;
  * @author Huw Jones
  * @since 05/11/2015
  */
-public class chatd {
+class chatd {
 
     public static void main(String args[]){
         ArrayList<String> argList = new ArrayList<>(Arrays.asList(args));
@@ -39,7 +39,7 @@ public class chatd {
     }
 
     private static void version() {
-        System.out.println("chatd 0.2");
+        System.out.println("chatd 0.9");
         System.out.println("Written by Huw Jones");
     }
 
