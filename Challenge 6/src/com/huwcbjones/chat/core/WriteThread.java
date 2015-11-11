@@ -59,12 +59,13 @@ public class WriteThread extends Thread {
 
     public void quit() {
         this._shouldQuit = true;
+        this._runQueue.set();
     }
 
     public void write(Frame frame) {
         this._frameQueue.add(frame);
         try {
-            this._runQueue.waitOne();
+            this._runQueue.set();
         } catch (Exception ex){
             Log.Console(Log.Level.WARN, ex.toString());
         }
