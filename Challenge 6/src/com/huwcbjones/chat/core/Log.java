@@ -8,7 +8,7 @@ package com.huwcbjones.chat.core;
  */
 public class Log {
 
-    public enum Level {
+    public static enum Level {
         MSG,
         INFO,
         WARN,

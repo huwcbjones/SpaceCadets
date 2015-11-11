@@ -130,7 +130,9 @@ public class ClientThread extends Thread {
 
         }
         Log.Console(Log.Level.INFO, "Connection to client ID #" + _clientID + " closed.");
-
+        Message message =  new Message(0, 0, this._client.getName() + " has left the server.");
+        message.setUser(this._server.getClient(0).getName());
+        this._server.broadcastMessage(new Frame(Frame.Type.MESSAGE, message));
     }
 
     public void write(Frame frame) {
