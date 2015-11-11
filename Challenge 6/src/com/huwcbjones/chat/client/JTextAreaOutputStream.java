@@ -10,7 +10,7 @@ import java.io.OutputStream;
  * @author Huw Jones
  * @since 09/11/2015
  */
-public class JTextAreaOutputStream extends OutputStream {
+class JTextAreaOutputStream extends OutputStream {
     private JTextArea _textArea;
 
     public JTextAreaOutputStream(JTextArea textArea){

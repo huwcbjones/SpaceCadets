@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.PrintStream;
 import java.net.URI;
 
@@ -30,16 +32,27 @@ public class GUI extends JFrame {
 
     public GUI() {
         try {
-            SwingUtilities.invokeAndWait(new Runnable() {
-                public void run() {
-                    _buildGUI(); // initialize the GUI
-                }
+            SwingUtilities.invokeAndWait(() -> {
+                _buildGUI(); // initialize the GUI
             });
         } catch (Exception exc) {
             System.out.println("Can't create because of " + exc);
             return;
         }
         _redirectPrintStreams();
+        this.addWindowListener(new WindowAdapter() {
+            /**
+             * Invoked when a window is in the process of being closed.
+             * The close operation can be overridden at this point.
+             *
+             * @param e Window Event
+             */
+            @Override
+            public void windowClosing(WindowEvent e) {
+                client.quit();
+                super.windowClosing(e);
+            }
+        });
     }
 
     private void _buildGUI() {
@@ -91,6 +104,19 @@ public class GUI extends JFrame {
         System.setOut(out);
     }
 
+    public void run(int port, URI server, String nickname){
+        this.client = new ChatClient(port, server);
+        this.client.setNickname(nickname);
+        try {
+            if (!this.client.runGUI()) {
+
+            }
+            this.setTitle("Chat Client: " + this.client.getNickname());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Exception occurred whilst connecting to server.\n" + ex.toString(),
+                    "Exception on Connection", JOptionPane.WARNING_MESSAGE);
+        }
+    }
     public void run(int port, URI server) {
         this.client = new ChatClient(port, server);
         this.getClientDetails();
@@ -98,29 +124,22 @@ public class GUI extends JFrame {
             if (!this.client.runGUI()) {
 
             }
-            this.setTitle("Chat Client: " + this.client.getName());
+            this.setTitle("Chat Client: " + this.client.getNickname());
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Exception occurred whilst connecting to server.\n" + ex.toString(),
-                    "Exception on Connection", JOptionPane.OK_OPTION);
+                    "Exception on Connection", JOptionPane.WARNING_MESSAGE);
         }
     }
 
-    public void getClientDetails() {
-        String username = null;
-        while (username == null) {
-            String inputUsername = (String) JOptionPane.showInputDialog(this, "Please enter a username:", "Username", JOptionPane.OK_OPTION);
-            if ((inputUsername != null) && (inputUsername.length() > 0 && (inputUsername.matches("^[a-zA-Z_]*$")))) {
-                username = inputUsername;
-                this.client.setUsername(username);
-            }
-        }
-
-        String name = null;
-        while (name == null) {
-            String inputName = (String) JOptionPane.showInputDialog(this, "Please enter your name:", "Name", JOptionPane.OK_OPTION);
-            if ((inputName != null) && (inputName.length() > 0 && (inputName.matches("^[a-zA-Z_]*$")))) {
-                name = inputName;
-                this.client.setName(name);
+    private void getClientDetails() {
+        String nickname = null;
+        while (nickname == null) {
+            String inputNickname = JOptionPane.showInputDialog(this, "Please enter a nickname:", "Nickname", JOptionPane.QUESTION_MESSAGE);
+            if ((inputNickname != null) && (inputNickname.length() > 0 && (inputNickname.matches("^[a-zA-Z_]*$")))) {
+                nickname = inputNickname;
+                this.client.setNickname(nickname);
+            } else if(inputNickname == null){
+                System.exit(0);
             }
         }
     }

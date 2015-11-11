@@ -4,6 +4,7 @@ import com.huwcbjones.chat.core.*;
 
 import java.io.EOFException;
 import java.io.ObjectInputStream;
+import java.rmi.server.ExportException;
 import java.util.Map;
 
 /**
@@ -35,11 +36,17 @@ public class ServerReadThread extends Thread {
                         this._parent.setClient((Client) frame.getObject());
                         break;
                     case P_MESSAGE:
+                        if (frame.getObject() instanceof Message) {
+                            ((Message)frame.getObject()).setUser(((Message) frame.getObject()).getUser());
+                            this._parent.displayMessage((Message) frame.getObject());
+                        }
+                        break;
                     case MESSAGE:
                         if (frame.getObject() instanceof Message) {
                             this._parent.displayMessage((Message) frame.getObject());
                         }
                          break;
+                    case HELP:
                     case MOTD:
                         if (frame.getObject() instanceof String) {
                             System.out.print(frame.getObject());
@@ -80,5 +87,10 @@ public class ServerReadThread extends Thread {
 
     public void quit() {
         this._shouldQuit = true;
+        try {
+            this._input.close();
+        } catch (Exception ex){
+            Log.Console(Log.Level.WARN, ex.toString());
+        }
     }
 }

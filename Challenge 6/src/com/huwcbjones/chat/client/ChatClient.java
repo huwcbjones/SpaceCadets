@@ -27,16 +27,15 @@ public class ChatClient {
     private ObjectOutputStream _out;
     private ObjectInputStream _in;
 
-    protected WriteThread write;
-    protected ServerReadThread read;
+    private WriteThread write;
+    private ServerReadThread read;
 
     private boolean _shouldQuit = false;
 
     private int _currentLobby = 0;
 
-    private String _username = null;
-    private String _name = null;
-    protected Client client = null;
+    private String _nickname = null;
+    private Client client = null;
 
     public ChatClient(int port, URI server) {
         this._port = port;
@@ -56,15 +55,13 @@ public class ChatClient {
     public void setClient(Client client) {
         if (this.client == null) {
             this.client = client;
-            this.client.setName(this._name);
-            this.client.setUsername(this._username);
+            this.client.setNickname(this._nickname);
 
             if (this._isConnected) {
                 this.write.write(new Frame(Frame.Type.CLIENT_SEND, this.client));
             }
         } else {
-            this.client.setName(this._name);
-            this.client.setUsername(this._username);
+            this.client.setNickname(this._nickname);
 
             if (this._isConnected) {
                 this.write.write(new Frame(Frame.Type.CLIENT_SEND, this.client));
@@ -81,7 +78,7 @@ public class ChatClient {
             System.exit(0);
             return;
         }
-        if (this._username == null || this._name == null) {
+        if (this._nickname == null) {
             this.getClientDetails();
         }
         try {
@@ -132,24 +129,12 @@ public class ChatClient {
         return true;
     }
 
-    public boolean setUsername(String username) {
-        if (!username.matches("^[a-zA-Z_\\d]*$")) {
+    public boolean setNickname(String nickname) {
+        if (!nickname.matches("^([A-Za-z ])*$")) {
             return false;
         }
 
-        this._username = username;
-        if (this._isConnected) {
-            this.write.write(new Frame(Frame.Type.CLIENT_SEND, this.client));
-        }
-        return true;
-    }
-
-    public boolean setName(String name) {
-        if (!name.matches("^([A-Za-z ])*$")) {
-            return false;
-        }
-
-        this._name = name;
+        this._nickname = nickname;
         if (this._isConnected) {
             this.write.write(new Frame(Frame.Type.CLIENT_SEND, this.client));
         }
@@ -163,40 +148,24 @@ public class ChatClient {
             Log.Console(Log.Level.FATAL, "Console not found. Console is required to run in CLI mode.");
             System.exit(0);
             return;
+
         }
         boolean isValid = false;
         while (!isValid) {
-            String username = c.readLine("Username> ");
-            if (!this.setUsername(username)) {
-                Log.Console(Log.Level.WARN, "Usernames can only contain alphanumeric characters and underscores.");
-            } else {
-                isValid = true;
-            }
-        }
-        isValid = false;
-        while (!isValid) {
-            String name = c.readLine("Name    > ");
-            if (!this.setName(name)) {
-                Log.Console(Log.Level.WARN, "Names can only contain alphanumeric characters and spaces.");
+            String username = c.readLine("Nickname> ");
+            if (!this.setNickname(username)) {
+                Log.Console(Log.Level.WARN, "Nicknames can only contain alphanumeric characters and underscores.");
             } else {
                 isValid = true;
             }
         }
     }
 
-    public String getName(){
+    public String getNickname(){
         if(this.client != null) {
-            return this.client.getName();
+            return this.client.getNickname();
         }else{
-            return this._name;
-        }
-    }
-
-    public String getUsername(){
-        if(this.client != null) {
-            return this.client.getUsername();
-        }else{
-            return this._username;
+            return this._nickname;
         }
     }
 
@@ -264,13 +233,6 @@ public class ChatClient {
         try {
             this.write.quit();
             this.read.quit();
-            while (this.write.isAlive() || this.read.isAlive()) {
-                try {
-                    Thread.sleep(50);
-                } catch (Exception ex) {
-
-                }
-            }
             this._socket.close();
         } catch (Exception ex) {
 
@@ -278,7 +240,7 @@ public class ChatClient {
         Log.Console(Log.Level.INFO, "Connection to server closed.");
     }
 
-    public void interact() {
+    private void interact() {
         Console c = System.console();
         if (c == null) {
             Log.Console(Log.Level.FATAL, "Console not found. Console is required to run in CLI mode.");
