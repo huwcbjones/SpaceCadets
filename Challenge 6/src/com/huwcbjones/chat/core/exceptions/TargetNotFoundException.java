@@ -6,5 +6,5 @@ package com.huwcbjones.chat.core.exceptions;
  * @author Huw Jones
  * @since 06/11/2015
  */
-public class TargetNotFoundException extends Exception {
+class TargetNotFoundException extends Exception {
 }
