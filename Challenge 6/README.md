@@ -11,7 +11,7 @@
 ## Client
 * Runs in console or GUI (highly suggest GUI because CBA to work on console... it was fine until GUI called)
 * Prints a log to stderr/stdout. Print streams are redirected to GUI for assistance
-* JAR Download [chat.jar](https://code.huwcbjones.co.uk/SpaceCadets/Challenge6/chat.jar)(/[chat.jar](http://code.huwcbjones.co.uk/SpaceCadets/Challenge6/chat.jar)
+* JAR Download [chat.jar](https://code.huwcbjones.co.uk/SpaceCadets/Challenge6/chat.jar)/[chat.jar](http://code.huwcbjones.co.uk/SpaceCadets/Challenge6/chat.jar)
 * Run `java -jar chat.jar [SERVER HOSTNAME/ADDRESS]`
 * Help `java -jar chat.jar -h`
 * Run GUI mode `java -jar chatd.jar -g`
