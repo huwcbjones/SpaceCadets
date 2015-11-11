@@ -49,16 +49,19 @@ public class ClientThread extends Thread {
 
     public void setClient(Client client) {
         if (this._client.getClientID() == client.getClientID()) {
+
+            _server.updateClientLinks(client);
+
             Message message;
-            if (this._client.getName() == null) {
-                message = new Message(0, 0, client.getName() + " has joined the server!");
+            if (this._client.getNickname() == null) {
+                message = new Message(0, 0, client.getNickname() + " has joined the server!");
             } else {
-                message = new Message(0, 0, this._client.getName() + " is now known as " + client.getName());
+                message = new Message(0, 0, this._client.getNickname() + " is now known as " + client.getNickname());
             }
-            message.setUser(this._server.getClient(message.getClientID()).getUsername());
+            message.setUser(this._server.getClient(message.getClientID()).getNickname());
             this._server.broadcastMessage(new Frame(Frame.Type.P_MESSAGE, message));
             this._client = client;
-            Log.Console(Log.Level.INFO, "ChatClient ID #" + _clientID + " is known as " + client.getName() + " (" + client.getUsername() + ").");
+            Log.Console(Log.Level.INFO, "ChatClient ID #" + _clientID + " is known as " + client.getNickname());
         }
 
     }
@@ -130,8 +133,8 @@ public class ClientThread extends Thread {
 
         }
         Log.Console(Log.Level.INFO, "Connection to client ID #" + _clientID + " closed.");
-        Message message =  new Message(0, 0, this._client.getName() + " has left the server.");
-        message.setUser(this._server.getClient(0).getName());
+        Message message =  new Message(0, 0, this._client.getNickname() + " has left the server.");
+        message.setUser(this._server.getClient(0).getNickname());
         this._server.broadcastMessage(new Frame(Frame.Type.MESSAGE, message));
     }
 
@@ -160,7 +163,7 @@ public class ClientThread extends Thread {
         this._write.write(new Frame(Frame.Type.LOBBY_GET, this._server.getDestinations()));
     }
 
-    public void disconnect() {
+    private void disconnect() {
         this._write.write(new Frame(Frame.Type.DISCONNECT, 0));
     }
 }
