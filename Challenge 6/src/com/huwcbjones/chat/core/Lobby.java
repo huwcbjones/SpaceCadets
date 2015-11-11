@@ -36,6 +36,7 @@ public abstract class Lobby implements Serializable {
 
     public void addClient(Client client) {
         if (!_clients.containsKey(client.getClientID())) {
+            client.setLobby(this._lobbyID);
             _clients.put(client.getClientID(), client);
         }
     }
