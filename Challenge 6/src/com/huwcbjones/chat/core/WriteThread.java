@@ -28,8 +28,8 @@ public class WriteThread extends Thread {
 
     @Override
     public void run() {
-        while (!_shouldQuit) {
-            for (Frame frame : _frameQueue) {
+        /*while (!_shouldQuit) {
+             for (Frame frame : _frameQueue) {
                 if(_shouldQuit){
                     break;
                 }
@@ -45,12 +45,7 @@ public class WriteThread extends Thread {
                     _frameQueue.remove(frame);
                 }
             }
-            try {
-                this._runQueue.waitOne();
-            } catch (Exception ex){
-                Log.Console(Log.Level.WARN, ex.toString());
-            }
-        }
+        }*/
     }
 
     public int getQueueSize(){
@@ -60,12 +55,18 @@ public class WriteThread extends Thread {
     public void quit() {
         this._shouldQuit = true;
         this._runQueue.set();
+        try {
+            this._output.flush();
+        } catch (Exception ex){
+
+        }
     }
 
     public void write(Frame frame) {
         this._frameQueue.add(frame);
         try {
-            this._runQueue.set();
+            _output.writeObject(frame);
+            //this._runQueue.set();
         } catch (Exception ex){
             Log.Console(Log.Level.WARN, ex.toString());
         }
