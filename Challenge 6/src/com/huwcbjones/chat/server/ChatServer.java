@@ -68,7 +68,8 @@ public class ChatServer {
 
                 // On accept, create a new client thread
                 ClientThread client = new ClientThread(this, _serverSocket.accept(), this._clientID);
-                this._clientID++;
+
+                this._lobbies.get(1).addClient(client);
 
                 // Put it targets HashMap
                 _clients.put(client.getClientID(), client);
@@ -76,6 +77,8 @@ public class ChatServer {
                 // Run client thread
                 client.run();
 
+
+                this._clientID++;
 
             }
         } catch (IOException ex) {
@@ -113,8 +116,8 @@ public class ChatServer {
             return;
         }
         message.setUser(this._clients.get(message.getClientID()).getClient().getName());
-        Log.Console(Log.Level.INFO, "Message({" + client.getClient().getUsername() + "}, {"
-                + _lobbies.get(client.getClient().getLobby()).getName() + ", {"
+        Log.Console(Log.Level.INFO, "Message({user:" + client.getClient().getUsername() + "}, {lobby:"
+                + _lobbies.get(client.getClient().getLobby()).getName() + "}, {msg:"
                 + message.getMessage() + "})");
         Destination lobby = this._lobbies.get(message.getLobbyID());
         lobby.message(message);
