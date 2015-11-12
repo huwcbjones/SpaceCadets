@@ -53,11 +53,12 @@ public class ChatServer {
             return client.getClient();
         }
     }
+
     public Client getClient(String nickname) throws IndexOutOfBoundsException {
         return getClient(this._clientName.get(nickname));
     }
 
-    public void updateClientLinks(Client client){
+    public void updateClientLinks(Client client) {
         Client serverClient = this.getClient(client.getClientID());
         this._clientName.remove(serverClient.getNickname());
         this._clientName.put(client.getNickname(), client.getClientID());
@@ -171,8 +172,11 @@ public class ChatServer {
                     message.setUser(this.getClient(0).getNickname());
                     this._clients.get(clientID).write(new Frame(Frame.Type.P_MESSAGE, message));
                 }
-
-
+            } catch (NoClassDefFoundError ex) {
+                Log.Console(Log.Level.FATAL, "Failed to load command. Is command available and classpath set?");
+                Message message = new Message(0, 0, "Error loading command. Contact server administrator.");
+                message.setUser(this.getClient(0).getNickname());
+                this._clients.get(clientID).write(new Frame(Frame.Type.P_MESSAGE, message));
             } catch (Exception ex) {
                 Message message = new Message(0, 0, "Command \"" + cmdStructure.get(0) + "\" not found.");
                 message.setUser(this.getClient(0).getNickname());
@@ -181,13 +185,13 @@ public class ChatServer {
         }
     }
 
-    public Command getCommand(String name) throws Exception {
+    public Command getCommand(String name) throws Exception, NoClassDefFoundError {
         ClassLoader classLoader = this.getClass().getClassLoader();
 
         // Creates the new class (will throw an exception if class is not found, but this is handled)
         Class<?> newCommandClass = classLoader.loadClass(ChatServer.class.getPackage().getName() + ".commands." + name);
-
-        return (Command) newCommandClass.newInstance();
+        Command cmd = (Command) newCommandClass.newInstance();
+        return cmd;
     }
 
     private void addDestination(String name) {
