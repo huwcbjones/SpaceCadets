@@ -18,6 +18,9 @@ public class Solver {
 
     private HashMap<Long, BigInteger> _pValues = new HashMap<>();
 
+    private HashMap<Integer, Long> startTimes = new HashMap<>();
+    private HashMap<Integer, Long> endTimes = new HashMap<>();
+
     private long startTime;
     private long endTime;
 
@@ -26,25 +29,31 @@ public class Solver {
     }
 
     public void run(int numberOfTimes) {
-        this.startTime = System.nanoTime();
-        long difference;
         for (int i = 1; i <= numberOfTimes; i++) {
-            System.out.print("Run " + i + ": ");
+            _pValues = new HashMap<>();
+            System.out.println("Run " + i + "...");
+
+            this.startTimes.put(i, System.nanoTime());
             this._run();
-            this.endTime = System.nanoTime();
-            difference = this.endTime - this.startTime;
-            System.out.println("took...");
-            System.out.println("  " + difference + "ns");
-            System.out.println("  " + new Double(difference/1000).longValue() + "us");
-            System.out.println("  " + new Double(difference/1000000).longValue() + "ms");
-            System.out.println("  " + new Double(difference/1000000000).longValue() + " s");
+            this.endTimes.put(i, System.nanoTime());
         }
-        this.endTime = System.nanoTime();
-        difference = this.endTime - this.startTime;
-        System.out.println("Took: " + (difference) + "ns");
-        System.out.println("      " + new Double(difference/1000).longValue() + "us");
-        System.out.println("      " + new Double(difference/1000000).longValue() + "ms");
-        System.out.println("      " + new Double(difference/1000000000).longValue() + " s");
+
+        long t = 0;
+        System.out.println("| RUN # | TIME TAKEN (s) |");
+        for (int i = 1; i <= numberOfTimes; i++) {
+            long s, f, d;
+            s = this.startTimes.get(i);
+            f = this.endTimes.get(i);
+            d = f - s;
+            t += d;
+            System.out.print("| " + String.format("%5s", i) + " ");
+            System.out.println("| " + String.format("%14s", new Double(d / 1000000000).longValue()) + " |");
+        }
+        if (numberOfTimes != 1) {
+            long a = t/numberOfTimes;
+            System.out.print("|   AVG ");
+            System.out.println("| " + String.format("%14s", new Double(a / 1000000000).longValue()) + " |");
+        }
     }
 
     private void _run() {
@@ -63,7 +72,7 @@ public class Solver {
         System.out.println("p(" + i + ") = " + pValue);
     }
 
-    private boolean _checkExitConditions(BigInteger value){
+    private boolean _checkExitConditions(BigInteger value) {
         BigInteger modResult = value.mod(BigInteger.valueOf(1000000));
         return modResult.compareTo(BigInteger.valueOf(0)) == 0;
     }
@@ -74,7 +83,7 @@ public class Solver {
         long aIndex, bIndex;
 
         for (long k = n; k >= 0; k--) {
-            pValueD = BigInteger.valueOf(((Double)Math.pow(-1, k + 1)).longValue());
+            pValueD = BigInteger.valueOf(((Double) Math.pow(-1, k + 1)).longValue());
 
             aIndex = new Double(n - ((k * (3 * k - 1)) / 2)).longValue();
             bIndex = new Double(n - ((k * (3 * k + 1)) / 2)).longValue();
@@ -106,7 +115,7 @@ public class Solver {
         HashSet<ArrayList<Integer>> set;
         int i = 1;
         do {
-           // System.out.print("Calculating: " + i);
+            // System.out.print("Calculating: " + i);
             set = countN(i);
             //System.out.print(": " + set.size() + "\n");
             this._counts.put(i, set);
