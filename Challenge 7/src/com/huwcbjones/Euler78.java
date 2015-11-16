@@ -20,9 +20,12 @@ public class Euler78 {
         } else if (argList.contains("--stupid-mode")) {
             Solver solver = new Solver();
             solver.runStupidMode();
-        } else {
+        } else if (argList.contains("-a") || argList.contains("--approx")) {
             Solver solver = new Solver();
-            solver.run(10);
+            solver.runApprox(getNumber(argList));
+        } else{
+            Solver solver = new Solver();
+            solver.run(getNumber(argList));
         }
     }
 
@@ -30,7 +33,9 @@ public class Euler78 {
         System.out.println("Usage: Euler78 [OPTION]...");
         System.out.println("Java chat server.\n");
         System.out.println("Arguments:");
+        System.out.println("  -a, --approx\t\tRuns using approximation algorithm.");
         System.out.println("  -h, --help\t\tPrints this help message.");
+        System.out.println("  -n, --number\t\tNumber of times to run tests.");
         System.out.println("      --stupid-mode\tRuns stupidly slowly, and east all your RAM! xD");
         System.out.println("  -v, --version\t\tPrints version.");
     }
@@ -38,5 +43,18 @@ public class Euler78 {
     private static void version() {
         System.out.println("Euler78 0.1");
         System.out.println("Written (poorly) by Huw Jones");
+    }
+
+    public static int getNumber(ArrayList<String> argList) {
+        int number = 1;
+        if (argList.contains("-n") || argList.contains("--number")) {
+            int index = (argList.contains("-n")) ? argList.indexOf("-n") : argList.indexOf("--number");
+            String intStr = argList.get(index + 1);
+            if (!intStr.matches("\\d")) {
+                return 1;
+            }
+            number = Integer.parseInt(intStr);
+        }
+        return number;
     }
 }

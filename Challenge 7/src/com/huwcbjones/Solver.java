@@ -21,9 +21,6 @@ public class Solver {
     private HashMap<Integer, Long> startTimes = new HashMap<>();
     private HashMap<Integer, Long> endTimes = new HashMap<>();
 
-    private long startTime;
-    private long endTime;
-
     public Solver() {
 
     }
@@ -35,6 +32,33 @@ public class Solver {
 
             this.startTimes.put(i, System.nanoTime());
             this._run();
+            this.endTimes.put(i, System.nanoTime());
+        }
+
+        long t = 0;
+        System.out.println("| RUN # | TIME TAKEN (s) |");
+        for (int i = 1; i <= numberOfTimes; i++) {
+            long s, f, d;
+            s = this.startTimes.get(i);
+            f = this.endTimes.get(i);
+            d = f - s;
+            t += d;
+            System.out.print("| " + String.format("%5s", i) + " ");
+            System.out.println("| " + String.format("%14s", new Double(d / 1000000000).longValue()) + " |");
+        }
+        if (numberOfTimes != 1) {
+            long a = t/numberOfTimes;
+            System.out.print("|   AVG ");
+            System.out.println("| " + String.format("%14s", new Double(a / 1000000000).longValue()) + " |");
+        }
+    }
+
+    public void runApprox(int numberOfTimes) {
+        for (int i = 1; i <= numberOfTimes; i++) {
+            System.out.println("Run " + i + "...");
+
+            this.startTimes.put(i, System.nanoTime());
+            this._runApprox();
             this.endTimes.put(i, System.nanoTime());
         }
 
@@ -103,13 +127,30 @@ public class Solver {
         return BigInteger.valueOf(0);
     }
 
-    public void runStupidMode() {
-        this.startTime = System.nanoTime();
-        this._runStupidMode();
-        this.endTime = System.nanoTime();
-        System.out.println("Took " + (this.endTime - this.startTime) + "ns");
+    private void _runApprox() {
+        int i = 0;
+        double pValue;
+        do {
+            i++;
+            //System.out.print("Calculating: " + i);
+            pValue = getPApprox(i);
+            //System.out.println(": " + pValue);
+        } while (pValue % 1000000 != 0);
+        System.out.println("n = " + i + " is the least value for p(n) % 1,000,000 = 0.");
+        System.out.println("p(" + i + ") = " + pValue);
     }
 
+    private double getPApprox(long n){
+        return (Math.pow(Math.E, (Math.PI * Math.sqrt(2 * n / 3)))/ n * 4 * Math.sqrt(3));
+    }
+
+
+    public void runStupidMode() {
+        long startTime = System.nanoTime();
+        this._runStupidMode();
+        long endTime = System.nanoTime();
+        System.out.println("Took " + (endTime - startTime) + "ns");
+    }
 
     private void _runStupidMode() {
         HashSet<ArrayList<Integer>> set;
