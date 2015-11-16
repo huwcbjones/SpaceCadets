@@ -32,8 +32,10 @@ public class GUI extends JFrame {
 
     public GUI() {
         try {
-            SwingUtilities.invokeAndWait(() -> {
-                _buildGUI(); // initialize the GUI
+            SwingUtilities.invokeAndWait(new Runnable() {
+                public void run() {
+                    _buildGUI(); // initialize the GUI
+                }
             });
         } catch (Exception exc) {
             System.out.println("Can't create because of " + exc);
@@ -104,7 +106,7 @@ public class GUI extends JFrame {
         System.setOut(out);
     }
 
-    public void run(int port, URI server, String nickname){
+    public void run(int port, URI server, String nickname) {
         this.client = new ChatClient(port, server);
         this.client.setNickname(nickname);
         try {
@@ -117,6 +119,7 @@ public class GUI extends JFrame {
                     "Exception on Connection", JOptionPane.WARNING_MESSAGE);
         }
     }
+
     public void run(int port, URI server) {
         this.client = new ChatClient(port, server);
         this.getClientDetails();
@@ -138,7 +141,7 @@ public class GUI extends JFrame {
             if ((inputNickname != null) && (inputNickname.length() > 0 && (inputNickname.matches("^[a-zA-Z_]*$")))) {
                 nickname = inputNickname;
                 this.client.setNickname(nickname);
-            } else if(inputNickname == null){
+            } else if (inputNickname == null) {
                 System.exit(0);
             }
         }
