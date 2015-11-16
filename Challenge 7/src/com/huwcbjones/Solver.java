@@ -1,5 +1,6 @@
 package com.huwcbjones;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -15,7 +16,7 @@ public class Solver {
 
     private HashMap<Integer, HashSet<ArrayList<Integer>>> _counts = new HashMap<>();
 
-    private HashMap<Integer, Integer> _pValues = new HashMap<>();
+    private HashMap<Long, BigInteger> _pValues = new HashMap<>();
 
     private long startTime;
     private long endTime;
@@ -26,49 +27,73 @@ public class Solver {
 
     public void run(int numberOfTimes) {
         this.startTime = System.nanoTime();
-        for (int i = 0; i < numberOfTimes; i++) {
+        long difference;
+        for (int i = 1; i <= numberOfTimes; i++) {
+            System.out.print("Run " + i + ": ");
             this._run();
+            this.endTime = System.nanoTime();
+            difference = this.endTime - this.startTime;
+            System.out.println("took...");
+            System.out.println("  " + difference + "ns");
+            System.out.println("  " + new Double(difference/1000).longValue() + "us");
+            System.out.println("  " + new Double(difference/1000000).longValue() + "ms");
+            System.out.println("  " + new Double(difference/1000000000).longValue() + " s");
         }
         this.endTime = System.nanoTime();
-        System.out.println("Took " + (this.endTime - this.startTime) + "ns");
+        difference = this.endTime - this.startTime;
+        System.out.println("Took: " + (difference) + "ns");
+        System.out.println("      " + new Double(difference/1000).longValue() + "us");
+        System.out.println("      " + new Double(difference/1000000).longValue() + "ms");
+        System.out.println("      " + new Double(difference/1000000000).longValue() + " s");
     }
 
     private void _run() {
-        this._pValues.put(0, 1);
-        int pValue = 1;
-        int i = 1;
+        BigInteger pValue;
+        long i = 0;
+        this._pValues.put(0L, BigInteger.valueOf(1));
+
         do {
-            System.out.print("Calculating: " + i);
-            pValue = _calculatePValue(i);
-            _pValues.put(i, pValue);
-            System.out.print(": " + pValue + "\n");
             i++;
-        } while (pValue % 1000000 != 0);
+            //System.out.print("Calculating: " + i);
+            pValue = _calculatePValue(i);
+            //System.out.println(": " + pValue);
+            _pValues.put(i, pValue);
+        } while (!_checkExitConditions(pValue));
+        System.out.println("n = " + i + " is the least value for p(n) % 1,000,000 = 0.");
+        System.out.println("p(" + i + ") = " + pValue);
     }
 
-    private int _calculatePValue(int n) {
-        double pValueD = Math.pow(-1d, n + 1d);
+    private boolean _checkExitConditions(BigInteger value){
+        BigInteger modResult = value.mod(BigInteger.valueOf(1000000));
+        return modResult.compareTo(BigInteger.valueOf(0)) == 0;
+    }
 
-        int pIndex = new Double(n - (0.5 * n * 3 * n - 1)).intValue();
+    private BigInteger _calculatePValue(long n) {
 
+        BigInteger pValueD, pValue = BigInteger.valueOf(0);
+        long aIndex, bIndex;
 
-        pValueD = pValueD * Math.pow(getPentagonal(n), getPValue(pIndex));// + this._pValues.get(bIndex));
+        for (long k = n; k >= 0; k--) {
+            pValueD = BigInteger.valueOf(((Double)Math.pow(-1, k + 1)).longValue());
 
-        int pValue = ((Double)pValueD).intValue();
+            aIndex = new Double(n - ((k * (3 * k - 1)) / 2)).longValue();
+            bIndex = new Double(n - ((k * (3 * k + 1)) / 2)).longValue();
 
-        for(int i =  (n - 1); i > 0; i--){
-            pValue += this._pValues.get(i);
+            pValue = pValue.add(pValueD.multiply(this.getPValue(aIndex).add(this.getPValue(bIndex))));
         }
+
         return pValue;
     }
 
-    private int getPValue(int n){
-        if(n < 0 ){
-            return 0;
-        }else{
-            return this._pValues.get(n);
+    private BigInteger getPValue(long n) {
+        if (n >= 0) {
+            if (this._pValues.containsKey(n)) {
+                return this._pValues.get(n);
+            }
         }
+        return BigInteger.valueOf(0);
     }
+
     public void runStupidMode() {
         this.startTime = System.nanoTime();
         this._runStupidMode();
@@ -81,13 +106,14 @@ public class Solver {
         HashSet<ArrayList<Integer>> set;
         int i = 1;
         do {
-            System.out.print("Calculating: " + i);
+           // System.out.print("Calculating: " + i);
             set = countN(i);
-            System.out.print(": " + set.size() + "\n");
+            //System.out.print(": " + set.size() + "\n");
             this._counts.put(i, set);
             i++;
         } while (set.size() % 1000000 != 0);
-        System.out.println("end");
+
+        System.out.println("n = " + i + " is the least value for p(n) % 1,000,000 = 0.");
     }
 
     private HashSet<ArrayList<Integer>> countN(int n) {
@@ -136,7 +162,7 @@ public class Solver {
         return results;
     }
 
-    private int getPentagonal(int n){
-        return ((Double)((3 * Math.pow(n, 2) - 2) / 2)).intValue();
+    private int getPentagonal(int n) {
+        return ((Double) ((3 * Math.pow(n, 2) - 2) / 2)).intValue();
     }
 }
