@@ -23,6 +23,9 @@ public class Euler78 {
         } else if (argList.contains("-a") || argList.contains("--approx")) {
             Solver solver = new Solver();
             solver.runApprox(getNumber(argList));
+        } else if (argList.contains("-p") || argList.contains("--penta")) {
+            Solver solver = new Solver();
+            solver.runPenta(getNumber(argList));
         } else{
             Solver solver = new Solver();
             solver.run(getNumber(argList));
@@ -36,6 +39,7 @@ public class Euler78 {
         System.out.println("  -a, --approx\t\tRuns using approximation algorithm.");
         System.out.println("  -h, --help\t\tPrints this help message.");
         System.out.println("  -n, --number\t\tNumber of times to run tests.");
+        System.out.println("  -p, --penta\t\tRuns using pentagonal calculations.");
         System.out.println("      --stupid-mode\tRuns stupidly slowly, and east all your RAM! xD");
         System.out.println("  -v, --version\t\tPrints version.");
     }

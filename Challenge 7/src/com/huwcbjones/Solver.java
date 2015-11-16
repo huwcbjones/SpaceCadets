@@ -1,5 +1,6 @@
 package com.huwcbjones;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,9 +15,12 @@ import java.util.HashSet;
  */
 public class Solver {
 
+    private final double sqrt3x4 = Math.sqrt(3) * 4;
+    private final double two3rds = 2d / 3;
     private HashMap<Integer, HashSet<ArrayList<Integer>>> _counts = new HashMap<>();
 
     private HashMap<Long, BigInteger> _pValues = new HashMap<>();
+    private HashMap<Long, Long> _pentaPValues = new HashMap<>();
 
     private HashMap<Integer, Long> startTimes = new HashMap<>();
     private HashMap<Integer, Long> endTimes = new HashMap<>();
@@ -47,7 +51,34 @@ public class Solver {
             System.out.println("| " + String.format("%14s", new Double(d / 1000000000).longValue()) + " |");
         }
         if (numberOfTimes != 1) {
-            long a = t/numberOfTimes;
+            long a = t / numberOfTimes;
+            System.out.print("|   AVG ");
+            System.out.println("| " + String.format("%14s", new Double(a / 1000000000).longValue()) + " |");
+        }
+    }
+
+    public void runPenta(int numberOfTimes) {
+        for (int i = 1; i <= numberOfTimes; i++) {
+            System.out.println("Run " + i + "...");
+
+            this.startTimes.put(i, System.nanoTime());
+            this._runPenta();
+            this.endTimes.put(i, System.nanoTime());
+        }
+
+        long t = 0;
+        System.out.println("| RUN # | TIME TAKEN (s) |");
+        for (int i = 1; i <= numberOfTimes; i++) {
+            long s, f, d;
+            s = this.startTimes.get(i);
+            f = this.endTimes.get(i);
+            d = f - s;
+            t += d;
+            System.out.print("| " + String.format("%5s", i) + " ");
+            System.out.println("| " + String.format("%14s", new Double(d / 1000000000).longValue()) + " |");
+        }
+        if (numberOfTimes != 1) {
+            long a = t / numberOfTimes;
             System.out.print("|   AVG ");
             System.out.println("| " + String.format("%14s", new Double(a / 1000000000).longValue()) + " |");
         }
@@ -74,7 +105,7 @@ public class Solver {
             System.out.println("| " + String.format("%14s", new Double(d / 1000000000).longValue()) + " |");
         }
         if (numberOfTimes != 1) {
-            long a = t/numberOfTimes;
+            long a = t / numberOfTimes;
             System.out.print("|   AVG ");
             System.out.println("| " + String.format("%14s", new Double(a / 1000000000).longValue()) + " |");
         }
@@ -93,7 +124,7 @@ public class Solver {
             _pValues.put(i, pValue);
         } while (!_checkExitConditions(pValue));
         System.out.println("n = " + i + " is the least value for p(n) % 1,000,000 = 0.");
-        System.out.println("p(" + i + ") = " + pValue);
+        System.out.println("p(" + i + ") % 1,000,000 = " + pValue);
     }
 
     private boolean _checkExitConditions(BigInteger value) {
@@ -103,16 +134,16 @@ public class Solver {
 
     private BigInteger _calculatePValue(long n) {
 
-        BigInteger pValueD, pValue = BigInteger.valueOf(0);
+        BigInteger sign, pValue = BigInteger.ZERO;
         long aIndex, bIndex;
 
         for (long k = n; k >= 0; k--) {
-            pValueD = BigInteger.valueOf(((Double) Math.pow(-1, k + 1)).longValue());
+            sign = (k % 4 > 1) ? BigInteger.valueOf(-1) : BigInteger.ONE;
 
             aIndex = new Double(n - ((k * (3 * k - 1)) / 2)).longValue();
             bIndex = new Double(n - ((k * (3 * k + 1)) / 2)).longValue();
 
-            pValue = pValue.add(pValueD.multiply(this.getPValue(aIndex).add(this.getPValue(bIndex))));
+            pValue = pValue.add(sign.multiply(this.getPValue(aIndex).add(this.getPValue(bIndex))));
         }
 
         return pValue;
@@ -129,21 +160,68 @@ public class Solver {
 
     private void _runApprox() {
         int i = 0;
-        double pValue;
+        BigInteger pValue;
         do {
             i++;
-            //System.out.print("Calculating: " + i);
+            System.out.print("Calculating: " + i);
             pValue = getPApprox(i);
-            //System.out.println(": " + pValue);
-        } while (pValue % 1000000 != 0);
+            System.out.println(": " + pValue);
+        } while (!_checkExitConditions(pValue));
         System.out.println("n = " + i + " is the least value for p(n) % 1,000,000 = 0.");
-        System.out.println("p(" + i + ") = " + pValue);
+        System.out.println("p(" + i + ") % 1,000,000 = " + pValue);
     }
 
-    private double getPApprox(long n){
-        return (Math.pow(Math.E, (Math.PI * Math.sqrt(2 * n / 3)))/ n * 4 * Math.sqrt(3));
+    private BigInteger getPApprox(long n) {
+        Double frac = n * this.sqrt3x4;
+        Double power = Math.PI * Math.sqrt(n * this.two3rds);
+        BigDecimal result = BigDecimal.valueOf(Math.E);
+        result = result.pow(power.intValue());
+        result = result.divide(BigDecimal.valueOf(frac), BigDecimal.ROUND_HALF_UP);
+
+        return result.toBigInteger();
     }
 
+    private void _runPenta() {
+        long i = 0;
+        long pValue;
+        this._pentaPValues.put(0L, 1L);
+        do {
+            i++;
+            System.out.print("Calculating: " + i);
+            pValue = _calculatePentaPValue(i);
+            this._pentaPValues.put(i, pValue);
+            System.out.println(": " + pValue);
+        } while (pValue != 0);
+        System.out.println("n = " + i + " is the least value for p(n) % 1,000,000 = 0.");
+        System.out.println("p(" + i + ") % 1,000,000 = " + pValue);
+    }
+
+
+    private long _calculatePentaPValue(long n) {
+
+        long pentaIndex, sign, pValue = 0;
+
+        // See https://en.wikipedia.org/wiki/Pentagonal_number for calculating pentagonal numbers
+        // See https://en.wikipedia.org/wiki/Partition_(number_theory)#Generating_function for generating function
+
+        for (long k = n; k >= 0; k--) {
+            pentaIndex = (k % 2 == 0) ? k / 2 + 1 : -(k / 2 + 1);
+            sign = (k % 4 > 1) ? -1 : 1;
+            pValue += sign * getPPenta(n - getPentagonal(pentaIndex));
+            pValue %= 1000000;
+        }
+
+        return pValue;
+    }
+
+    private long getPPenta(long n) {
+        if (n >= 0) {
+            if (this._pentaPValues.containsKey(n)) {
+                return this._pentaPValues.get(n);
+            }
+        }
+        return 0;
+    }
 
     public void runStupidMode() {
         long startTime = System.nanoTime();
@@ -212,7 +290,7 @@ public class Solver {
         return results;
     }
 
-    private int getPentagonal(int n) {
-        return ((Double) ((3 * Math.pow(n, 2) - 2) / 2)).intValue();
+    private long getPentagonal(long n) {
+        return Double.valueOf(n * (3 * n - 1) / 2).longValue();
     }
 }
