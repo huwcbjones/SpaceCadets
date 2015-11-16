@@ -22,7 +22,7 @@ public class Euler78 {
             solver.runStupidMode();
         } else {
             Solver solver = new Solver();
-            solver.run(1);
+            solver.run(10);
         }
     }
 
