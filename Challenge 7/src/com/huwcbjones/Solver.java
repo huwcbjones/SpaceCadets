@@ -9,52 +9,36 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Huw Jones
  * @since 12/11/2015
  */
-public class Solver {
+public class Solver implements Runnable {
 
+    private int number;
     private boolean print;
     private HashMap<Integer, Integer> _pentagonalNumbers;
     private HashMap<Integer, Long> _pModCache;
-
-    private HashMap<Integer, Long> startTimes;
-    private HashMap<Integer, Long> endTimes;
 
     public Solver() {
         this(false);
     }
 
     public Solver(boolean print) {
+        this(print, 1);
+    }
+
+    public Solver(boolean print, int number) {
+        this.number = number;
         this.print = print;
         _pentagonalNumbers = new HashMap<>();
         _pModCache = new HashMap<>();
-        startTimes = new HashMap<>();
-        endTimes = new HashMap<>();
     }
 
-    public void run(int numberOfTimes) {
+    @Override
+    public void run() {
+        System.out.println("Run " + number + "...");
         _calculateGeneralisedPentagonals();
-        for (int i = 1; i <= numberOfTimes; i++) {
-            System.out.println("Run " + i + "...");
-
-            this.startTimes.put(i, System.nanoTime());
-            this._run();
-            this.endTimes.put(i, System.nanoTime());
-        }
-
-        long t = 0;
-        System.out.println("| RUN # | TIME TAKEN (s) |");
-        for (int i = 1; i <= numberOfTimes; i++) {
-            long s, f, d;
-            s = this.startTimes.get(i);
-            f = this.endTimes.get(i);
-            d = f - s;
-            t += d;
-            System.out.print("| " + String.format("%5s", i) + " ");
-            System.out.println("| " + String.format("%14s", d / 1000000000d) + " |");
-        }
-        if (numberOfTimes != 1) {
-            long a = t / numberOfTimes;
-            System.out.print("|   AVG ");
-            System.out.println("| " + String.format("%14s", a / 1000000000d) + " |");
+        if(print){
+            _run();
+        } else{
+            _runNoPrint();
         }
     }
 
@@ -65,7 +49,7 @@ public class Solver {
         do {
 
             i++;
-            if (print) System.out.print("Calculating: " + i);
+            System.out.print("Calculating: " + i);
             pValue = 0;
 
             // See https://en.wikipedia.org/wiki/Pentagonal_number for calculating pentagonal numbers
@@ -77,7 +61,31 @@ public class Solver {
             }
 
             this._pModCache.put(i, pValue);
-            if (print) System.out.println(": " + pValue);
+            System.out.println(": " + pValue);
+
+        } while (pValue != 0);
+        System.out.println("n = " + i + " is the least value for p(n) % 1,000,000 = 0.");
+        System.out.println("p(" + i + ") % 1,000,000 = " + pValue);
+    }
+
+    private void _runNoPrint(){
+        int i = 0;
+        long pValue;
+        this._pModCache.put(0, 1L);
+        do {
+
+            i++;
+            pValue = 0;
+
+            // See https://en.wikipedia.org/wiki/Pentagonal_number for calculating pentagonal numbers
+            // See https://en.wikipedia.org/wiki/Partition_(number_theory)#Generating_function for generating function
+
+            for (int k = 0; k <= i; k++) {
+                pValue += ((k % 4 > 1) ? -1 : 1) * getPPenta(i - _pentagonalNumbers.get(k));
+                pValue %= 1000000;
+            }
+
+            this._pModCache.put(i, pValue);
 
         } while (pValue != 0);
         System.out.println("n = " + i + " is the least value for p(n) % 1,000,000 = 0.");

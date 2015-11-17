@@ -2,6 +2,10 @@ package com.huwcbjones;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Euler Challenge 78
@@ -19,8 +23,7 @@ public class Euler78 {
             Euler78.version();
         } else{
             boolean print = (argList.contains("-p") || argList.contains("--print"));
-            Solver solver = new Solver(print);
-            solver.run(getNumber(argList));
+            run(getNumber(argList), print);
         }
     }
 
@@ -44,11 +47,34 @@ public class Euler78 {
         if (argList.contains("-n") || argList.contains("--number")) {
             int index = (argList.contains("-n")) ? argList.indexOf("-n") : argList.indexOf("--number");
             String intStr = argList.get(index + 1);
-            if (!intStr.matches("\\d")) {
+            if (!intStr.matches("[\\d]+")) {
                 return 1;
             }
             number = Integer.parseInt(intStr);
         }
         return number;
+    }
+
+    public static void run(int numberOfTimes, boolean print){
+        ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+
+        long startTime = System.nanoTime();
+
+        for (int i = 1; i <= numberOfTimes; i++) {
+            Runnable thread = new Solver(print, i);
+            executorService.execute(thread);
+        }
+
+        executorService.shutdown();
+        while(!executorService.isTerminated()){
+        }
+
+        long endTime = System.nanoTime();
+
+        if (numberOfTimes != 1) {
+            long a = (endTime - startTime) / numberOfTimes;
+            System.out.print("|   AVG ");
+            System.out.println("|   " + String.format("%10s", a / 1000000000d) + "   |");
+        }
     }
 }
