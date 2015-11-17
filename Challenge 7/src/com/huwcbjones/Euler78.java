@@ -38,7 +38,7 @@ public class Euler78 {
     }
 
     private static void version() {
-        System.out.println("Euler78 0.1");
+        System.out.println("Euler78 0.2");
         System.out.println("Written (poorly) by Huw Jones");
     }
 
