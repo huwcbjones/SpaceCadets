@@ -15,6 +15,7 @@ import java.util.HashSet;
  */
 public class Solver {
 
+    private boolean print = false;
     private final double sqrt3x4 = Math.sqrt(3) * 4;
     private final double two3rds = 2d / 3;
     private HashMap<Integer, HashSet<ArrayList<Integer>>> _counts = new HashMap<>();
@@ -27,6 +28,10 @@ public class Solver {
 
     public Solver() {
 
+    }
+
+    public Solver(boolean print){
+        this.print = print;
     }
 
     public void run(int numberOfTimes) {
@@ -116,13 +121,22 @@ public class Solver {
         long i = 0;
         this._pValues.put(0L, BigInteger.valueOf(1));
 
-        do {
-            i++;
-            //System.out.print("Calculating: " + i);
-            pValue = _calculatePValue(i);
-            //System.out.println(": " + pValue);
-            _pValues.put(i, pValue);
-        } while (!_checkExitConditions(pValue));
+        if(print){
+            do {
+                i++;
+                System.out.print("Calculating: " + i);
+                pValue = _calculatePValue(i);
+                System.out.println(": " + pValue);
+                _pValues.put(i, pValue);
+            } while (!_checkExitConditions(pValue));
+        } else{
+            do {
+                i++;
+                pValue = _calculatePValue(i);
+                _pValues.put(i, pValue);
+            } while (!_checkExitConditions(pValue));
+        }
+
         System.out.println("n = " + i + " is the least value for p(n) % 1,000,000 = 0.");
         System.out.println("p(" + i + ") % 1,000,000 = " + pValue);
     }
@@ -161,12 +175,19 @@ public class Solver {
     private void _runApprox() {
         int i = 0;
         BigInteger pValue;
-        do {
-            i++;
-            System.out.print("Calculating: " + i);
-            pValue = getPApprox(i);
-            System.out.println(": " + pValue);
-        } while (!_checkExitConditions(pValue));
+        if(print){
+            do {
+                i++;
+                System.out.print("Calculating: " + i);
+                pValue = getPApprox(i);
+                System.out.println(": " + pValue);
+              } while (!_checkExitConditions(pValue));
+        } else{
+            do {
+                i++;
+                pValue = getPApprox(i);
+            } while (!_checkExitConditions(pValue));
+        }
         System.out.println("n = " + i + " is the least value for p(n) % 1,000,000 = 0.");
         System.out.println("p(" + i + ") % 1,000,000 = " + pValue);
     }
@@ -185,13 +206,21 @@ public class Solver {
         long i = 0;
         long pValue;
         this._pentaPValues.put(0L, 1L);
-        do {
-            i++;
-            System.out.print("Calculating: " + i);
-            pValue = _calculatePentaPValue(i);
-            this._pentaPValues.put(i, pValue);
-            System.out.println(": " + pValue);
-        } while (pValue != 0);
+        if(print){
+            do {
+                i++;
+                System.out.print("Calculating: " + i);
+                pValue = _calculatePentaPValue(i);
+                System.out.println(": " + pValue);
+                _pentaPValues.put(i, pValue);
+            } while (pValue != 0);
+        } else{
+            do {
+                i++;
+                pValue = _calculatePentaPValue(i);
+                _pentaPValues.put(i, pValue);
+            } while (pValue != 0);
+        }
         System.out.println("n = " + i + " is the least value for p(n) % 1,000,000 = 0.");
         System.out.println("p(" + i + ") % 1,000,000 = " + pValue);
     }

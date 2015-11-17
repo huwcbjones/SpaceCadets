@@ -21,7 +21,7 @@ public class Euler78 {
             Solver solver = new Solver();
             solver.runStupidMode();
         } else if (argList.contains("-a") || argList.contains("--approx")) {
-            Solver solver = new Solver();
+            Solver solver = new Solver(argList.contains("--print"));
             solver.runApprox(getNumber(argList));
         } else if (argList.contains("-p") || argList.contains("--penta")) {
             Solver solver = new Solver();
