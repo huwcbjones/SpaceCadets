@@ -12,8 +12,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Solver {
 
     private boolean print;
-    private HashMap<Long, Long> _pentagonalNumbers;
-    private HashMap<Long, Long> _pModCache;
+    private HashMap<Integer, Integer> _pentagonalNumbers;
+    private HashMap<Integer, Long> _pModCache;
 
     private HashMap<Integer, Long> startTimes;
     private HashMap<Integer, Long> endTimes;
@@ -31,8 +31,7 @@ public class Solver {
     }
 
     public void run(int numberOfTimes) {
-        Pentagen pentagen = new Pentagen();
-        pentagen.run();
+        _calculateGeneralisedPentagonals();
         for (int i = 1; i <= numberOfTimes; i++) {
             System.out.println("Run " + i + "...");
 
@@ -60,68 +59,41 @@ public class Solver {
     }
 
     private void _run() {
-        long i = 0;
+        int i = 0;
         long pValue;
-        this._pModCache.put(0L, 1L);
+        this._pModCache.put(0, 1L);
         do {
+
             i++;
             if (print) System.out.print("Calculating: " + i);
-            pValue = _calculatePentaPValue(i);
+            pValue = 0;
+
+            // See https://en.wikipedia.org/wiki/Pentagonal_number for calculating pentagonal numbers
+            // See https://en.wikipedia.org/wiki/Partition_(number_theory)#Generating_function for generating function
+
+            for (int k = i; k >= 0; k--) {
+                pValue += ((k % 4 > 1) ? -1 : 1) * getPPenta(i - _pentagonalNumbers.get(k));
+                pValue %= 1000000;
+            }
+
             this._pModCache.put(i, pValue);
             if (print) System.out.println(": " + pValue);
+
         } while (pValue != 0);
         System.out.println("n = " + i + " is the least value for p(n) % 1,000,000 = 0.");
         System.out.println("p(" + i + ") % 1,000,000 = " + pValue);
     }
 
-    private long _calculatePentaPValue(long n) {
-
-        long sign, pValue = 0;
-
-        // See https://en.wikipedia.org/wiki/Pentagonal_number for calculating pentagonal numbers
-        // See https://en.wikipedia.org/wiki/Partition_(number_theory)#Generating_function for generating function
-
-        for (long k = n; k >= 0; k--) {
-            sign = (k % 4 > 1) ? -1 : 1;
-            pValue += sign * getPPenta(n - getPentagonal(k));
-            pValue %= 1000000;
+    private void _calculateGeneralisedPentagonals(){
+        for (int k = 0; k < 60000; k++) {
+            int n = (k % 2 == 0) ? k / 2 + 1 : -(k / 2 + 1);
+            _pentagonalNumbers.put(k, Double.valueOf(n * (3 * n - 1) / 2).intValue());
         }
-
-        return pValue;
     }
-
-    private long getPPenta(long n) {
+    private long getPPenta(int n) {
         if (n >= 0) {
-            if (this._pModCache.containsKey(n)) {
-                return this._pModCache.get(n);
-            }
+            return this._pModCache.containsKey(n) ? _pModCache.get(n) : 0;
         }
         return 0;
-    }
-
-    private long getPentagonal(long n) {
-        if (_pentagonalNumbers.containsKey(n)) {
-            return _pentagonalNumbers.get(n);
-        } else {
-            long k = (n % 2 == 0) ? n / 2 + 1 : -(n / 2 + 1);
-            return calcPentagonalNumber(k);
-        }
-    }
-
-    public long calcPentagonalNumber(long n) {
-        return Double.valueOf(n * (3 * n - 1) / 2).longValue();
-    }
-
-    class Pentagen extends Thread {
-        public Pentagen() {
-            this.setName("Pentagonal Number Generator Thread.");
-        }
-
-        public void run() {
-            for (long k = 0; k < 60000; k++) {
-                long n = (k % 2 == 0) ? k / 2 + 1 : -(k / 2 + 1);
-                _pentagonalNumbers.put(k, calcPentagonalNumber(n));
-            }
-        }
     }
 }
