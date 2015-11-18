@@ -61,7 +61,7 @@ public class Euler78 {
         long startTime = System.nanoTime();
 
         for (int i = 1; i <= numberOfTimes; i++) {
-            Runnable thread = new Solver(print, i);
+            Solver thread = new Solver(print, i);
             executorService.execute(thread);
         }
 
@@ -71,10 +71,8 @@ public class Euler78 {
 
         long endTime = System.nanoTime();
 
-        if (numberOfTimes != 1) {
-            long a = (endTime - startTime) / numberOfTimes;
-            System.out.print("|   AVG ");
-            System.out.println("|   " + String.format("%10s", a / 1000000000d) + "   |");
-        }
+        long a = (endTime - startTime) / numberOfTimes;
+        System.out.print("|   AVG ");
+        System.out.println("|   " + String.format("%10s", a / 1000000000d) + "   |");
     }
 }

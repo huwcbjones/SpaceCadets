@@ -1,7 +1,7 @@
 package com.huwcbjones;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Euler 78 Solver
@@ -13,8 +13,8 @@ public class Solver implements Runnable {
 
     private int number;
     private boolean print;
-    private HashMap<Integer, Integer> _pentagonalNumbers;
-    private HashMap<Integer, Long> _pModCache;
+    private long[] _pModCache;
+    private int[] _pentagonalNumbers;
 
     public Solver() {
         this(false);
@@ -27,14 +27,18 @@ public class Solver implements Runnable {
     public Solver(boolean print, int number) {
         this.number = number;
         this.print = print;
-        _pentagonalNumbers = new HashMap<>();
-        _pModCache = new HashMap<>();
+        _pModCache = new long[55375];
+        _pentagonalNumbers = new int[55375];
+
+        for (int k = 0; k < 55375; k++) {
+            int n = (k % 2 == 0) ? k / 2 + 1 : -(k / 2 + 1);
+            _pentagonalNumbers[k] = Double.valueOf(n * (3 * n - 1) / 2).intValue();
+        }
     }
 
     @Override
     public void run() {
         System.out.println("Run " + number + "...");
-        _calculateGeneralisedPentagonals();
         if(print){
             _run();
         } else{
@@ -45,7 +49,7 @@ public class Solver implements Runnable {
     private void _run() {
         int i = 0;
         long pValue;
-        this._pModCache.put(0, 1L);
+        this._pModCache[0] = 1;
         do {
 
             i++;
@@ -56,11 +60,11 @@ public class Solver implements Runnable {
             // See https://en.wikipedia.org/wiki/Partition_(number_theory)#Generating_function for generating function
 
             for (int k = i; k >= 0; k--) {
-                pValue += ((k % 4 > 1) ? -1 : 1) * getPPenta(i - _pentagonalNumbers.get(k));
+                pValue += ((k % 4 > 1) ? -1 : 1) * getPPenta(i - _pentagonalNumbers[k]);
                 pValue %= 1000000;
             }
 
-            this._pModCache.put(i, pValue);
+            this._pModCache[i] = pValue;
             System.out.println(": " + pValue);
 
         } while (pValue != 0);
@@ -71,7 +75,7 @@ public class Solver implements Runnable {
     private void _runNoPrint(){
         int i = 0;
         long pValue;
-        this._pModCache.put(0, 1L);
+        this._pModCache[0] = 1;
         do {
 
             i++;
@@ -80,28 +84,21 @@ public class Solver implements Runnable {
             // See https://en.wikipedia.org/wiki/Pentagonal_number for calculating pentagonal numbers
             // See https://en.wikipedia.org/wiki/Partition_(number_theory)#Generating_function for generating function
 
-            for (int k = 0; k <= i; k++) {
-                pValue += ((k % 4 > 1) ? -1 : 1) * getPPenta(i - _pentagonalNumbers.get(k));
+            for (int k = i; k >= 0; k--) {
+                pValue += ((k % 4 > 1) ? -1 : 1) * getPPenta(i - _pentagonalNumbers[k]);
                 pValue %= 1000000;
             }
 
-            this._pModCache.put(i, pValue);
+            this._pModCache[i] = pValue;
 
         } while (pValue != 0);
         System.out.println("n = " + i + " is the least value for p(n) % 1,000,000 = 0.");
         System.out.println("p(" + i + ") % 1,000,000 = " + pValue);
     }
 
-    private void _calculateGeneralisedPentagonals(){
-        for (int k = 0; k < 60000; k++) {
-            int n = (k % 2 == 0) ? k / 2 + 1 : -(k / 2 + 1);
-            _pentagonalNumbers.put(k, Double.valueOf(n * (3 * n - 1) / 2).intValue());
-        }
-    }
     private long getPPenta(int n) {
-        if (n >= 0) {
-            return this._pModCache.containsKey(n) ? _pModCache.get(n) : 0;
-        }
-        return 0;
+        if(n < 0 || n > 55375) return 0;
+        return _pModCache[n];
     }
+
 }
