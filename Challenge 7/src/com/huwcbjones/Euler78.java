@@ -12,6 +12,7 @@ import java.util.Arrays;
 public class Euler78 {
 
     public static void main(String args[]){
+        // Get CLI arg stuff
         ArrayList<String> argList = new ArrayList<>(Arrays.asList(args));
         if (argList.contains("-h") || argList.contains("--help")) {
             Euler78.help();
@@ -50,6 +51,7 @@ public class Euler78 {
     }
 
     public static int getNumber(ArrayList<String> argList) {
+        // Get number of times from args
         int number = 1;
         if (argList.contains("-n") || argList.contains("--number")) {
             int index = (argList.contains("-n")) ? argList.indexOf("-n") : argList.indexOf("--number");
