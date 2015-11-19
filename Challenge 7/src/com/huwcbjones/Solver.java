@@ -15,7 +15,7 @@ import java.util.HashSet;
  */
 public class Solver {
 
-    private boolean print;
+    private boolean print = false;
     private final double sqrt3x4 = Math.sqrt(3) * 4;
     private final double two3rds = 2d / 3;
     private HashMap<Integer, HashSet<ArrayList<Integer>>> _counts = new HashMap<>();
@@ -26,14 +26,24 @@ public class Solver {
     private HashMap<Integer, Long> startTimes = new HashMap<>();
     private HashMap<Integer, Long> endTimes = new HashMap<>();
 
-    public Solver(){
-        this.print = false;
+    public Solver() {
+
     }
-    public Solver(boolean print) {
+
+    public Solver(boolean print){
         this.print = print;
     }
 
-    private void printResults(int numberOfTimes){
+    public void run(int numberOfTimes) {
+        for (int i = 1; i <= numberOfTimes; i++) {
+            _pValues = new HashMap<>();
+            System.out.println("Run " + i + "...");
+
+            this.startTimes.put(i, System.nanoTime());
+            this._run();
+            this.endTimes.put(i, System.nanoTime());
+        }
+
         long t = 0;
         System.out.println("| RUN # | TIME TAKEN (s) |");
         for (int i = 1; i <= numberOfTimes; i++) {
@@ -52,19 +62,6 @@ public class Solver {
         }
     }
 
-    public void run(int numberOfTimes) {
-        for (int i = 1; i <= numberOfTimes; i++) {
-            _pValues = new HashMap<>();
-            System.out.println("Run " + i + "...");
-
-            this.startTimes.put(i, System.nanoTime());
-            this._run();
-            this.endTimes.put(i, System.nanoTime());
-        }
-
-        printResults(numberOfTimes);
-    }
-
     public void runPenta(int numberOfTimes) {
         for (int i = 1; i <= numberOfTimes; i++) {
             System.out.println("Run " + i + "...");
@@ -74,7 +71,22 @@ public class Solver {
             this.endTimes.put(i, System.nanoTime());
         }
 
-        printResults(numberOfTimes);
+        long t = 0;
+        System.out.println("| RUN # | TIME TAKEN (s) |");
+        for (int i = 1; i <= numberOfTimes; i++) {
+            long s, f, d;
+            s = this.startTimes.get(i);
+            f = this.endTimes.get(i);
+            d = f - s;
+            t += d;
+            System.out.print("| " + String.format("%5s", i) + " ");
+            System.out.println("| " + String.format("%14s", new Double(d / 1000000000).longValue()) + " |");
+        }
+        if (numberOfTimes != 1) {
+            long a = t / numberOfTimes;
+            System.out.print("|   AVG ");
+            System.out.println("| " + String.format("%14s", new Double(a / 1000000000).longValue()) + " |");
+        }
     }
 
     public void runApprox(int numberOfTimes) {
@@ -86,7 +98,22 @@ public class Solver {
             this.endTimes.put(i, System.nanoTime());
         }
 
-        printResults(numberOfTimes);
+        long t = 0;
+        System.out.println("| RUN # | TIME TAKEN (s) |");
+        for (int i = 1; i <= numberOfTimes; i++) {
+            long s, f, d;
+            s = this.startTimes.get(i);
+            f = this.endTimes.get(i);
+            d = f - s;
+            t += d;
+            System.out.print("| " + String.format("%5s", i) + " ");
+            System.out.println("| " + String.format("%14s", new Double(d / 1000000000).longValue()) + " |");
+        }
+        if (numberOfTimes != 1) {
+            long a = t / numberOfTimes;
+            System.out.print("|   AVG ");
+            System.out.println("| " + String.format("%14s", new Double(a / 1000000000).longValue()) + " |");
+        }
     }
 
     private void _run() {
@@ -94,13 +121,22 @@ public class Solver {
         long i = 0;
         this._pValues.put(0L, BigInteger.valueOf(1));
 
-        do {
-            i++;
-            if (print) System.out.print("Calculating: " + i);
-            pValue = _calculatePValue(i);
-            if (print) System.out.println(": " + pValue);
-            _pValues.put(i, pValue);
-        } while (!_checkExitConditions(pValue));
+        if(print){
+            do {
+                i++;
+                System.out.print("Calculating: " + i);
+                pValue = _calculatePValue(i);
+                System.out.println(": " + pValue);
+                _pValues.put(i, pValue);
+            } while (!_checkExitConditions(pValue));
+        } else{
+            do {
+                i++;
+                pValue = _calculatePValue(i);
+                _pValues.put(i, pValue);
+            } while (!_checkExitConditions(pValue));
+        }
+
         System.out.println("n = " + i + " is the least value for p(n) % 1,000,000 = 0.");
         System.out.println("p(" + i + ") % 1,000,000 = " + pValue);
     }
@@ -139,12 +175,19 @@ public class Solver {
     private void _runApprox() {
         int i = 0;
         BigInteger pValue;
-        do {
-            i++;
-            if (print) System.out.print("Calculating: " + i);
-            pValue = getPApprox(i);
-            if (print) System.out.println(": " + pValue);
-        } while (!_checkExitConditions(pValue));
+        if(print){
+            do {
+                i++;
+                System.out.print("Calculating: " + i);
+                pValue = getPApprox(i);
+                System.out.println(": " + pValue);
+              } while (!_checkExitConditions(pValue));
+        } else{
+            do {
+                i++;
+                pValue = getPApprox(i);
+            } while (!_checkExitConditions(pValue));
+        }
         System.out.println("n = " + i + " is the least value for p(n) % 1,000,000 = 0.");
         System.out.println("p(" + i + ") % 1,000,000 = " + pValue);
     }
@@ -163,13 +206,21 @@ public class Solver {
         long i = 0;
         long pValue;
         this._pentaPValues.put(0L, 1L);
-        do {
-            i++;
-            if (print) System.out.print("Calculating: " + i);
-            pValue = _calculatePentaPValue(i);
-            this._pentaPValues.put(i, pValue);
-            if (print) System.out.println(": " + pValue);
-        } while (pValue != 0);
+        if(print){
+            do {
+                i++;
+                System.out.print("Calculating: " + i);
+                pValue = _calculatePentaPValue(i);
+                System.out.println(": " + pValue);
+                _pentaPValues.put(i, pValue);
+            } while (pValue != 0);
+        } else{
+            do {
+                i++;
+                pValue = _calculatePentaPValue(i);
+                _pentaPValues.put(i, pValue);
+            } while (pValue != 0);
+        }
         System.out.println("n = " + i + " is the least value for p(n) % 1,000,000 = 0.");
         System.out.println("p(" + i + ") % 1,000,000 = " + pValue);
     }
@@ -212,9 +263,9 @@ public class Solver {
         HashSet<ArrayList<Integer>> set;
         int i = 1;
         do {
-            if (print) System.out.print("Calculating: " + i);
+            // System.out.print("Calculating: " + i);
             set = countN(i);
-            if (print) System.out.print(": " + set.size() + "\n");
+            //System.out.print(": " + set.size() + "\n");
             this._counts.put(i, set);
             i++;
         } while (set.size() % 1000000 != 0);
