@@ -16,6 +16,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class Euler78 {
 
     public static void main(String args[]){
+        // Get CLI arg stuff
         ArrayList<String> argList = new ArrayList<>(Arrays.asList(args));
         if (argList.contains("-h") || argList.contains("--help")) {
             Euler78.help();
@@ -43,6 +44,7 @@ public class Euler78 {
     }
 
     public static int getNumber(ArrayList<String> argList) {
+        // Get number of times from args
         int number = 1;
         if (argList.contains("-n") || argList.contains("--number")) {
             int index = (argList.contains("-n")) ? argList.indexOf("-n") : argList.indexOf("--number");
@@ -56,21 +58,29 @@ public class Euler78 {
     }
 
     public static void run(int numberOfTimes, boolean print){
+        // We can run the tests in a thread pool
+        // Use same number of threads as CPUs
+        // If we run more tests than CPUs, the threads will wait in a sleep state until there is space in the thread pool
         ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
+        // Get start time
         long startTime = System.nanoTime();
 
+        // Create number of tests we want to run
         for (int i = 1; i <= numberOfTimes; i++) {
-            Solver thread = new Solver(print, i);
-            executorService.execute(thread);
+            executorService.execute(new Solver(print, i));
         }
 
+        // Shutdown the thread pool after all threads have exited
         executorService.shutdown();
+        // Wait until the thread pool is shutdown
         while(!executorService.isTerminated()){
         }
 
+        // Get endtime
         long endTime = System.nanoTime();
 
+        // Calculate average time to do 1 test
         long a = (endTime - startTime) / numberOfTimes;
         System.out.print("|   AVG ");
         System.out.println("|   " + String.format("%10s", a / 1000000000d) + "   |");
