@@ -1,11 +1,7 @@
 package com.huwcbjones;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 
 /**
  * Euler 78 Solver
@@ -13,8 +9,9 @@ import java.util.HashSet;
  * @author Huw Jones
  * @since 12/11/2015
  */
-public class Solver {
+public class Solver implements Runnable {
 
+<<<<<<< HEAD
     private boolean print = false;
     private final double sqrt3x4 = Math.sqrt(3) * 4;
     private final double two3rds = 2d / 3;
@@ -25,11 +22,18 @@ public class Solver {
 
     private HashMap<Integer, Long> startTimes = new HashMap<>();
     private HashMap<Integer, Long> endTimes = new HashMap<>();
+=======
+    private int number;
+    private boolean print;
+    private long[] _pModCache;
+    private int[] _pentagonalNumbers;
+>>>>>>> rev2
 
     public Solver() {
-
+        this(false);
     }
 
+<<<<<<< HEAD
     public Solver(boolean print){
         this.print = print;
     }
@@ -61,62 +65,35 @@ public class Solver {
             System.out.print("|   AVG ");
             System.out.println("| " + String.format("%14s", new Double(a / 1000000000).longValue()) + " |");
         }
+=======
+    public Solver(boolean print) {
+        this(print, 1);
+>>>>>>> rev2
     }
 
-    public void runPenta(int numberOfTimes) {
-        for (int i = 1; i <= numberOfTimes; i++) {
-            System.out.println("Run " + i + "...");
+    public Solver(boolean print, int number) {
+        this.number = number;
+        this.print = print;
 
-            this.startTimes.put(i, System.nanoTime());
-            this._runPenta();
-            this.endTimes.put(i, System.nanoTime());
-        }
+        // Create arrays, we know the max is 55375, so we'll make the array 55375 long
+        _pModCache = new long[55375];
+        _pentagonalNumbers = new int[55375];
 
-        long t = 0;
-        System.out.println("| RUN # | TIME TAKEN (s) |");
-        for (int i = 1; i <= numberOfTimes; i++) {
-            long s, f, d;
-            s = this.startTimes.get(i);
-            f = this.endTimes.get(i);
-            d = f - s;
-            t += d;
-            System.out.print("| " + String.format("%5s", i) + " ");
-            System.out.println("| " + String.format("%14s", new Double(d / 1000000000).longValue()) + " |");
-        }
-        if (numberOfTimes != 1) {
-            long a = t / numberOfTimes;
-            System.out.print("|   AVG ");
-            System.out.println("| " + String.format("%14s", new Double(a / 1000000000).longValue()) + " |");
-        }
-    }
+        // Loop through 0 to 55375 to calculate generalised pentagonal numbers
+        for (int k = 0; k < 55375; k++) {
+            // See https://en.wikipedia.org/wiki/Pentagonal_number for calculating pentagonal numbers
 
-    public void runApprox(int numberOfTimes) {
-        for (int i = 1; i <= numberOfTimes; i++) {
-            System.out.println("Run " + i + "...");
+            // This produces
+            // 0, 1, -1, 2, -2, 3, -3, etc
+            int n = (k % 2 == 0) ? k / 2 + 1 : -(k / 2 + 1);
 
-            this.startTimes.put(i, System.nanoTime());
-            this._runApprox();
-            this.endTimes.put(i, System.nanoTime());
-        }
-
-        long t = 0;
-        System.out.println("| RUN # | TIME TAKEN (s) |");
-        for (int i = 1; i <= numberOfTimes; i++) {
-            long s, f, d;
-            s = this.startTimes.get(i);
-            f = this.endTimes.get(i);
-            d = f - s;
-            t += d;
-            System.out.print("| " + String.format("%5s", i) + " ");
-            System.out.println("| " + String.format("%14s", new Double(d / 1000000000).longValue()) + " |");
-        }
-        if (numberOfTimes != 1) {
-            long a = t / numberOfTimes;
-            System.out.print("|   AVG ");
-            System.out.println("| " + String.format("%14s", new Double(a / 1000000000).longValue()) + " |");
+            // This then produces generalised pentagonal numbers
+            // 0, 1, 2, 5, 7, 12, 15, 22, etc
+            _pentagonalNumbers[k] = Double.valueOf(n * (3 * n - 1) / 2).intValue();
         }
     }
 
+<<<<<<< HEAD
     private void _run() {
         BigInteger pValue;
         long i = 0;
@@ -162,22 +139,24 @@ public class Solver {
             bIndex = new Double(n - ((k * (3 * k + 1)) / 2)).longValue();
 
             pValue = pValue.add(sign.multiply(this.getPValue(aIndex).add(this.getPValue(bIndex))));
-        }
+=======
+    @Override
+    public void run() {
+        System.out.println("Run " + number + "...");
 
-        return pValue;
+        // Quicker to have a method that prints, and a method that doesn't rather than checking whether we should
+        // print on before every print statement
+        if(print){
+            _run();
+        } else{
+            _runNoPrint();
+>>>>>>> rev2
+        }
     }
 
-    private BigInteger getPValue(long n) {
-        if (n >= 0) {
-            if (this._pValues.containsKey(n)) {
-                return this._pValues.get(n);
-            }
-        }
-        return BigInteger.valueOf(0);
-    }
-
-    private void _runApprox() {
+    private void _run() {
         int i = 0;
+<<<<<<< HEAD
         BigInteger pValue;
         if(print){
             do {
@@ -195,17 +174,24 @@ public class Solver {
         System.out.println("n = " + i + " is the least value for p(n) % 1,000,000 = 0.");
         System.out.println("p(" + i + ") % 1,000,000 = " + pValue);
     }
+=======
+        long pValue;
+        this._pModCache[0] = 1;
+        do {
 
-    private BigInteger getPApprox(long n) {
-        Double frac = n * this.sqrt3x4;
-        Double power = Math.PI * Math.sqrt(n * this.two3rds);
-        BigDecimal result = BigDecimal.valueOf(Math.E);
-        result = result.pow(power.intValue());
-        result = result.divide(BigDecimal.valueOf(frac), BigDecimal.ROUND_HALF_UP);
+            i++;
+            System.out.print("Calculating: " + i);
+            pValue = 0;
+>>>>>>> rev2
 
-        return result.toBigInteger();
-    }
+            // See https://en.wikipedia.org/wiki/Partition_(number_theory)#Generating_function for generating function
 
+            for (int k = i; k >= 0; k--) {
+                pValue += ((k % 4 > 1) ? -1 : 1) * getPPenta(i - _pentagonalNumbers[k]);
+                pValue %= 1000000;
+            }
+
+<<<<<<< HEAD
     private void _runPenta() {
         long i = 0;
         long pValue;
@@ -225,105 +211,66 @@ public class Solver {
                 _pentaPValues.put(i, pValue);
             } while (pValue != 0);
         }
+=======
+            this._pModCache[i] = pValue;
+            System.out.println(": " + pValue);
+
+        } while (pValue != 0);
+>>>>>>> rev2
         System.out.println("n = " + i + " is the least value for p(n) % 1,000,000 = 0.");
         System.out.println("p(" + i + ") % 1,000,000 = " + pValue);
     }
 
+    private void _runNoPrint(){
+        int n = 0;
+        long pValue;
 
-    private long _calculatePentaPValue(long n) {
-
-        long pentaIndex, sign, pValue = 0;
-
-        // See https://en.wikipedia.org/wiki/Pentagonal_number for calculating pentagonal numbers
-        // See https://en.wikipedia.org/wiki/Partition_(number_theory)#Generating_function for generating function
-
-        for (long k = n; k >= 0; k--) {
-            pentaIndex = (k % 2 == 0) ? k / 2 + 1 : -(k / 2 + 1);
-            sign = (k % 4 > 1) ? -1 : 1;
-            pValue += sign * getPPenta(n - getPentagonal(pentaIndex));
-            pValue %= 1000000;
-        }
-
-        return pValue;
-    }
-
-    private long getPPenta(long n) {
-        if (n >= 0) {
-            if (this._pentaPValues.containsKey(n)) {
-                return this._pentaPValues.get(n);
-            }
-        }
-        return 0;
-    }
-
-    public void runStupidMode() {
-        long startTime = System.nanoTime();
-        this._runStupidMode();
-        long endTime = System.nanoTime();
-        System.out.println("Took " + (endTime - startTime) + "ns");
-    }
-
-    private void _runStupidMode() {
-        HashSet<ArrayList<Integer>> set;
-        int i = 1;
+        // p(0) = 1, by convention
+        this._pModCache[0] = 1;
         do {
-            // System.out.print("Calculating: " + i);
-            set = countN(i);
-            //System.out.print(": " + set.size() + "\n");
-            this._counts.put(i, set);
-            i++;
-        } while (set.size() % 1000000 != 0);
 
-        System.out.println("n = " + i + " is the least value for p(n) % 1,000,000 = 0.");
-    }
+            n++;
+            pValue = 0;
 
-    private HashSet<ArrayList<Integer>> countN(int n) {
-        HashSet<ArrayList<Integer>> results = new HashSet<>();
+            // See https://en.wikipedia.org/wiki/Partition_(number_theory)#Generating_function for generating function
 
-        for (int i = n; i != 0; i--) {
-            // If _counts contains n, add already calculated sets to set
-            if (_counts.containsKey(i)) {
-                for (ArrayList<Integer> intArray : this.getSet(i, n)) {
-                    Collections.sort(intArray);
-                    results.add(intArray);
-                }
-            } else {
-                ArrayList<Integer> newArrayList = new ArrayList<>();
-                newArrayList.add(n);
-                results.add(newArrayList);
-            }
-        }
+            // The generating formula is:
+            // p(n) = p(n - 1) + p(n - 2) - p(n - 5) - p(n - 7) + ...
+            // Where 1, 2, 5, 7 are the generalised pentagonal numbers
 
-        return results;
-    }
+            // Also found that
+            // for (int k = i; k >= 0; k--)
+            // was quicker than
+            // for (int k = 0; k <= i; k++)
+            // Don't know why...
+            // If you know why, add the explanation below, and send me a pull request
+            //
+            //
 
-    private HashSet<ArrayList<Integer>> getSet(int i, int target) {
-        HashSet<ArrayList<Integer>> results = new HashSet<>();
+            for (int k = n; k >= 0; k--) {
 
-        // Loop through set
-        for (ArrayList<Integer> sub : _counts.get(i)) {
+                // To get + + - - + + - -, we use
+                // (k % 4 > 1) ? -1 : 1 to get sign
+                // Then we get p(
+                pValue += ((k % 4 > 1) ? -1 : 1) * getPPenta(n - _pentagonalNumbers[k]);
 
-            ArrayList<Integer> intSet = new ArrayList<>(sub);
-
-            int sum = 0;
-
-            for (int num : intSet) {
-                sum += num;
+                // We only need to store last 6 digits, so modulus now
+                // Also saves having to use BigInt or longs
+                pValue %= 1000000;
             }
 
-            if (sum != target) {
-                intSet.add(target - sum);
-            } else {
-                intSet.add(1);
-                // Add new set of ints to results
+            this._pModCache[n] = pValue;
 
-            }
-            results.add(intSet);
-        }
-        return results;
+        } while (pValue != 0);
+        System.out.println("n = " + n + " is the least value for p(n) % 1,000,000 = 0.");
+        System.out.println("p(" + n + ") % 1,000,000 = " + pValue);
     }
 
-    private long getPentagonal(long n) {
-        return Double.valueOf(n * (3 * n - 1) / 2).longValue();
+    private long getPPenta(int n) {
+        // By convention, any non natural number's (negative integer) p value is 0
+        // So return 0 for any out of bounds
+        if(n < 0 || n > 55375) return 0;
+        return _pModCache[n];
     }
+
 }
