@@ -44,6 +44,7 @@ public class Solver {
             this.endTimes.put(i, System.nanoTime());
         }
 
+        // Print run times/calculate average
         long t = 0;
         System.out.println("| RUN # | TIME TAKEN (s) |");
         for (int i = 1; i <= numberOfTimes; i++) {
@@ -119,6 +120,8 @@ public class Solver {
     private void _run() {
         BigInteger pValue;
         long i = 0;
+
+        // Put p(0) = 1, by convention
         this._pValues.put(0L, BigInteger.valueOf(1));
 
         if(print){
@@ -142,6 +145,7 @@ public class Solver {
     }
 
     private boolean _checkExitConditions(BigInteger value) {
+        // Return true if value % 1,000,000 = 0
         BigInteger modResult = value.mod(BigInteger.valueOf(1000000));
         return modResult.compareTo(BigInteger.valueOf(0)) == 0;
     }
