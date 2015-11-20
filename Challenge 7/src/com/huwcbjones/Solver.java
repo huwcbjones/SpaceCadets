@@ -1,7 +1,9 @@
 package com.huwcbjones;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * Euler 78 Solver
@@ -11,7 +13,6 @@ import java.util.HashMap;
  */
 public class Solver implements Runnable {
 
-<<<<<<< HEAD
     private boolean print = false;
     private final double sqrt3x4 = Math.sqrt(3) * 4;
     private final double two3rds = 2d / 3;
@@ -22,18 +23,15 @@ public class Solver implements Runnable {
 
     private HashMap<Integer, Long> startTimes = new HashMap<>();
     private HashMap<Integer, Long> endTimes = new HashMap<>();
-=======
+
     private int number;
-    private boolean print;
     private long[] _pModCache;
     private int[] _pentagonalNumbers;
->>>>>>> rev2
 
     public Solver() {
         this(false);
     }
 
-<<<<<<< HEAD
     public Solver(boolean print){
         this.print = print;
     }
@@ -65,10 +63,6 @@ public class Solver implements Runnable {
             System.out.print("|   AVG ");
             System.out.println("| " + String.format("%14s", new Double(a / 1000000000).longValue()) + " |");
         }
-=======
-    public Solver(boolean print) {
-        this(print, 1);
->>>>>>> rev2
     }
 
     public Solver(boolean print, int number) {
@@ -93,7 +87,6 @@ public class Solver implements Runnable {
         }
     }
 
-<<<<<<< HEAD
     private void _run() {
         BigInteger pValue;
         long i = 0;
@@ -133,16 +126,16 @@ public class Solver implements Runnable {
         long aIndex, bIndex;
 
         for (long k = n; k >= 0; k--) {
-            sign = (k % 4 > 1) ? BigInteger.valueOf(-1) : BigInteger.ONE;
+            sign = ( k % 4 > 1 ) ? BigInteger.valueOf(-1) : BigInteger.ONE;
 
-            aIndex = new Double(n - ((k * (3 * k - 1)) / 2)).longValue();
-            bIndex = new Double(n - ((k * (3 * k + 1)) / 2)).longValue();
+            aIndex = new Double(n - ( ( k * ( 3 * k - 1 ) ) / 2 )).longValue();
+            bIndex = new Double(n - ( ( k * ( 3 * k + 1 ) ) / 2 )).longValue();
 
             pValue = pValue.add(sign.multiply(this.getPValue(aIndex).add(this.getPValue(bIndex))));
-=======
+        }
+    }
     @Override
     public void run() {
-        System.out.println("Run " + number + "...");
 
         // Quicker to have a method that prints, and a method that doesn't rather than checking whether we should
         // print on before every print statement
@@ -150,7 +143,6 @@ public class Solver implements Runnable {
             _run();
         } else{
             _runNoPrint();
->>>>>>> rev2
         }
     }
 
