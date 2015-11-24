@@ -20,12 +20,12 @@ public class Detector {
         this.setImage(image);
     }
 
-    public void setImage(BufferedImage image){
-        this.image = image;
+    public BufferedImage getImage () {
+        return this.image;
     }
 
-    public BufferedImage getImage(){
-        return this.image;
+    public void setImage(BufferedImage image){
+        this.image = image;
     }
 
     public void process(){
@@ -43,7 +43,8 @@ public class Detector {
     }
 
     private void edgeDetection () {
-
+        SobelOperator operator = new SobelOperator(this.image);
+        operator.process();
     }
 
     private void radiiDetection () {
