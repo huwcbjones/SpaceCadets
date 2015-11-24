@@ -23,11 +23,14 @@ public class CircleDetector extends JFrame {
     private JButton btn_webcam;
     private ImagePanel pane_image;
 
+    private Detector detector;
+
     public CircleDetector () {
         try {
             SwingUtilities.invokeAndWait(() -> {
                 _buildGUI();
             });
+            detector = new Detector();
         } catch (Exception ex) {
             System.err.println("Failed to start program. " + ex.getMessage());
         }
@@ -66,20 +69,36 @@ public class CircleDetector extends JFrame {
 
     protected void processImage (File file) {
         try {
-            Image tempImage = ImageIO.read(file);
+            int height = this.getHeight();
+            int width = this.getWidth();
+            Graphics2D g2d;
+            BufferedImage tempImage = ImageIO.read(file);
+            /* g2d = tempImage.createGraphics();
+            g2d.drawImage(tempImage, 0, 0, null);
+            double aspectRatio = tempImage.getWidth() / tempImage.getHeight();
 
-            double aspectRatio = tempImage.getHeight() / tempImage.getWidth();
             int height;
             int width;
+            if (Double.valueOf(this.getHeight() * aspectRatio).intValue() < this.getWidth()) {
 
-            // Load and scale image
-            tempImage = image.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
-            BufferedImage image = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
-            Graphics2D g2d = image.createGraphics();
+                height = this.getHeight();
+            } else {
+                height = Double.valueOf(this.getWidth() / aspectRatio).intValue();
+            }
+            if (Double.valueOf(this.getWidth() / aspectRatio) < this.getHeight()) {
+                width = this.getWidth();
+            } else{
+                width = Double.valueOf(this.getHeight() * aspectRatio).intValue();
+            }*/
+
+            BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            g2d = image.createGraphics();
             g2d.drawImage(tempImage, 0, 0, null);
             g2d.dispose();
 
-            pane_image.setImage(image);
+            detector.setImage(image);
+            detector.process();
+            pane_image.setImage(detector.getImage());
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Failed to open file", JOptionPane.ERROR_MESSAGE);
         }

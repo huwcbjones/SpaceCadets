@@ -15,10 +15,25 @@ public class Detector {
     BufferedImage image;
     HashMap<Integer, Integer> radii;
 
+    public Detector (){ }
     public Detector (BufferedImage image) {
+        this.setImage(image);
+    }
+
+    public void setImage(BufferedImage image){
         this.image = image;
     }
 
+    public BufferedImage getImage(){
+        return this.image;
+    }
+
+    public void process(){
+        convertToGreyscale();
+        edgeDetection();
+        radiiDetection();
+        drawCircles();
+    }
     private void convertToGreyscale () {
         BufferedImage greyscale = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
         Graphics g = greyscale.getGraphics();
