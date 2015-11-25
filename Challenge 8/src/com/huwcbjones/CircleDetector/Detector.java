@@ -45,6 +45,7 @@ public class Detector {
     private void edgeDetection () {
         SobelOperator operator = new SobelOperator(this.image);
         operator.process();
+        image = operator.getImage();
     }
 
     private void radiiDetection () {

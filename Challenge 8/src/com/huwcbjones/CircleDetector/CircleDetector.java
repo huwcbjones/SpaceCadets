@@ -69,29 +69,10 @@ public class CircleDetector extends JFrame {
 
     protected void processImage (File file) {
         try {
-            int height = this.getHeight();
-            int width = this.getWidth();
             Graphics2D g2d;
             BufferedImage tempImage = ImageIO.read(file);
-            /* g2d = tempImage.createGraphics();
-            g2d.drawImage(tempImage, 0, 0, null);
-            double aspectRatio = tempImage.getWidth() / tempImage.getHeight();
 
-            int height;
-            int width;
-            if (Double.valueOf(this.getHeight() * aspectRatio).intValue() < this.getWidth()) {
-
-                height = this.getHeight();
-            } else {
-                height = Double.valueOf(this.getWidth() / aspectRatio).intValue();
-            }
-            if (Double.valueOf(this.getWidth() / aspectRatio) < this.getHeight()) {
-                width = this.getWidth();
-            } else{
-                width = Double.valueOf(this.getHeight() * aspectRatio).intValue();
-            }*/
-
-            BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            BufferedImage image = new BufferedImage(tempImage.getWidth(), tempImage.getHeight(), BufferedImage.TYPE_INT_ARGB);
             g2d = image.createGraphics();
             g2d.drawImage(tempImage, 0, 0, null);
             g2d.dispose();
